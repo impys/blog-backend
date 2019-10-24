@@ -11,8 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('root');
-});
+Route::get('/', 'Welcome')->name('welcome');
 
 // Auth::routes();
