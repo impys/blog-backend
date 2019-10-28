@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-for="(block,index) in blocks" :key="index">
-      <div class="flex mb-4 flex-wrap -mx-1 lg:-mx-4 sticky top-px-69 bg-white z-10">
-        <div class="md:w-1/2 my-2 px-4 lg:px-4 lg:w-1/3 flex justify-between">
+      <div class="flex mb-2 px-4 flex-wrap sticky top-15 bg-white z-10">
+        <div class="md:w-1/2 mb-2 lg:w-1/3 flex justify-between">
           <div>
             <h2 class="text-2xl">
               <a href="/articles">{{ block.label }}</a>
@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <div class="flex flex-wrap -mx-1 lg:-mx-4">
+      <div class="flex flex-wrap">
         <article-card
           :article="article"
           :color="block.color"

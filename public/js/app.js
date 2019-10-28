@@ -22180,79 +22180,75 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "w-full md:w-1/2 mb-6 lg:mb-6 px-4 lg:px-4 lg:w-1/3" },
-    [
-      _c(
-        "article",
-        { staticClass: "relative custom__border font-light cursor-pointer" },
-        [
-          _c("a", {
-            staticClass: "block w-full h-full absolute left-0 top-0 z-10",
-            attrs: { href: "/articles/" + _vm.article.slug }
-          }),
-          _vm._v(" "),
-          _vm.article.is_top
-            ? _c(
-                "div",
-                {
-                  staticClass: "absolute right-0 top-0 mr-2 mt-1 rotate-45",
-                  style: { color: _vm.color }
-                },
-                [_c("i", { staticClass: "fas fa-thumbtack" })]
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "flex items-center justify-between leading-tight p-4 block w-full h-16"
-            },
-            [
-              _c("h3", { staticClass: "text-base" }, [
-                _vm._v(_vm._s(_vm.article.title))
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "flex items-center justify-between leading-none pb-4 px-4 text-grey-darker text-xs"
-            },
-            [
+  return _c("div", { staticClass: "w-full md:w-1/2 px-4 pb-8 lg:w-1/3" }, [
+    _c(
+      "article",
+      { staticClass: "relative custom__border font-light cursor-pointer" },
+      [
+        _c("a", {
+          staticClass: "block w-full h-full absolute left-0 top-0 z-10",
+          attrs: { href: "/articles/" + _vm.article.slug }
+        }),
+        _vm._v(" "),
+        _vm.article.is_top
+          ? _c(
+              "div",
+              {
+                staticClass: "absolute right-0 top-0 mr-2 mt-1 rotate-45",
+                style: { color: _vm.color }
+              },
+              [_c("i", { staticClass: "fas fa-thumbtack" })]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "flex items-center justify-between leading-tight p-4 block w-full h-16"
+          },
+          [
+            _c("h3", { staticClass: "text-base" }, [
+              _vm._v(_vm._s(_vm.article.title))
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "flex items-center justify-between leading-none pb-4 px-4 text-grey-darker text-xs"
+          },
+          [
+            _c("div", { staticClass: "mr-2" }, [
+              _vm._v(_vm._s(_vm.article.created_at_human))
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "flex" }, [
               _c("div", { staticClass: "mr-2" }, [
-                _vm._v(_vm._s(_vm.article.created_at_human))
+                _c("i", { staticClass: "far fa-heart" }),
+                _vm._v(
+                  "\n          " +
+                    _vm._s(_vm.article.visited_count) +
+                    "\n        "
+                )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "flex" }, [
-                _c("div", { staticClass: "mr-2" }, [
-                  _c("i", { staticClass: "far fa-heart" }),
-                  _vm._v(
-                    "\n          " +
-                      _vm._s(_vm.article.visited_count) +
-                      "\n        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "mr-2" }, [
-                  _c("i", { staticClass: "far fa-eye" }),
-                  _vm._v(
-                    "\n          " +
-                      _vm._s(_vm.article.upvote_count) +
-                      "\n        "
-                  )
-                ])
+              _c("div", { staticClass: "mr-2" }, [
+                _c("i", { staticClass: "far fa-eye" }),
+                _vm._v(
+                  "\n          " +
+                    _vm._s(_vm.article.upvote_count) +
+                    "\n        "
+                )
               ])
-            ]
-          )
-        ]
-      )
-    ]
-  )
+            ])
+          ]
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -22283,16 +22279,12 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass:
-              "flex mb-4 flex-wrap -mx-1 lg:-mx-4 sticky top-px-69 bg-white z-10"
+            staticClass: "flex mb-2 px-4 flex-wrap sticky top-15 bg-white z-10"
           },
           [
             _c(
               "div",
-              {
-                staticClass:
-                  "md:w-1/2 my-2 px-4 lg:px-4 lg:w-1/3 flex justify-between"
-              },
+              { staticClass: "md:w-1/2 mb-2 lg:w-1/3 flex justify-between" },
               [
                 _c("div", [
                   _c("h2", { staticClass: "text-2xl" }, [
@@ -22314,7 +22306,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "flex flex-wrap -mx-1 lg:-mx-4" },
+          { staticClass: "flex flex-wrap" },
           _vm._l(block.articles, function(article, index) {
             return _c("article-card", {
               key: index,

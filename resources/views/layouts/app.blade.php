@@ -20,14 +20,15 @@
 <body class="text-gray-700 antialiased leading-tight">
     <div id="app">
 
-        <header class="-mx-1 lg:-mx-4 fixed top-0 z-20 bg-white w-full">
-            <nav class="flex justify-between flex-row text-gray-700 items-center flex-wrap py-3 px-4 lg:px-4 text-4xl container mx-auto">
+        <header class="fixed top-0 z-20 bg-white w-full h-16">
+            <nav
+                class="flex justify-between flex-row text-gray-700 items-center flex-wrap py-2 px-4 lg:px-4 text-4xl container mx-auto">
                 <a href="/" class="">Moreless</a>
             </nav>
         </header>
 
 
-        <div class="pt-16 flex flex-row justify-between container mx-auto">
+        <div class="pt-24 flex flex-row justify-between container mx-auto">
             @yield('content')
         </div>
 

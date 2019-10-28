@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full md:w-1/2 mb-6 lg:mb-6 px-4 lg:px-4 lg:w-1/3">
+  <div class="w-full md:w-1/2 px-4 pb-8 lg:w-1/3">
     <article class="relative custom__border font-light cursor-pointer">
       <a :href="'/articles/' + article.slug" class="block w-full h-full absolute left-0 top-0 z-10"></a>
       <div

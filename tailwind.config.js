@@ -2,8 +2,11 @@ module.exports = {
     theme: {
         extend: {},
         inset: {
-           '24': '6rem',
-           'px-69': '69px',
+            '12': '3rem',
+            '13': '3.25rem',
+            '14': '3.5rem',
+            '15': '3.75rem',
+            '16': '4rem',
         }
     },
     variants: {},
