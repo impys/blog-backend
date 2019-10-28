@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Block;
 use Illuminate\Http\Request;
 
 class Welcome extends Controller
@@ -14,6 +15,7 @@ class Welcome extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('welcome');
+        $blocks = Block::all();
+        return view('welcome', ['blocks' => $blocks]);
     }
 }
