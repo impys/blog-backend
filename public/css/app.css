@@ -17442,6 +17442,54 @@ video {
   border-radius: 1% 1% 2% 4%/2% 6% 5% 4%;
 }
 
+.custom__search {
+  color: white;
+  font-size: 16px;
+  background: transparent;
+  width: 25px;
+  height: 25px;
+  padding: 10px;
+  border: solid 3px white;
+  outline: none;
+  border-radius: 35px;
+  box-shadow: 0 1px #0091c2;
+  -webkit-transition: width 0.5s;
+  transition: width 0.5s;
+}
+
+.custom__search::-webkit-input-placeholder {
+  color: #efefef;
+  opacity: 1;
+}
+
+.custom__search::-moz-placeholder {
+  color: #efefef;
+  opacity: 1;
+}
+
+.custom__search:-ms-input-placeholder {
+  color: #efefef;
+  opacity: 1;
+}
+
+.custom__search::-ms-input-placeholder {
+  color: #efefef;
+  opacity: 1;
+}
+
+.custom__search::placeholder {
+  color: #efefef;
+  opacity: 1;
+}
+
+.custom__search::focus {
+  width: 250px;
+}
+
+.custom__search::valid {
+  width: 250px;
+}
+
 @media (min-width: 640px){
   .sm\:sr-only{
     position: absolute;

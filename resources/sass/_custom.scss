@@ -19,3 +19,32 @@
         border-radius: 1% 1% 2% 4% / 2% 6% 5% 4%;
     }
 }
+
+
+
+.custom__search {
+    color: white;
+    font-size: 16px;
+    background: transparent;
+    width: 25px;
+    height: 25px;
+    padding: 10px;
+    border: solid 3px white;
+    outline: none;
+    border-radius: 35px;
+    box-shadow: 0 1px #0091c2;
+    transition: width 0.5s;
+
+    &::placeholder {
+        color: #efefef;
+        opacity: 1;
+    }
+
+    &::focus {
+        width: 250px;
+    }
+
+    &::valid {
+        width: 250px;
+    }
+}
