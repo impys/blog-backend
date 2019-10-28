@@ -1,13 +1,14 @@
 .custom__border {
     border: 1px solid #4a5568;
-    border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
+    border-radius: 2% 2% 6% 4% / 1% 1% 3% 4%;
     background: #ffffff;
     position: relative;
 
-    &::before {
+    &::after {
         content: '';
-        border-bottom: 1px solid #4a5568;
-        border-left: 1px solid #4a5568;
+        // border-bottom: 1px solid #4a5568;
+        // border-left: 1px solid #4a5568;
+        border: 1px solid #4a5568;
         display: block;
         width: 100%;
         height: 100%;

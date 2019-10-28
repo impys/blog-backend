@@ -18,26 +18,18 @@
 </head>
 
 <body class="text-gray-700 antialiased leading-tight">
-    <div id="app" class="container mx-auto">
+    <div id="app">
 
-
-
-        <header class="-mx-1 lg:-mx-4 ">
-            <nav class="flex justify-between flex-row text-red-400 items-center flex-wrap py-3 px-4 lg:px-4 text-4xl">
-                <a href="" class="">Moreless</a>
+        <header class="-mx-1 lg:-mx-4 fixed top-0 z-20 bg-white w-full">
+            <nav class="flex justify-between flex-row text-gray-700 items-center flex-wrap py-3 px-4 lg:px-4 text-4xl container mx-auto">
+                <a href="/" class="">Moreless</a>
             </nav>
         </header>
 
 
-
-        <div class="mt-4 flex flex-row justify-between">
-            <div class="lg:w-9/12 lg:mr-8 sm:w-full">
-                @yield('content')
-            </div>
-            <div class="w-3/12 hidden bg-black sm:hidden lg:block">
-            </div>
+        <div class="pt-16 flex flex-row justify-between container mx-auto">
+            @yield('content')
         </div>
-
 
     </div>
 </body>

@@ -12,5 +12,7 @@
 */
 
 Route::get('/', 'Welcome')->name('welcome');
+Route::get('/articles', 'ShowArticles')->name('ShowArticles');
+Route::get('/articles/{article}', 'ShowArticle')->name('ShowArticle');
 
 // Auth::routes();

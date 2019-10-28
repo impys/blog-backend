@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Block extends Model
 {
@@ -13,7 +14,22 @@ class Block extends Model
         'sort'
     ];
 
+    protected $appends = [
+        'entity_count'
+    ];
+
     protected $casts = [
         'is_top' => 'boolean'
     ];
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
+    }
+
+    public function getEntityCountAttribute()
+    {
+        $count = $this->articles()->count();
+        return $count;
+    }
 }

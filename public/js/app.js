@@ -1877,8 +1877,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["articles", "color"]
+  props: ["article", "color"],
+  mounted: function mounted() {},
+  methods: {}
 });
 
 /***/ }),
@@ -1927,24 +1946,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     ArticleCard: _ArticleCard__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  props: ["blocks"],
-  data: function data() {
-    return {
-      articles: [{
-        title: "测试"
-      }, {
-        title: "测试"
-      }, {
-        title: "测试"
-      }, {
-        title: "测试"
-      }, {
-        title: "测试"
-      }, {
-        title: "测试"
-      }]
-    };
-  }
+  props: ["blocks"]
 });
 
 /***/ }),
@@ -22178,44 +22180,81 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "w-full md:w-1/2 mb-6 lg:mb-6 px-4 lg:px-4 lg:w-1/3" },
-      [
-        _c("article", { staticClass: "overflow-hidden custom__border" }, [
+  return _c(
+    "div",
+    { staticClass: "w-full md:w-1/2 mb-6 lg:mb-6 px-4 lg:px-4 lg:w-1/3" },
+    [
+      _c(
+        "article",
+        { staticClass: "relative custom__border font-light cursor-pointer" },
+        [
+          _c("a", {
+            staticClass: "block w-full h-full absolute left-0 top-0 z-10",
+            attrs: { href: "/articles/" + _vm.article.slug }
+          }),
+          _vm._v(" "),
+          _vm.article.is_top
+            ? _c(
+                "div",
+                {
+                  staticClass: "absolute right-0 top-0 mr-2 mt-1 rotate-45",
+                  style: { color: _vm.color }
+                },
+                [_c("i", { staticClass: "fas fa-thumbtack" })]
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "div",
             {
               staticClass:
                 "flex items-center justify-between leading-tight p-4 block w-full h-16"
             },
-            [_c("h3", { staticClass: "text-base" }, [_vm._v("文章标题")])]
+            [
+              _c("h3", { staticClass: "text-base" }, [
+                _vm._v(_vm._s(_vm.article.title))
+              ])
+            ]
           ),
           _vm._v(" "),
           _c(
             "div",
             {
               staticClass:
-                "flex items-center justify-between leading-none pb-4 px-4"
+                "flex items-center justify-between leading-none pb-4 px-4 text-grey-darker text-xs"
             },
             [
-              _c("p", { staticClass: "text-grey-darker text-sm" }, [
-                _vm._v("14/4/19")
+              _c("div", { staticClass: "mr-2" }, [
+                _vm._v(_vm._s(_vm.article.created_at_human))
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex" }, [
+                _c("div", { staticClass: "mr-2" }, [
+                  _c("i", { staticClass: "far fa-heart" }),
+                  _vm._v(
+                    "\n          " +
+                      _vm._s(_vm.article.visited_count) +
+                      "\n        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "mr-2" }, [
+                  _c("i", { staticClass: "far fa-eye" }),
+                  _vm._v(
+                    "\n          " +
+                      _vm._s(_vm.article.upvote_count) +
+                      "\n        "
+                  )
+                ])
               ])
             ]
           )
-        ])
-      ]
-    )
-  }
-]
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -22240,12 +22279,12 @@ var render = function() {
   return _c(
     "div",
     _vm._l(_vm.blocks, function(block, index) {
-      return _c("div", { key: index, staticClass: "mb-12" }, [
+      return _c("div", { key: index }, [
         _c(
           "div",
           {
             staticClass:
-              "flex mb-4 flex-wrap -mx-1 lg:-mx-4 sticky top-0 bg-white z-10"
+              "flex mb-4 flex-wrap -mx-1 lg:-mx-4 sticky top-px-69 bg-white z-10"
           },
           [
             _c(
@@ -22257,7 +22296,7 @@ var render = function() {
               [
                 _c("div", [
                   _c("h2", { staticClass: "text-2xl" }, [
-                    _c("a", { attrs: { href: "" } }, [
+                    _c("a", { attrs: { href: "/articles" } }, [
                       _vm._v(_vm._s(block.label))
                     ])
                   ]),
@@ -22276,7 +22315,7 @@ var render = function() {
         _c(
           "div",
           { staticClass: "flex flex-wrap -mx-1 lg:-mx-4" },
-          _vm._l(_vm.articles, function(article, index) {
+          _vm._l(block.articles, function(article, index) {
             return _c("article-card", {
               key: index,
               attrs: { article: article, color: block.color }

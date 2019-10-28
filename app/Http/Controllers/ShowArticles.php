@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Block;
+use App\Article;
 use Illuminate\Http\Request;
 
-class Welcome extends Controller
+class ShowArticles extends Controller
 {
     /**
      * Handle the incoming request.
@@ -15,11 +15,7 @@ class Welcome extends Controller
      */
     public function __invoke(Request $request)
     {
-        $blocks = Block::query()
-            ->with(['articles' => function ($query) {
-                return $query->defaultList();
-            }])
-            ->get();
-        return view('Welcome', ['blocks' => $blocks]);
+        $articles = Article::all();
+        return view('ShowArticles', ['articles' => $articles]);
     }
 }
