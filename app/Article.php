@@ -2,13 +2,18 @@
 
 namespace App;
 
+use App\Traits\HasEnable;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    const DISPLAY_NUMBER_ON_WELCOME = 9;
+    use HasEnable;
 
-    protected $hidden = ['body'];
+    const DISPLAY_NUMBER_ON_WELCOME = 8;
+
+    const URL = 'articles';
+    const LABEL = '文章';
+    const COLOR = '#fc8181';
 
     protected $fillable = [
         'title',
@@ -44,7 +49,7 @@ class Article extends Model
         return $query->orderBy('upvote_count', 'desc');
     }
 
-    public function scopeDefaultList($query)
+    public function scopeListForWelcome($query)
     {
         return $query
             ->orderBy('is_top', 'desc')

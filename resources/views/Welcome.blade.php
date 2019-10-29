@@ -6,7 +6,7 @@
 
 <div class="lg:w-9/12 lg:mr-8 sm:w-full">
 
-    @foreach ($blocks as $block)
+    @foreach ($data as $block)
     <block :block='@json($block)'></block>
     @endforeach
 

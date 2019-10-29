@@ -20,6 +20,7 @@ class CreateArticlesTable extends Migration
             $table->string('title');
             $table->string('slug')->nullable();
             $table->text('body');
+            $table->boolean('is_enable')->default(false);
             $table->boolean('is_top')->default(false);
             $table->unsignedInteger('sort')->default(0);
             $table->unsignedInteger('visited_count')->default(0);

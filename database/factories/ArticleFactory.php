@@ -36,7 +36,7 @@ $factory->define(Article::class, function (Faker $faker) {
         'body' => 'test',
         'slug' => Str::slug($faker->sentence(), '-'),
         'is_top' => false,
-        'block_id' => Block::all()->random()->id,
+        'block_id' => 1,
         'visited_count' => mt_rand(0, 500),
         'upvote_count' => mt_rand(0, 500),
         'created_at' => $created_at,

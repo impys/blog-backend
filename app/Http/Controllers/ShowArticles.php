@@ -15,7 +15,17 @@ class ShowArticles extends Controller
      */
     public function __invoke(Request $request)
     {
-        $articles = Article::all();
-        return view('ShowArticles', ['articles' => $articles]);
+        $articles = Article::query()
+            ->latest()
+            ->paginate($request->input('size', 30));
+
+        $data = [
+            'url' => Article::URL,
+            'label' => Article::LABEL,
+            'color' => Article::COLOR,
+            'data' => $articles
+        ];
+
+        return view('Article.ShowArticles', ['data' => $data]);
     }
 }

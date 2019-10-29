@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Block;
+use App\Article;
 use Illuminate\Http\Request;
 
 class Welcome extends Controller
@@ -15,11 +15,20 @@ class Welcome extends Controller
      */
     public function __invoke(Request $request)
     {
-        $blocks = Block::query()
-            ->with(['articles' => function ($query) {
-                return $query->defaultList();
-            }])
+        $articles = Article::query()
+            ->listForWelcome()
             ->get();
-        return view('Welcome', ['blocks' => $blocks]);
+
+        $data = [
+            [
+                'url' => Article::URL,
+                'label' => Article::LABEL,
+                'color' => Article::COLOR,
+                'data' => ['data' => $articles]
+            ],
+        ];
+
+
+        return view('Welcome', ['data' => $data]);
     }
 }

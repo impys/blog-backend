@@ -31,6 +31,12 @@
             @yield('content')
         </div>
 
+        <footer class="w-full h-10 bg-white">
+            <div class="py-10 px-4">
+                版权
+            </div>
+        </footer>
+
     </div>
 </body>
 

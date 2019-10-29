@@ -15,6 +15,6 @@ class ShowArticle extends Controller
      */
     public function __invoke(Request $request, Article $article)
     {
-        return view('ShowArticle', ['article' => $article]);
+        return view('Article.ShowArticle', ['article' => $article]);
     }
 }
