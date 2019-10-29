@@ -25,7 +25,7 @@ class CreateArticlesTable extends Migration
             $table->unsignedInteger('sort')->default(0);
             $table->unsignedInteger('visited_count')->default(0);
             $table->unsignedInteger('upvote_count')->default(0);
-            $table->unsignedBigInteger('block_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('tag_id')->nullable();
         });
     }

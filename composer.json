@@ -11,7 +11,7 @@
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
         "fzaninotto/faker": "^1.8",
-        "laravel/framework": "^6.0",
+        "laravel/framework": "^6.3",
         "laravel/tinker": "^1.0"
     },
     "require-dev": {
@@ -22,6 +22,12 @@
         "nunomaduro/collision": "^3.0",
         "phpunit/phpunit": "^8.0"
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "packages/nova"
+        }
+    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",

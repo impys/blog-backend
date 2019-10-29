@@ -8,8 +8,6 @@
 
     <block :block='@json($data)'></block>
 
-    {{--  {{ $data['data']->links('Pagination.Default',['color' => $data['color']]) }}  --}}
-
 </div>
 
 @endsection
