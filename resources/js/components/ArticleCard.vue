@@ -9,12 +9,12 @@
       >
         <i class="fas fa-thumbtack"></i>
       </div>
-      <div class="flex items-center justify-between leading-tight p-4 block w-full h-16">
+      <div class="flex items-center justify-between p-4 w-full h-16">
         <h3 class="text-base">{{ article.title }}</h3>
       </div>
 
       <div
-        class="flex items-center justify-between leading-none pb-4 px-4 text-grey-darker text-xs"
+        class="flex items-center justify-between pb-4 px-4 text-grey-darker text-xs"
       >
         <div class="mr-2">{{ article.created_at_human }}</div>
         <div class="flex">

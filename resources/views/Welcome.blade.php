@@ -5,9 +5,11 @@
 @section('content')
 
 <div class="lg:w-9/12 lg:mr-8 sm:w-full">
-    <block :blocks='@json($blocks)'></block>
-</div>
-<div class="w-3/12 hidden bg-black sm:hidden lg:block">
+
+    @foreach ($blocks as $block)
+    <block :block='@json($block)'></block>
+    @endforeach
+
 </div>
 
 @endsection

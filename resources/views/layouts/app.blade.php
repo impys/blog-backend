@@ -18,17 +18,16 @@
 </head>
 
 <body class="text-gray-700 antialiased leading-tight">
-    <div id="app">
+    <div id="app" class="container mx-auto">
 
-        <header class="fixed top-0 z-20 bg-white w-full h-16">
-            <nav
-                class="flex justify-between flex-row text-gray-700 items-center flex-wrap py-2 px-4 lg:px-4 text-4xl container mx-auto">
+        <header class="bg-white h-16">
+            <nav class="text-gray-700 py-2 px-4 text-4xl">
                 <a href="/" class="">Moreless</a>
             </nav>
         </header>
 
 
-        <div class="pt-24 flex flex-row justify-between container mx-auto">
+        <div class="flex justify-between">
             @yield('content')
         </div>
 

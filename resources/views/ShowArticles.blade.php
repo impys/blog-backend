@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','动态')
+@section('title','文章')
 
 @section('content')
 

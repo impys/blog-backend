@@ -1939,14 +1939,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     ArticleCard: _ArticleCard__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  props: ["blocks"]
+  props: ["block"]
 });
 
 /***/ }),
@@ -22203,10 +22201,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "div",
-          {
-            staticClass:
-              "flex items-center justify-between leading-tight p-4 block w-full h-16"
-          },
+          { staticClass: "flex items-center justify-between p-4 w-full h-16" },
           [
             _c("h3", { staticClass: "text-base" }, [
               _vm._v(_vm._s(_vm.article.title))
@@ -22218,7 +22213,7 @@ var render = function() {
           "div",
           {
             staticClass:
-              "flex items-center justify-between leading-none pb-4 px-4 text-grey-darker text-xs"
+              "flex items-center justify-between pb-4 px-4 text-grey-darker text-xs"
           },
           [
             _c("div", { staticClass: "mr-2" }, [
@@ -22272,53 +22267,44 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    _vm._l(_vm.blocks, function(block, index) {
-      return _c("div", { key: index }, [
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "flex flex-wrap mb-2 px-4 sticky top-0 bg-white z-10" },
+      [
         _c(
           "div",
-          {
-            staticClass: "flex mb-2 px-4 flex-wrap sticky top-15 bg-white z-10"
-          },
+          { staticClass: "md:w-1/2 mb-2 lg:w-1/3 flex justify-between" },
           [
-            _c(
-              "div",
-              { staticClass: "md:w-1/2 mb-2 lg:w-1/3 flex justify-between" },
-              [
-                _c("div", [
-                  _c("h2", { staticClass: "text-2xl" }, [
-                    _c("a", { attrs: { href: "/articles" } }, [
-                      _vm._v(_vm._s(block.label))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", {
-                    staticClass:
-                      "bg-red-400 w-full h-2 rounded-lg shadow-md -mt-2",
-                    style: { backgroundColor: block.color }
-                  })
+            _c("div", [
+              _c("h2", { staticClass: "text-2xl" }, [
+                _c("a", { attrs: { href: "/articles" } }, [
+                  _vm._v(_vm._s(_vm.block.label))
                 ])
-              ]
-            )
+              ]),
+              _vm._v(" "),
+              _c("div", {
+                staticClass: "bg-red-400 w-full h-2 rounded-lg shadow-md -mt-2",
+                style: { backgroundColor: _vm.block.color }
+              })
+            ])
           ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "flex flex-wrap" },
-          _vm._l(block.articles, function(article, index) {
-            return _c("article-card", {
-              key: index,
-              attrs: { article: article, color: block.color }
-            })
-          }),
-          1
         )
-      ])
-    }),
-    0
-  )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "flex flex-wrap" },
+      _vm._l(_vm.block.articles, function(article, index) {
+        return _c("article-card", {
+          key: index,
+          attrs: { article: article, color: _vm.block.color }
+        })
+      }),
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
