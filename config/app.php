@@ -166,6 +166,8 @@ return [
          * Package Service Providers...
          */
 
+        \Gliterd\BackblazeB2\BackblazeB2ServiceProvider::class,
+
         /*
          * Application Service Providers...
          */

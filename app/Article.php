@@ -4,6 +4,9 @@ namespace App;
 
 use App\Traits\HasEnable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class Article extends Model
 {
@@ -61,5 +64,26 @@ class Article extends Model
     public function getCreatedAtHumanAttribute()
     {
         return $this->created_at->diffForHumans();
+    }
+
+    public function fillSlug()
+    {
+        $this->slug = $this->id;
+    }
+
+    public function transSlug()
+    {
+        if (!$this->isDirty('title')) {
+            return;
+        }
+
+        $slug = GoogleTranslate::trans($this->title);
+
+        if ($slug != null) {
+            $slug = Str::slug($slug);
+            DB::table('articles')
+                ->where('id', $this->id)
+                ->update(['slug' => $slug]);
+        }
     }
 }

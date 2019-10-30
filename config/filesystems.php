@@ -64,6 +64,20 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        'b2_image' => [
+            'driver'         => 'b2',
+            'accountId'      => env('BACKBLAZE_ID'),
+            'applicationKey' => env('BACKBLAZE_KEY'),
+            'bucketName'     => env('BACKBLAZE_BUCKET_IMAGE_NAME'),
+        ],
+
+        'b2_video' => [
+            'driver'         => 'b2',
+            'accountId'      => env('BACKBLAZE_ID'),
+            'applicationKey' => env('BACKBLAZE_KEY'),
+            'bucketName'     => env('BACKBLAZE_BUCKET_VIDEO_NAME'),
+        ],
+
     ],
 
 ];

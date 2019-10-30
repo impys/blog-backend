@@ -11,8 +11,10 @@
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
         "fzaninotto/faker": "^1.8",
+        "gliterd/laravel-backblaze-b2": "^1.2",
         "laravel/framework": "^6.3",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "stichoza/google-translate-php": "^4.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.3",
