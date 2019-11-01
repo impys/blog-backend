@@ -18,25 +18,25 @@
 </head>
 
 <body class="text-gray-700 antialiased leading-tight">
-    <div id="app" class="container mx-auto">
-
-        <header class="bg-white h-16">
-            <nav class="text-gray-700 py-2 px-4 text-4xl">
-                <a href="/" class="">Moreless</a>
+    <div id="app">
+        <header class="h-16 fixed w-full bg-white z-20">
+            <nav class="container mx-auto py-4 px-4 h-16 text-gray-700 flex items-start justify-between">
+                <a href="/" class="text-3xl w-32 block">Moreless</a>
+                <search-input></search-input>
             </nav>
         </header>
 
-
-        <div class="flex justify-between">
-            @yield('content')
-        </div>
-
-        <footer class="w-full h-10 bg-white">
-            <div class="py-10 px-4">
-                版权
+        <div class="container mx-auto">
+            <div class="flex justify-between pt-24">
+                @yield('content')
             </div>
-        </footer>
 
+            <footer class="w-full h-10 bg-white">
+                <div class="py-10 px-4">
+                    版权
+                </div>
+            </footer>
+        </div>
     </div>
 </body>
 

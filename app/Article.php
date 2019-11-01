@@ -4,15 +4,18 @@ namespace App;
 
 use App\Traits\HasEnable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Stichoza\GoogleTranslate\GoogleTranslate;
+use Laravel\Scout\Searchable;
 
 class Article extends Model
 {
     use HasEnable;
+    use Searchable;
 
-    const DISPLAY_NUMBER_ON_WELCOME = 8;
+    const DISPLAY_NUMBER_ON_WELCOME = 39;
 
     const URL = 'articles';
     const LABEL = '文章';
@@ -29,8 +32,33 @@ class Article extends Model
     ];
 
     protected $appends = [
-        'created_at_human'
+        'created_at_human',
+        'updated_at_human'
     ];
+
+    public function searchableAs()
+    {
+        return 'moreless_articles_index';
+    }
+
+    public function shouldBeSearchable()
+    {
+        return $this->is_enable;
+    }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        $array['body'] = strip_tags(Markdown::parse($this->body));
+
+        return $array;
+    }
+
+    public function getScoutKey()
+    {
+        return $this->slug;
+    }
 
     public function getRouteKeyName()
     {
@@ -64,6 +92,11 @@ class Article extends Model
     public function getCreatedAtHumanAttribute()
     {
         return $this->created_at->diffForHumans();
+    }
+
+    public function getUpdatedAtHumanAttribute()
+    {
+        return $this->updated_at->diffForHumans();
     }
 
     public function fillSlug()

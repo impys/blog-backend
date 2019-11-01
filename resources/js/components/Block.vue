@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex flex-wrap mb-2 px-4 sticky top-0 bg-white z-10">
+    <div class="flex flex-wrap mb-2 px-4 sticky bg-white z-10" style="top:4rem">
       <div class="md:w-1/2 mb-2 lg:w-1/3 flex justify-between">
         <div>
           <h2 class="text-2xl">
