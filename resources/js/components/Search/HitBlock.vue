@@ -11,28 +11,29 @@
         ></div>
       </div>
     </div>
-    <div class="flex flex-col">
-      <component
-        :is="block.resource+'Hit'"
-        v-for="(data,index) in block.data.data"
-        :key="index"
-        :data="data"
-      ></component>
-    </div>
+    <component
+      :is="block.resource+'Hit'"
+      v-for="(data,index) in block.data.data"
+      :key="index"
+      :data="data"
+    ></component>
   </div>
 </template>
 
 <script>
 import ArticleHit from "./hits/ArticleHit";
 import VideoHit from "./hits/VideoHit";
+import MusicHit from "./hits/MusicHit";
+
 export default {
   components: {
     ArticleHit,
-    VideoHit
+    VideoHit,
+    MusicHit
   },
   props: ["block"],
   mounted() {
-    console.log(this.block);
+    console.log(this.block.data.data.length);
   }
 };
 </script>

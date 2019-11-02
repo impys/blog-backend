@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ml-4 sm:w-full lg:w-1/4 w-full max-h-vh-96 bg-white custom__box-shadow rounded-lg flex flex-col"
+    class="ml-4 min-w-xp-320 sm:w-full lg:w-1/4 w-full max-h-vh-96 bg-white custom__box-shadow rounded-lg flex flex-col"
     v-bind:class="[loaded ? 'h-auto' : 'h-10']"
   >
     <div class="flex h-10 flex-row items-center min-h-10">
@@ -22,10 +22,15 @@
     </div>
     <div class="overflow-scroll min-h-10" v-if="loaded">
       <div v-if="hasSearchResult">
-        <hit-block v-for="(block,index) in data" :key="index" :block="block"></hit-block>
+        <div v-for="(block,index) in data" :key="index">
+          <hit-block :block="block" v-if="block.data.data.length"></hit-block>
+        </div>
       </div>
-      <div v-if="!hasSearchResult">
+      <div v-if="!hasSearchResult && !failed">
         <no-result></no-result>
+      </div>
+      <div v-if="failed">
+        <failed></failed>
       </div>
     </div>
   </div>
@@ -37,28 +42,28 @@ const SEARCH_API = "/search";
 import LoadingIcon from "./LoadingIcon";
 import HitBlock from "./HitBlock";
 import NoResult from "./NoResult";
+import Failed from "./Failed";
 
 export default {
   components: {
     LoadingIcon,
     HitBlock,
-    NoResult
+    NoResult,
+    Failed
   },
   data() {
     return {
       loading: false,
       loaded: false,
+      failed: false,
       query: "",
       data: []
     };
   },
 
   watch: {
-    // 如果 `question` 发生改变，这个函数就会运行
     query: function(newQuery, oldQuery) {
       if (!newQuery) {
-        // this.loading = false;
-        // this.loaded = false;
         this.closeSearchResult();
       }
     }
@@ -85,18 +90,23 @@ export default {
           }
         })
         .then(res => {
-          //   this.loading = false;
-          //   this.loaded = true;
           this.showSearchResutl();
           this.data = res.data.data;
           console.log(res.data.data);
         })
-        .catch(e => {});
+        .catch(e => {
+          this.searchFailed();
+        });
     },
     closeSearchResult() {
       this.query = null;
       this.loading = false;
       this.loaded = false;
+    },
+    searchFailed() {
+      this.loading = false;
+      this.loaded = true;
+      this.failed = true;
     },
     showSearchResutl() {
       this.loading = false;

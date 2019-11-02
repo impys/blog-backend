@@ -8,6 +8,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+window.EventHub = new Vue();
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -22,6 +24,7 @@ window.Vue = require('vue');
 // Vue.component('article-card', require('./components/ArticleCard.vue').default);
 Vue.component('block', require('./components/Block.vue').default);
 Vue.component('search', require('./components/Search/Search.vue').default);
+Vue.component('Music', require('./components/Music').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

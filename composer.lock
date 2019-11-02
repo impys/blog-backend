@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5495abe8db849a4507f52892d055e7d8",
+    "content-hash": "3dced1dfdad184a03039315ff16a879a",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -615,6 +615,64 @@
                 "storage"
             ],
             "time": "2019-01-11T23:03:45+00:00"
+        },
+        {
+            "name": "guanguans/music-php",
+            "version": "v1.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guanguans/music-php.git",
+                "reference": "45c9d152b1e27f4e642fc45c7f8811ce11a48383"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guanguans/music-php/zipball/45c9d152b1e27f4e642fc45c7f8811ce11a48383",
+                "reference": "45c9d152b1e27f4e642fc45c7f8811ce11a48383",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^6.3",
+                "metowolf/meting": "^1.5",
+                "php": ">=5.6",
+                "symfony/console": "^3.2|^4.0"
+            },
+            "require-dev": {
+                "codedungeon/phpunit-result-printer": "0.5.* || ~0.9",
+                "mockery/mockery": "^1.1",
+                "phpro/grumphp": "0.14.*",
+                "phpunit/phpunit": "~5 || ~7"
+            },
+            "bin": [
+                "bin/music-php"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Guanguans\\MusicPhp\\": "src"
+                },
+                "files": [
+                    "src/Helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "琯琯",
+                    "email": "yzmguanguan@gmail.com"
+                }
+            ],
+            "description": "music search and download",
+            "keywords": [
+                "dl",
+                "download-songs",
+                "music",
+                "search"
+            ],
+            "time": "2019-06-23T08:13:38+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1249,6 +1307,56 @@
                 "storage"
             ],
             "time": "2019-10-16T21:01:05+00:00"
+        },
+        {
+            "name": "metowolf/meting",
+            "version": "v1.5.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/metowolf/Meting.git",
+                "reference": "54178aa112da5db09f487d862d7ae62cbf7bc060"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/metowolf/Meting/zipball/54178aa112da5db09f487d862d7ae62cbf7bc060",
+                "reference": "54178aa112da5db09f487d862d7ae62cbf7bc060",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-openssl": "*",
+                "php": ">=5.4.0"
+            },
+            "suggest": {
+                "ext-bcmath": "Required to use BC Math calculate RSA.",
+                "ext-openssl": "Required to use OpenSSL encrypt params."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Metowolf\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "metowolf",
+                    "email": "i@i-meto.com",
+                    "homepage": "https://i-meto.com"
+                }
+            ],
+            "description": "A powerful music API framework to accelerate development.",
+            "homepage": "https://github.com/metowolf/Meting",
+            "keywords": [
+                "lightweight",
+                "lighty",
+                "music api",
+                "php music"
+            ],
+            "time": "2019-06-16T05:55:00+00:00"
         },
         {
             "name": "mhetreramesh/flysystem-backblaze",

@@ -5,6 +5,9 @@ module.exports = {
         minHeight: {
             '10': '2.5rem',
         },
+        minWidth: {
+            'xp-320': '320px',
+        },
         maxHeight: {
             '0': '0',
             '1/4': '25%',
