@@ -18,6 +18,7 @@ class Article extends Model
     const DISPLAY_NUMBER_ON_WELCOME = 39;
 
     const URL = 'articles';
+    const RESOURCE = 'article';
     const LABEL = '文章';
     const COLOR = '#fc8181';
 
@@ -119,4 +120,7 @@ class Article extends Model
                 ->update(['slug' => $slug]);
         }
     }
+
+    public static function handleHits(array $hits)
+    { }
 }

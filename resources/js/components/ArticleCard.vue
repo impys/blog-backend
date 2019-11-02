@@ -1,6 +1,6 @@
 <template>
   <div class="w-full md:w-1/2 px-4 pb-8 lg:w-1/3">
-    <article class="relative custom__border font-thin cursor-pointer">
+    <article class="relative custom__border font-light cursor-pointer">
       <a :href="'/articles/' + article.slug" class="block w-full h-full absolute left-0 top-0 z-10"></a>
       <div
         class="absolute right-0 top-0 mr-2 mt-1 rotate-45"

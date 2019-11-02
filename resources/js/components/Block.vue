@@ -44,8 +44,6 @@ export default {
 
   props: ["block"],
 
-  mounted() {
-    console.log(this.block);
-  }
+  mounted() {}
 };
 </script>

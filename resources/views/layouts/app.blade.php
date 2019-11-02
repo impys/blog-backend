@@ -22,7 +22,7 @@
         <header class="h-16 fixed w-full bg-white z-20">
             <nav class="container mx-auto py-4 px-4 h-16 text-gray-700 flex items-start justify-between">
                 <a href="/" class="text-3xl w-32 block">Moreless</a>
-                <search-input></search-input>
+                <search></search>
             </nav>
         </header>
 

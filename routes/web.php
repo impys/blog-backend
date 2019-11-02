@@ -14,5 +14,6 @@
 Route::get('/', 'Welcome')->name('welcome');
 Route::get('/articles', 'ShowArticles')->name('ShowArticles');
 Route::get('/articles/{article}', 'ShowArticle')->name('ShowArticle');
+Route::get('/search', 'Search')->name('Search');
 
 // Auth::routes();

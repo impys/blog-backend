@@ -21,7 +21,7 @@ window.Vue = require('vue');
 
 // Vue.component('article-card', require('./components/ArticleCard.vue').default);
 Vue.component('block', require('./components/Block.vue').default);
-Vue.component('searchInput', require('./components/SearchInput.vue').default);
+Vue.component('search', require('./components/Search/Search.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
