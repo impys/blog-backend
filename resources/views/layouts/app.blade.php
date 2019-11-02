@@ -20,8 +20,10 @@
 <body class="text-gray-700 antialiased leading-tight">
     <div id="app">
         <header class="h-16 fixed w-full bg-white z-20">
-            <nav class="container mx-auto py-4 px-4 h-16 text-gray-700 flex items-start justify-between">
-                <a href="/" class="text-3xl w-32 block">Moreless</a>
+            <nav class="container mx-auto py-3 px-4 h-16 text-gray-700 flex items-start justify-between">
+                <a href="/" class="text-3xl block flex-shrink-0">
+                    <img src="{{ asset('img/logo.png') }}" alt="moreless" class="h-10 w-10">
+                </a>
                 <search></search>
             </nav>
         </header>

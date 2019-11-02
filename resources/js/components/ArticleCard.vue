@@ -19,7 +19,7 @@
         <div class="mr-2">
           {{ article.created_at_human }}
         </div>
-        <div class="flex">
+        <!-- <div class="flex">
           <div class="mr-2">
             <i class="far fa-heart"></i>
             {{ article.visited_count }}
@@ -28,7 +28,7 @@
             <i class="far fa-eye"></i>
             {{ article.upvote_count }}
           </div>
-        </div>
+        </div> -->
       </div>
     </article>
   </div>
