@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ml-4 min-w-xp-320 sm:w-full lg:w-1/4 w-full max-h-vh-96 bg-white custom__box-shadow rounded-lg flex flex-col"
+    class="ml-4 sm:w-full lg:w-1/4 w-full max-h-vh-96 bg-white custom__box-shadow rounded-lg flex flex-col"
     v-bind:class="[loaded ? 'h-auto' : 'h-10']"
   >
     <div class="flex h-10 flex-row items-center min-h-10">
@@ -12,8 +12,22 @@
         type="text"
         v-model="query"
         @keyup.enter="search"
-        class="outline-none border-transparent text-base pr-4 bg-transparent h-6 w-full"
+        class="outline-none border-transparent text-base bg-transparent h-6 w-full"
       />
+      <div
+        class="relative w-4 h-4 border-2 border-red-400 rounded-full flex-shrink-0 mr-2 cursor-pointer"
+        v-if="!loaded"
+        :class="{ 'bg-red-200': includeSearchMusic}"
+        @click="toggleIncludeSearchMusic"
+      >
+        <transition name="fade" mode="out-in">
+          <div
+            v-if="includeSearchMusicTips"
+            class="text-gray-500 w-40 h-4 absolute text-xs"
+            style="top:-1px;left:-140px"
+          >包含歌曲，搜索速度较慢</div>
+        </transition>
+      </div>
       <i
         class="fas fa-times text-lg block mx-2 text-gray-400 cursor-pointer"
         v-if="loaded"
@@ -56,6 +70,8 @@ export default {
       loading: false,
       loaded: false,
       failed: false,
+      includeSearchMusic: false,
+      includeSearchMusicTips: false,
       query: "",
       data: []
     };
@@ -82,11 +98,15 @@ export default {
       if (!this.query.trim()) {
         return;
       }
+      if (this.loading == true) {
+        return;
+      }
       this.loading = true;
       axios
         .get(SEARCH_API, {
           params: {
-            query: this.query.trim()
+            query: this.query.trim(),
+            includeSearchMusic: this.includeSearchMusic
           }
         })
         .then(res => {
@@ -111,19 +131,24 @@ export default {
     showSearchResutl() {
       this.loading = false;
       this.loaded = true;
+    },
+    toggleIncludeSearchMusic() {
+      this.includeSearchMusic = !this.includeSearchMusic;
+      if (this.includeSearchMusic) {
+        this.includeSearchMusicTips = true;
+        setTimeout(() => {
+          this.includeSearchMusicTips = false;
+        }, 4000);
+      }
     }
   }
 };
 </script>
 
 <style lang="scss">
-.custom__search-input {
-  transition: height 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-}
-
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 1.2s cubic-bezier(1, 0.5, 0.8, 1);
+  transition: opacity 0.5s;
 }
 .fade-enter,
 .fade-leave-to {

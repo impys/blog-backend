@@ -23,36 +23,38 @@ class Search extends Controller
     public function __invoke(Request $request)
     {
         $query = $request->input('query');
-        $articles = $this->searchArticle($query);
-        $musics = $this->searchMusic($query);
+
+        $articleBLock = $this->searchArticle($query);
+
 
         $data = [
-            [
-                'url' => null,
-                'resource' => 'music',
-                'label' => '音乐',
-                'color' => Article::COLOR,
-                'data' => ['data' => $musics]
-            ],
-            [
-                'url' => Article::URL,
-                'resource' => Article::RESOURCE,
-                'label' => Article::LABEL,
-                'color' => Article::COLOR,
-                'data' => ['data' => $articles]
-            ],
+            $articleBLock
         ];
+
+        $includeSearchMusic = $request->input('includeSearchMusic');
+        if ($includeSearchMusic == 'true') {
+            $musicBLock = $this->searchMusic($query);
+            array_unshift($data, $musicBLock);
+        }
+
 
         return response()->json(['data' => $data]);
     }
 
     protected function searchArticle(string $query): array
     {
-        return handle_hits(Article::search($query)->raw()['hits']);
+        $articles = handle_hits(Article::search($query)->raw()['hits']);
+        return [
+            'url' => Article::URL,
+            'resource' => Article::RESOURCE,
+            'label' => Article::LABEL,
+            'color' => Article::COLOR,
+            'data' => ['data' => $articles]
+        ];
     }
     protected function searchMusic(string $query): array
     {
-        return $this->musicPhp
+        $songs = $this->musicPhp
             ->searchAll($query)
             ->map(function ($song) {
                 return [
@@ -66,5 +68,13 @@ class Search extends Controller
             })
             ->values()
             ->toArray();
+
+        return [
+            'url' => null,
+            'resource' => 'music',
+            'label' => '音乐',
+            'color' => Article::COLOR,
+            'data' => ['data' => $songs]
+        ];
     }
 }
