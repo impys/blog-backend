@@ -15,6 +15,5 @@ Route::get('/', 'Welcome');
 Route::get('/articles', 'ShowArticles');
 Route::get('/articles/{article}', 'ShowArticle');
 Route::get('/search', 'Search');
-Route::get('/search-music', 'SearchMusic');
 
 // Auth::routes();
