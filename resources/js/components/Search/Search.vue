@@ -16,7 +16,7 @@
       />
       <div
         class="relative w-4 h-4 border-2 border-red-400 rounded-full flex-shrink-0 mr-2 cursor-pointer"
-        v-if="!loaded"
+        v-if="!loading && !loaded"
         :class="{ 'bg-red-200': includeSearchMusic}"
         @click="toggleIncludeSearchMusic"
       >
@@ -30,7 +30,7 @@
       </div>
       <i
         class="fas fa-times text-lg block mx-2 text-gray-400 cursor-pointer"
-        v-if="loaded"
+        v-if="loading || loaded"
         @click="closeSearchResult"
       ></i>
     </div>
