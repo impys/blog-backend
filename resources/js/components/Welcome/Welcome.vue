@@ -1,0 +1,17 @@
+<template>
+  <div class="flex justify-between pt-24">
+    <main-content></main-content>
+    <sidebar></sidebar>
+  </div>
+</template>
+
+<script>
+import MainContent from "./MainContent";
+import Sidebar from "./Sidebar";
+export default {
+  components: {
+    MainContent,
+    Sidebar
+  }
+};
+</script>

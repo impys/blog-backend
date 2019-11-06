@@ -20,40 +20,20 @@
 <body class="text-gray-700 antialiased leading-tight">
     <div id="app" class="relative">
 
-        <div class="fixed z-40" style="top:0;right:0">
-            <music></music>
-        </div>
-
         <header class="h-16 fixed w-full bg-white z-20">
-            <nav class="container mx-auto py-3 pl-4 pr-4 lg:pr-0 h-16 text-gray-700 flex items-start justify-between">
-                <a href="/" class="text-3xl block flex-shrink-0">
-                    <img src="{{ asset('img/logo.png') }}" alt="moreless" class="h-10 w-10">
-                </a>
+            <nav class="container mx-auto py-3 h-16 text-gray-700 flex items-start justify-between">
+                <div class="lg:w-2/3">
+                    <a href="/" class="text-3xl block flex-shrink-0 px-4">
+                        <img src="{{ asset('img/logo.png') }}" alt="moreless" class="h-10 w-10">
+                    </a>
+                </div>
                 <search></search>
 
             </nav>
         </header>
 
         <div class="container mx-auto">
-            <div class="flex justify-between pt-24">
-
-                <div class="lg:w-3/4 lg:mr-1 sm:w-full">
-                    @yield('content')
-                </div>
-
-                {{--  <div class="lg:w-1/4 block sm:hidden lg:block">
-                    <div class="sticky" style="top:142px">
-                        <music></music>
-                    </div>
-                </div>  --}}
-
-            </div>
-
-            <footer class="w-full h-10 bg-white">
-                <div class="py-10 px-4">
-                    版权
-                </div>
-            </footer>
+            @yield('content')
         </div>
     </div>
 </body>

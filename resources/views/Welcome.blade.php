@@ -4,12 +4,6 @@
 
 @section('content')
 
-
-
-    @foreach ($data as $block)
-    <block :block='@json($block)'></block>
-    @endforeach
-
-
+<welcome></welcome>
 
 @endsection

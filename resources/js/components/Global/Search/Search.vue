@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ml-4 sm:w-full lg:w-1/4 w-full max-h-vh-96 bg-white custom__box-shadow rounded-lg flex flex-col"
+    class="sm:w-full lg:w-1/3 w-full ml-0 sm:ml-0 lg:ml-4 max-h-vh-96 bg-white custom__box-shadow rounded-lg flex flex-col"
     v-bind:class="[loaded ? 'h-auto' : 'h-10']"
   >
     <div class="flex h-10 flex-row items-center min-h-10">
@@ -12,32 +12,18 @@
         type="text"
         v-model="query"
         @keyup.enter="search"
-        class="outline-none border-transparent text-base bg-transparent h-6 w-full"
+        class="outline-none border-transparent text-base bg-transparent h-6 w-full z-10"
       />
-      <div
-        class="relative w-4 h-4 border-2 border-red-400 rounded-full flex-shrink-0 mr-2 cursor-pointer"
-        v-if="!loading && !loaded"
-        :class="{ 'bg-red-200': includeSearchMusic}"
-        @click="toggleIncludeSearchMusic"
-      >
-        <transition name="fade" mode="out-in">
-          <div
-            v-if="includeSearchMusicTips"
-            class="text-gray-500 w-40 h-4 absolute text-xs"
-            style="top:-1px;left:-140px"
-          >包含歌曲，搜索速度较慢</div>
-        </transition>
-      </div>
       <i
         class="fas fa-times text-lg block mx-2 text-gray-400 cursor-pointer"
-        v-if="loading || loaded"
-        @click="closeSearchResult"
+        v-if="query.length"
+        @click="resetSearchInput()"
       ></i>
     </div>
     <div class="overflow-scroll min-h-10" v-if="loaded">
       <div v-if="hasSearchResult">
-        <div v-for="(block,index) in data" :key="index">
-          <hit-block :block="block" v-if="block.data.data.length"></hit-block>
+        <div v-for="(resource,index) in data" :key="index">
+          <resource :resource="resource" v-if="resource.data.length"></resource>
         </div>
       </div>
       <div v-if="!hasSearchResult && !failed">
@@ -54,14 +40,14 @@
 <script>
 const SEARCH_API = "/search";
 import LoadingIcon from "./LoadingIcon";
-import HitBlock from "./HitBlock";
+import Resource from "./Resource";
 import NoResult from "./NoResult";
 import Failed from "./Failed";
 
 export default {
   components: {
     LoadingIcon,
-    HitBlock,
+    Resource,
     NoResult,
     Failed
   },
@@ -70,8 +56,6 @@ export default {
       loading: false,
       loaded: false,
       failed: false,
-      includeSearchMusic: false,
-      includeSearchMusicTips: false,
       query: "",
       data: []
     };
@@ -80,15 +64,15 @@ export default {
   watch: {
     query: function(newQuery, oldQuery) {
       if (!newQuery) {
-        this.closeSearchResult();
+        this.resetSearchInput();
       }
     }
   },
 
   computed: {
     hasSearchResult() {
-      return this.data.some(entity => {
-        return entity.data.data.length;
+      return this.data.some(item => {
+        return item.data.length;
       });
     }
   },
@@ -105,21 +89,20 @@ export default {
       axios
         .get(SEARCH_API, {
           params: {
-            query: this.query.trim(),
-            includeSearchMusic: this.includeSearchMusic
+            query: this.query.trim()
           }
         })
         .then(res => {
-          this.showSearchResutl();
-          this.data = res.data.data;
-          console.log(res.data.data);
+          this.searchSuccess();
+          console.log(res.data);
+          this.data = res.data;
         })
         .catch(e => {
           this.searchFailed();
         });
     },
-    closeSearchResult() {
-      this.query = null;
+    resetSearchInput() {
+      this.query = "";
       this.loading = false;
       this.loaded = false;
     },
@@ -128,33 +111,15 @@ export default {
       this.loaded = true;
       this.failed = true;
     },
-    showSearchResutl() {
+    searchSuccess() {
       this.loading = false;
       this.loaded = true;
-    },
-    toggleIncludeSearchMusic() {
-      this.includeSearchMusic = !this.includeSearchMusic;
-      if (this.includeSearchMusic) {
-        this.includeSearchMusicTips = true;
-        setTimeout(() => {
-          this.includeSearchMusicTips = false;
-        }, 4000);
-      }
     }
   }
 };
 </script>
 
 <style lang="scss">
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
 .slide-fade-enter-active {
   transition: all 0.2s;
 }
@@ -171,8 +136,7 @@ export default {
 }
 
 .highlight {
-  color: black;
-  font-weight: 800;
+  color: #fc8181;
 }
 
 .custom__box-shadow {

@@ -10,21 +10,13 @@ use Illuminate\Support\Str;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 use Laravel\Scout\Searchable;
 
-class Article extends Model
+class Post extends Model
 {
     use HasEnable;
     use Searchable;
 
-    const DISPLAY_NUMBER_ON_WELCOME = 39;
-
-    const URL = 'articles';
-    const RESOURCE = 'article';
-    const LABEL = '文章';
-    const COLOR = '#fc8181';
-
     protected $fillable = [
         'title',
-        'slug',
         'body',
         'is_top',
         'sort',
@@ -39,7 +31,7 @@ class Article extends Model
 
     public function searchableAs()
     {
-        return 'moreless_articles_index';
+        return 'moreless_post_index';
     }
 
     public function shouldBeSearchable()
@@ -56,21 +48,6 @@ class Article extends Model
         return $array;
     }
 
-    public function getScoutKey()
-    {
-        return $this->slug;
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
-
-    public function block()
-    {
-        return $this->belongsTo(Block::class);
-    }
-
     public function scopeMostVisit($query)
     {
         return $query->orderBy('visited_count', 'desc');
@@ -79,15 +56,6 @@ class Article extends Model
     public function scopeMostUpvote($query)
     {
         return $query->orderBy('upvote_count', 'desc');
-    }
-
-    public function scopeListForWelcome($query)
-    {
-        return $query
-            ->orderBy('is_top', 'desc')
-            ->mostUpvote()
-            ->mostVisit()
-            ->limit(self::DISPLAY_NUMBER_ON_WELCOME);
     }
 
     public function getCreatedAtHumanAttribute()
@@ -100,27 +68,24 @@ class Article extends Model
         return $this->updated_at->diffForHumans();
     }
 
-    public function fillSlug()
-    {
-        $this->slug = $this->id;
-    }
+    // public function fillSlug()
+    // {
+    //     $this->slug = $this->id;
+    // }
 
-    public function transSlug()
-    {
-        if (!$this->isDirty('title')) {
-            return;
-        }
+    // public function transSlug()
+    // {
+    //     if (!$this->isDirty('title')) {
+    //         return;
+    //     }
 
-        $slug = GoogleTranslate::trans($this->title);
+    //     $slug = GoogleTranslate::trans($this->title);
 
-        if ($slug != null) {
-            $slug = Str::slug($slug);
-            DB::table('articles')
-                ->where('id', $this->id)
-                ->update(['slug' => $slug]);
-        }
-    }
-
-    public static function handleHits(array $hits)
-    { }
+    //     if ($slug != null) {
+    //         $slug = Str::slug($slug);
+    //         DB::table('articles')
+    //             ->where('id', $this->id)
+    //             ->update(['slug' => $slug]);
+    //     }
+    // }
 }

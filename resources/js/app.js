@@ -22,9 +22,12 @@ window.EventHub = new Vue();
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 // Vue.component('article-card', require('./components/ArticleCard.vue').default);
-Vue.component('block', require('./components/Block.vue').default);
-Vue.component('search', require('./components/Search/Search.vue').default);
-Vue.component('Music', require('./components/Music').default);
+Vue.component('Welcome', require('./components/Welcome/Welcome.vue').default);
+
+// global
+Vue.component('Paginator', require('./components/Global/Paginator.vue').default);
+Vue.component('Search', require('./components/Global/Search/Search.vue').default);
+Vue.component('Music', require('./components/Global/Music/Music.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

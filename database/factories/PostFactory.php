@@ -2,10 +2,8 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Article;
-use App\Block;
+use App\Post;
 use Faker\Generator as Faker;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +16,7 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(Article::class, function (Faker $faker) {
+$factory->define(Post::class, function (Faker $faker) {
     $titles = [
         '说出你的心里话',
         '他们让你收着，我偏让你作',
@@ -34,7 +32,6 @@ $factory->define(Article::class, function (Faker $faker) {
     return [
         'title' => $faker->randomElement($titles),
         'body' => $body,
-        'slug' => Str::slug($faker->sentence(), '-'),
         'is_top' => false,
         'user_id' => 1,
         'visited_count' => mt_rand(0, 500),

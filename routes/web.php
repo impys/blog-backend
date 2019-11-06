@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', 'Welcome');
-Route::get('/articles', 'ShowArticles');
-Route::get('/articles/{article}', 'ShowArticle');
+Route::get('/', function () {
+    return view('Welcome');
+});
+Route::get('/posts', 'FetchPosts');
+Route::get('/posts/{post}', 'ShowPost');
 Route::get('/search', 'Search');
 
 // Auth::routes();

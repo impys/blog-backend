@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Article;
+use App\Post;
 use Illuminate\Http\Request;
 
-class ShowArticle extends Controller
+class ShowPost extends Controller
 {
     /**
      * Handle the incoming request.
@@ -13,8 +13,8 @@ class ShowArticle extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, Article $article)
+    public function __invoke(Request $request, Post $post)
     {
-        return view('Article.ShowArticle', ['article' => $article]);
+        return view('ShowPost', ['post' => $post]);
     }
 }

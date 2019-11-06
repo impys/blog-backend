@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Article;
+use App\Post;
 use Illuminate\Http\Request;
 use App\Tools\Music;
 
 class Search extends Controller
 {
-    protected $musicPhp;
-
-    public function __construct(Music $musicPhp)
-    {
-        $this->musicPhp = $musicPhp;
-    }
     /**
      * Handle the incoming request.
      *
@@ -24,57 +18,16 @@ class Search extends Controller
     {
         $query = $request->input('query');
 
-        $articleBLock = $this->searchArticle($query);
-
+        $posts = handle_hits(Post::search($query)->raw()['hits']);
 
         $data = [
-            $articleBLock
+            [
+                'label' => 'post',
+                'label_zh' => '文章',
+                'data' => $posts
+            ]
         ];
 
-        $includeSearchMusic = $request->input('includeSearchMusic');
-        if ($includeSearchMusic == 'true') {
-            $musicBLock = $this->searchMusic($query);
-            array_unshift($data, $musicBLock);
-        }
-
-
-        return response()->json(['data' => $data]);
-    }
-
-    protected function searchArticle(string $query): array
-    {
-        $articles = handle_hits(Article::search($query)->raw()['hits']);
-        return [
-            'url' => Article::URL,
-            'resource' => Article::RESOURCE,
-            'label' => Article::LABEL,
-            'color' => Article::COLOR,
-            'data' => ['data' => $articles]
-        ];
-    }
-    protected function searchMusic(string $query): array
-    {
-        $songs = $this->musicPhp
-            ->searchAll($query)
-            ->map(function ($song) {
-                return [
-                    'title' => $song['name'],
-                    'src' => $song['url'],
-                    'artist' => implode('/', $song['artist']),
-                ];
-            })
-            ->sortBy(function ($song) {
-                return strlen($song['title'] . $song['artist']);
-            })
-            ->values()
-            ->toArray();
-
-        return [
-            'url' => null,
-            'resource' => 'music',
-            'label' => '音乐',
-            'color' => Article::COLOR,
-            'data' => ['data' => $songs]
-        ];
+        return response()->json($data);
     }
 }
