@@ -1,9 +1,16 @@
 <template>
   <div class="relative">
-    <aplayer ref="aplayer" id="aplayer" :autoplay="autoplay" :music="music" :list="list" />
+    <aplayer
+      ref="aplayer"
+      id="aplayer"
+      :autoplay="autoplay"
+      :music="music"
+      :list="list"
+      theme="#fc8181"
+    />
     <div
-      class="border-gray-300 rounded-full border h-6 absolute w-1/4 mr-2"
-      style="top:14px;right:2px"
+      class="border-gray-300 rounded-full border h-6 absolute w-1/4"
+      style="top:14px;right:2px;margin-right:7px;"
     >
       <input
         type="text"
@@ -16,6 +23,7 @@
 </template>
 
 <script>
+const SEARCH_API = "/search-music";
 import Aplayer from "vue-aplayer";
 
 export default {
@@ -31,23 +39,9 @@ export default {
     return {
       query: "",
       autoplay: false,
-      list: [
-        {
-          title: "1",
-          artist: "1",
-          src: "null"
-        },
-        {
-          title: "1",
-          artist: "1",
-          src: "null"
-        },
-        {
-          title: "1",
-          artist: "1",
-          src: "null"
-        }
-      ],
+      list: [],
+      searchList: [],
+      showSearchList: false,
       music: {
         title: null,
         artist: null,
@@ -61,7 +55,18 @@ export default {
       this.list.push(music);
       this.$refs.aplayer.thenPlay();
     },
-    search() {}
+    search() {
+      axios
+        .get(SEARCH_API, {
+          params: {
+            query: this.query.trim()
+          }
+        })
+        .then(res => {
+          this.list = res.data.data;
+        })
+        .catch(e => {});
+    }
   }
 };
 </script>
@@ -78,7 +83,6 @@ export default {
     background-image: none;
     background-color: #fc8181;
   }
-
   .aplayer-pic .aplayer-pause .aplayer-icon-pause {
     position: absolute;
     top: 3px;
@@ -86,7 +90,6 @@ export default {
     height: 20px;
     width: 20px;
   }
-
   .aplayer-pic .aplayer-pause {
     width: 26px;
     height: 26px;
@@ -95,15 +98,11 @@ export default {
     right: 50%;
     margin: 0 -15px -15px 0;
   }
-  .aplayer-info {
-    border-top: 1px solid #e2e8f0; //gray-300
-    border-right: 1px solid #e2e8f0;
-    border-bottom: 1px solid #e2e8f0;
+  .aplayer-volume-wrap {
+    display: none !important;
   }
-  .aplayer-list {
-    border-left: 1px solid #e2e8f0;
-    border-right: 1px solid #e2e8f0;
-    border-bottom: 1px solid #e2e8f0;
+  .aplayer-icon-mode {
+    margin-left: 4px !important;
   }
 }
 </style>

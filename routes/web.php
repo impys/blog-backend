@@ -17,5 +17,6 @@ Route::get('/', function () {
 Route::get('/posts', 'FetchPosts');
 Route::get('/posts/{post}', 'ShowPost');
 Route::get('/search', 'Search');
+Route::get('/search-music', 'SearchMusic');
 
 // Auth::routes();

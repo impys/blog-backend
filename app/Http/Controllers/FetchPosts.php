@@ -20,8 +20,6 @@ class FetchPosts extends Controller
             ->latest()
             ->paginate($request->input('size', 9));
 
-        dump($posts);
-
         return PostsResource::collection($posts);
     }
 }

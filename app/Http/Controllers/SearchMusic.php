@@ -24,34 +24,6 @@ class SearchMusic extends Controller
     {
         $query = $request->input('query');
 
-        // $articleBLock = $this->searchArticle($query);
-
-
-        $data = [];
-
-        $includeSearchMusic = $request->input('includeSearchMusic');
-        if ($includeSearchMusic == 'true') {
-            $musicBLock = $this->searchMusic($query);
-            array_unshift($data, $musicBLock);
-        }
-
-
-        return response()->json(['data' => $data]);
-    }
-
-    protected function searchArticle(string $query): array
-    {
-        $articles = handle_hits(Post::search($query)->raw()['hits']);
-        return [
-            'url' => null,
-            'resource' => null,
-            'label' => null,
-            'color' => null,
-            'data' => ['data' => $articles]
-        ];
-    }
-    protected function searchMusic(string $query): array
-    {
         $songs = $this->musicPhp
             ->searchAll($query)
             ->map(function ($song) {
@@ -67,12 +39,6 @@ class SearchMusic extends Controller
             ->values()
             ->toArray();
 
-        return [
-            'url' => null,
-            'resource' => 'music',
-            'label' => '音乐',
-            'color' => null,
-            'data' => ['data' => $songs]
-        ];
+        return response()->json(['data' => $songs]);
     }
 }

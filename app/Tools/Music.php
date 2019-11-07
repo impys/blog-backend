@@ -6,11 +6,10 @@ use Guanguans\MusicPhp\MusicPhp;
 
 class Music extends MusicPhp
 {
-    protected $platforms = ['kugou'];
-    // protected $platforms = ['netease', 'xiami', 'kugou'];
+    // protected $platforms = ['kugou'];
+    protected $platforms = ['netease', 'xiami', 'kugou'];
 
-    protected $hideFields = [];
-    // protected $hideFields = ['id', 'pic_id', 'url_id', 'lyric_id', 'url'];
+    protected $hideFields = ['id', 'pic_id', 'url_id', 'lyric_id', 'url'];
 
     public function searchAll($keyword)
     {
