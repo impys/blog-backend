@@ -18,7 +18,8 @@
         "laravel/scout": "^7.2",
         "laravel/tinker": "^1.0",
         "stichoza/google-translate-php": "^4.0",
-        "laravel/nova": "*"
+        "laravel/nova": "*",
+        "qingfengbaili/post-editor": "*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.3",
@@ -32,6 +33,10 @@
         {
             "type": "vcs",
             "url": "git@github.com:qingfengbaili/nova.git"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/PostEditor"
         }
     ],
     "config": {

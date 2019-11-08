@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "165e21d2927a1e3399506c2b77cbeddd",
+    "content-hash": "73f27c4518e051656a8909596c1adae3",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -2503,6 +2503,39 @@
                 "shell"
             ],
             "time": "2018-10-13T15:16:03+00:00"
+        },
+        {
+            "name": "qingfengbaili/post-editor",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "./nova-components/PostEditor",
+                "reference": "696651e4fc6faaea9c84fe3447edcc35568cb7e5"
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Qingfengbaili\\PostEditor\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Qingfengbaili\\PostEditor\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova field.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ]
         },
         {
             "name": "ralouphie/getallheaders",
