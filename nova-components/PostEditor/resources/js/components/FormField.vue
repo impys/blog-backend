@@ -120,7 +120,7 @@ export default {
       return `<audio controls="" class="block mx-2"><source src="${url}"></audio>`;
     },
 
-    buildVideo() {
+    buildVideo(url) {
       return `<video controls="" class="block mx-2"><source src="${url}"></video>`;
     },
 
