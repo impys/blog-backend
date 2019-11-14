@@ -35,11 +35,11 @@ class File extends Model
 
     public static function newInstanceForUploadFile(UploadedFile $uploadedFile): self
     {
-        $mime = $uploadedFile->getClientMimeType();
-        $extension = $uploadedFile->extension();
+        $extension = $uploadedFile->getClientOriginalExtension();
+
         $file = new File();
         $file->name = $file->name . '.' . $extension;
-        $file->type = $mime;
+        $file->type = $extension;
         return $file;
     }
 }
