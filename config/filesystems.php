@@ -51,7 +51,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
 
@@ -64,20 +64,12 @@ return [
             'url' => env('AWS_URL'),
         ],
 
-        'b2_image' => [
-            'driver'         => 'b2',
-            'accountId'      => env('BACKBLAZE_ID'),
+        'b2' => [
+            'driver' => 'b2',
+            'accountId' => env('BACKBLAZE_ID'),
             'applicationKey' => env('BACKBLAZE_KEY'),
-            'bucketName'     => env('BACKBLAZE_BUCKET_IMAGE_NAME'),
+            'bucketName' => env('BACKBLAZE_BUCKET_NAME'),
         ],
-
-        'b2_video' => [
-            'driver'         => 'b2',
-            'accountId'      => env('BACKBLAZE_ID'),
-            'applicationKey' => env('BACKBLAZE_KEY'),
-            'bucketName'     => env('BACKBLAZE_BUCKET_VIDEO_NAME'),
-        ],
-
     ],
 
 ];

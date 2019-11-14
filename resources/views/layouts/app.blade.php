@@ -21,9 +21,9 @@
     <div id="app" class="relative">
 
         <header class="h-16 fixed w-full bg-white z-20">
-            <nav class="container mx-auto py-3 h-16 text-gray-700 flex items-start justify-between">
-                <div class="lg:w-2/3">
-                    <a href="/" class="text-3xl block flex-shrink-0 px-4">
+            <nav class="container mx-auto py-3 h-16 pl-4 pr-4 lg:pr-0 text-gray-700 flex items-start justify-between">
+                <div class="lg:w-2/3 flex-shrink-0">
+                    <a href="/" class="text-3xl block pr-4">
                         <img src="{{ asset('img/logo.png') }}" alt="moreless" class="h-10 w-10">
                     </a>
                 </div>

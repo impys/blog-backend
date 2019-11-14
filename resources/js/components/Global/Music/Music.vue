@@ -9,8 +9,8 @@
       theme="#fc8181"
     />
     <div
-      class="border-gray-300 rounded-full border h-6 absolute w-1/4"
-      style="top:14px;right:2px;margin-right:7px;"
+      class="border-gray-300 rounded-full border h-6 absolute w-1/4 z-10 bg-white"
+      style="top:8px;right:2px;"
     >
       <input
         type="text"
@@ -78,6 +78,9 @@ export default {
   margin: 0 !important;
   * {
     outline: none;
+  }
+  .aplayer-info{
+      padding-right: 0;
   }
   .aplayer-pic {
     background-image: none;

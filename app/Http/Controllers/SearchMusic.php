@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
-use App\Tools\Music;
+use App\Services\MusicService;
 
 class SearchMusic extends Controller
 {
-    protected $musicPhp;
+    protected $MusicService;
 
-    public function __construct(Music $musicPhp)
+    public function __construct(MusicService $MusicService)
     {
-        $this->musicPhp = $musicPhp;
+        $this->MusicService = $MusicService;
     }
     /**
      * Handle the incoming request.
@@ -24,20 +24,7 @@ class SearchMusic extends Controller
     {
         $query = $request->input('query');
 
-        $songs = $this->musicPhp
-            ->searchAll($query)
-            ->map(function ($song) {
-                return [
-                    'title' => $song['name'],
-                    'src' => $song['url'],
-                    'artist' => implode('/', $song['artist']),
-                ];
-            })
-            ->sortBy(function ($song) {
-                return strlen($song['title'] . $song['artist']);
-            })
-            ->values()
-            ->toArray();
+        $songs = $this->MusicService->searchAll($query);
 
         return response()->json(['data' => $songs]);
     }

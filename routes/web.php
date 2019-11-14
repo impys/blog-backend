@@ -19,4 +19,8 @@ Route::get('/posts/{post}', 'ShowPost');
 Route::get('/search', 'Search');
 Route::get('/search-music', 'SearchMusic');
 
+Route::middleware('auth')->group(function () {
+    Route::post('/upload', 'Upload');
+});
+
 // Auth::routes();

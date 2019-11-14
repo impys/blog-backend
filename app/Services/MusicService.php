@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tools;
+namespace App\Services;
 
 use Guanguans\MusicPhp\MusicPhp;
 
-class Music extends MusicPhp
+class MusicService extends MusicPhp
 {
     // protected $platforms = ['kugou'];
     protected $platforms = ['netease', 'xiami', 'kugou'];
@@ -19,7 +19,19 @@ class Music extends MusicPhp
             $songAll = array_merge($songAll, $this->search($platform, $keyword));
         }
 
-        return collect($songAll);
+        return collect($songAll)
+            ->map(function ($song) {
+                return [
+                    'title' => $song['name'],
+                    'src' => $song['url'],
+                    'artist' => implode('/', $song['artist']),
+                ];
+            })
+            ->sortBy(function ($song) {
+                return strlen($song['title'] . $song['artist']);
+            })
+            ->values()
+            ->toArray();
     }
 
     public function search($platform, $keyword)
