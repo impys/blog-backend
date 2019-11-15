@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="lg:w-1/2 sm:w-full mx-auto">
+<div class="lg:w-2/3 sm:w-full pt-24">
     <div class="px-4">
         <h1 class="text-5xl my-6">{{ $post->title }}</h1>
         <div class="text-gray-600 my-6">
