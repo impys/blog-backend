@@ -7,7 +7,7 @@
         :class="errorClasses"
         :placeholder="field.name"
       >
-        <div class="custom__markdown-editor w-4/5">
+        <div class="custom__markdown-editor w-5/6">
           <pre class="hidden-pre">{{ value }}<br /></pre>
           <textarea
             id="markdown-textarea"
@@ -16,10 +16,10 @@
             v-model="value"
           ></textarea>
         </div>
-        <div class="w-1/5 relative ml-4">
-          <div class="sticky" style="top:20px">
+        <div class="w-1/6 relative ml-2">
+          <div class="sticky" style="top:10px">
             <div class="flex flex-col">
-              <div class="custom__upload-icon cursor-pointer">
+              <div class="custom__upload-icon">
                 <label for="file-input">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -98,30 +98,19 @@ export default {
     copyLink() {
       var copyText = document.getElementById("custom__copy");
       copyText.select();
-
-      try {
-        if (document.execCommand("copy")) {
-          let tip = this.tip;
-          this.tip = "复制成功";
-          setTimeout(() => {
-            this.tip = tip;
-          }, 2000);
-        } else {
-          let tip = this.tip;
-          this.tip = "复制失败";
-          setTimeout(() => {
-            this.tip = tip;
-          }, 2000);
-        }
-      } catch (err) {}
+      if (document.execCommand("copy")) {
+        this.tip = "复制成功";
+      } else {
+        this.tip = "复制失败";
+      }
     },
 
     buildAudio(url) {
-      return `<audio controls="" class="block mx-2"><source src="${url}"></audio>`;
+      return `<audio controls=""><source src="${url}"></audio>`;
     },
 
     buildVideo(url) {
-      return `<video controls="" class="block mx-2"><source src="${url}"></video>`;
+      return `<video controls=""><source src="${url}"></video>`;
     },
 
     uploadFile() {
@@ -135,7 +124,7 @@ export default {
         }
       };
       axios.post(UPLOAD_API, formData, config).then(res => {
-        this.tip = "上传成功，点击复制链接";
+        this.tip = "点击复制";
         if (typePrefix == "audio") {
           let link = this.buildAudio(res.data);
           this.link = link;
@@ -205,7 +194,7 @@ export default {
     display: inline-block;
     visibility: hidden;
     padding: 12px;
-    font-size: 20px;
+    font-size: 22px;
     width: 100%;
     height: 100%;
     line-height: normal;
@@ -232,6 +221,14 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  label {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
 }
 .custom__upload-msg {
   margin-top: 10px;
