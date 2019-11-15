@@ -7,6 +7,7 @@
       :music="music"
       :list="list"
       theme="#fc8181"
+      listMaxHeight="289px"
     />
     <div
       class="border-gray-300 rounded-full border h-6 absolute w-1/4 z-10 bg-white"
@@ -19,16 +20,19 @@
         class="outline-none border-transparent text-xs px-2 bg-transparent h-atuo w-full"
       />
     </div>
+    <loading-icon key="loading" class="absolute z-10" v-if="loading" style="top:7px;right:-1px;"></loading-icon>
   </div>
 </template>
 
 <script>
 const SEARCH_API = "/search-music";
 import Aplayer from "vue-aplayer";
+import LoadingIcon from "./LoadingIcon";
 
 export default {
   components: {
-    Aplayer
+    Aplayer,
+    LoadingIcon
   },
   mounted() {
     EventHub.$on("clickMusic", music => {
@@ -38,6 +42,7 @@ export default {
   data() {
     return {
       query: "",
+      loading: false,
       autoplay: false,
       list: [],
       searchList: [],
@@ -56,6 +61,13 @@ export default {
       this.$refs.aplayer.thenPlay();
     },
     search() {
+      if (!this.query.trim()) {
+        return;
+      }
+      if (this.loading == true) {
+        return;
+      }
+      this.loading = true;
       axios
         .get(SEARCH_API, {
           params: {
@@ -63,9 +75,12 @@ export default {
           }
         })
         .then(res => {
+          this.loading = false;
           this.list = res.data.data;
         })
-        .catch(e => {});
+        .catch(e => {
+          this.loading = false;
+        });
     }
   }
 };
@@ -79,8 +94,8 @@ export default {
   * {
     outline: none;
   }
-  .aplayer-info{
-      padding-right: 0;
+  .aplayer-info {
+    padding-right: 0;
   }
   .aplayer-pic {
     background-image: none;

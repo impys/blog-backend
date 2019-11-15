@@ -1,7 +1,7 @@
 <template>
   <div class="w-full md:w-1/2 lg:w-1/3 px-4 pb-8 inline-block">
     <div class="relative custom__border font-light cursor-pointer">
-      <a :href="'/posts/' + post.id" class="block w-full h-full absolute left-0 top-0 z-10"></a>
+      <a :href="'/posts/' + post.id" target="_blank" class="block w-full h-full absolute left-0 top-0 z-10"></a>
       <div class="absolute right-0 text-red-700 top-0 mr-2 mt-1 rotate-45" v-if="post.is_top">
         <i class="fas fa-thumbtack"></i>
       </div>

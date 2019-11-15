@@ -17,7 +17,7 @@ export default {
       posts: null,
       meta: null,
       currentPage: 1,
-      size: 15
+      size: 21
     };
   },
 

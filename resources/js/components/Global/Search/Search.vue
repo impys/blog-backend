@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full sm:w-full lg:w-1/3 max-h-vh-96 pl-4 bg-white custom__box-shadow rounded-lg flex flex-col"
+    class="w-full sm:w-full lg:w-1/3 max-h-vh-96 bg-white custom__box-shadow rounded-lg flex flex-col"
     v-bind:class="[loaded ? 'h-auto' : 'h-10']"
   >
     <div class="flex h-10 flex-row items-center min-h-10">
