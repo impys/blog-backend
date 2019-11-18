@@ -17,12 +17,10 @@
 
 <script>
 import PostHit from "./hits/PostHit";
-import MusicHit from "./hits/MusicHit";
 
 export default {
   components: {
-    PostHit,
-    MusicHit
+    PostHit
   },
   props: ["resource"],
   mounted() {}
