@@ -20,16 +20,16 @@
         @click="resetSearchInput()"
       ></i>
     </div>
-    <div class="overflow-scroll min-h-10" v-if="loaded">
+    <div class="overflow-scroll min-h-10 flex items-center" v-if="loaded">
       <div v-if="hasSearchResult">
         <div v-for="(resource,index) in data" :key="index">
           <resource :resource="resource" v-if="resource.data.length"></resource>
         </div>
       </div>
-      <div v-if="!hasSearchResult && !failed">
+      <div v-if="!hasSearchResult && !failed" class="flex justify-center w-full">
         <no-result></no-result>
       </div>
-      <div v-if="failed">
+      <div v-if="failed" class="flex justify-center w-full">
         <failed></failed>
       </div>
     </div>

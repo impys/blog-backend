@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row justify-between pt-24">
+  <div class="flex flex-row justify-between">
     <main-content></main-content>
     <sidebar></sidebar>
   </div>

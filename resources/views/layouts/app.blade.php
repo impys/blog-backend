@@ -32,7 +32,7 @@
             </nav>
         </header>
 
-        <div class="container mx-auto">
+        <div class="container mx-auto py-24">
             @yield('content')
         </div>
     </div>

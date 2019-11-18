@@ -1,7 +1,3 @@
 <template>
-  <div>failed</div>
+  <i class="far fa-frown text-lg block"></i>
 </template>
-
-<script>
-export default {};
-</script>
