@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "15482e04e12baf80e3b7b971623ef395",
+    "content-hash": "6ecb86190f6ea1201257f431225117be",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -2721,6 +2721,39 @@
                 "MIT"
             ],
             "description": "A Laravel Nova field.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ]
+        },
+        {
+            "name": "qingfengbaili/tag-autocomplete",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "./nova-components/TagAutocomplete",
+                "reference": "ed1ea1613dccbc621e30aceb0fdf2e2166a04b81"
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Qingfengbaili\\TagAutocomplete\\ToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Qingfengbaili\\TagAutocomplete\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova resource tool.",
             "keywords": [
                 "laravel",
                 "nova"

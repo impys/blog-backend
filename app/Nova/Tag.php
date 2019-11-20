@@ -5,24 +5,22 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Qingfengbaili\PostEditor\PostEditor;
-use Qingfengbaili\TagAutocomplete\TagAutocomplete;
 
-class Post extends Resource
+class Tag extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Post::class;
+    public static $model = \App\Tag::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'title';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -31,6 +29,7 @@ class Post extends Resource
      */
     public static $search = [
         'id',
+        'name'
     ];
 
     /**
@@ -44,20 +43,9 @@ class Post extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('Title')
+            Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
-
-            PostEditor::make('body')->hideFromIndex(),
-
-            TagAutocomplete::make()->withMeta([
-                'tags' => $this
-                    ->tags()
-                    ->latest()
-                    ->get()
-                    ->pluck('name')
-                    ->toArray()
-            ])
         ];
     }
 

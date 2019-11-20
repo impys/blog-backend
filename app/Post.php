@@ -3,11 +3,9 @@
 namespace App;
 
 use App\Traits\HasEnable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Markdown;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Stichoza\GoogleTranslate\GoogleTranslate;
 use Laravel\Scout\Searchable;
 
 class Post extends Model
@@ -48,6 +46,11 @@ class Post extends Model
         return $array;
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
     public function scopeMostVisit($query)
     {
         return $query->orderBy('visited_count', 'desc');
@@ -66,6 +69,11 @@ class Post extends Model
     public function getUpdatedAtHumanAttribute()
     {
         return $this->updated_at->diffForHumans();
+    }
+
+    public function makeTag(Collection $tags)
+    {
+        $this->tags()->sync($tags->pluck('id')->toArray());
     }
 
     // public function fillSlug()
