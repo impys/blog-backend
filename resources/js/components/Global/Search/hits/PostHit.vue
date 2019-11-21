@@ -1,9 +1,19 @@
 <template>
   <div class="flex flex-col w-full">
-    <div class="relative mt-2 pb-2 border-b border-gray-300 w-full text-gray-700">
-      <a :href="'/posts/' + data.id" class="block w-full h-full absolute left-0 top-0 z-10"></a>
-      <h2 class="text-base mb-1 w-full" v-html="data.title"></h2>
-      <div class="text-sm w-full" v-html="data.body"></div>
+    <div class="mt-2 pb-2 w-full text-gray-700">
+      <a :href="'/posts/' + data.id" class="outline-none block text-lg mb-2" v-html="data.title"></a>
+      <div class="text-sm mb-2 w-full text-gray-600" v-html="data.body"></div>
+      <div class="flex text-xs" v-if="data.tags.length">
+        <div class="mr-1">
+          <i class="fas fa-tags"></i>
+        </div>
+        <a
+          v-for="(tag,index) in data.tags"
+          :href="'/tags/' + tag.id"
+          :key="index"
+          class="outline-none block text-gray-600 rounded bg-gray-100 px-1 mr-1"
+        >{{ tag.name }}</a>
+      </div>
     </div>
   </div>
 </template>

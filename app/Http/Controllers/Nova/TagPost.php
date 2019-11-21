@@ -21,6 +21,6 @@ class TagPost extends Controller
 
         $tags = Tag::findOrCreateByNames($tagNames);
 
-        $post->makeTag($tags);
+        $post->makeTag($tags)->searchable();
     }
 }

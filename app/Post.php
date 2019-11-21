@@ -43,6 +43,8 @@ class Post extends Model
 
         $array['body'] = strip_tags(Markdown::parse($this->body));
 
+        $array['tags'] = $this->buildTagsForSearch();
+
         return $array;
     }
 
@@ -74,6 +76,19 @@ class Post extends Model
     public function makeTag(Collection $tags)
     {
         $this->tags()->sync($tags->pluck('id')->toArray());
+        return $this;
+    }
+
+    public function buildTagsForSearch(): array
+    {
+        return $this->tags
+            ->map(function ($tag) {
+                return [
+                    'id' => $tag->id,
+                    'name' => $tag->name,
+                ];
+            })
+            ->toArray();
     }
 
     // public function fillSlug()
