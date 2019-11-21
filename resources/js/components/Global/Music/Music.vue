@@ -51,7 +51,7 @@ export default {
         title: "世间美好与你环环相扣",
         artist: "柏松",
         src:
-          "http://m7.music.126.net/20191121154933/4a8d2c0212d7ea16b7bbc510f220bc14/ymusic/0459/045c/520c/330c359473365e50a368ef0d43bc612f.mp3"
+          "https://asset.moreless.blog/file/moreless-public/default/default.mp3"
       }
     };
   },
