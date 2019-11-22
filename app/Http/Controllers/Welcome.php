@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\PostsResource;
 use App\Post;
 use Illuminate\Http\Request;
 
-class FetchPosts extends Controller
+class Welcome extends Controller
 {
     /**
      * Handle the incoming request.
@@ -21,6 +20,6 @@ class FetchPosts extends Controller
             // ->latest()
             ->paginate(POST::SIZE);
 
-        return PostsResource::collection($posts);
+        return view('Welcome', ['data' => $posts]);
     }
 }

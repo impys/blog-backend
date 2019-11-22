@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row justify-between">
-    <main-content></main-content>
+    <main-content :data="data"></main-content>
     <sidebar></sidebar>
   </div>
 </template>
@@ -12,6 +12,8 @@ export default {
   components: {
     MainContent,
     Sidebar
-  }
+  },
+
+  props: ["data"]
 };
 </script>

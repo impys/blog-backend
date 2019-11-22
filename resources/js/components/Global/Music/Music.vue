@@ -7,7 +7,6 @@
       :music="music"
       :list="list"
       theme="#fc8181"
-      listMaxHeight="289px"
     />
     <div
       class="border-gray-300 rounded-full border h-6 absolute w-1/4 z-10 bg-white"
@@ -94,6 +93,10 @@ export default {
   margin: 0 !important;
   * {
     outline: none;
+    font-size: 0.75rem !important;
+  }
+  .aplayer-title {
+    font-size: 0.875rem !important;
   }
   .aplayer-info {
     padding-right: 0;

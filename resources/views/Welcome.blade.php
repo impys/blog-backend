@@ -4,6 +4,6 @@
 
 @section('content')
 
-<welcome></welcome>
+<welcome :data='@json($data)'></welcome>
 
 @endsection

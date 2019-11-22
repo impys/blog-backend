@@ -1,7 +1,7 @@
 <template>
   <div class="lg:w-2/3 sm:w-full">
     <posts :posts="posts"></posts>
-    <paginator :lastPage="meta.last_page" v-if="meta"></paginator>
+    <paginator :lastPage="lastPage" v-if="lastPage"></paginator>
   </div>
 </template>
 
@@ -12,17 +12,19 @@ export default {
     Posts
   },
 
+  props: ["data"],
+
   data() {
     return {
-      posts: null,
-      meta: null,
-      currentPage: 1,
-      size: 21
+      posts: this.data.data,
+      lastPage: this.data.last_page,
+      currentPage: 1
     };
   },
 
   mounted() {
-    this.fetchPost();
+    // this.fetchPost();
+    console.log(this.data);
     EventHub.$on("updateCurrentPage", currentPage => {
       this.scrollToTop();
       this.updateCurrentPage(currentPage);
@@ -40,13 +42,12 @@ export default {
       axios
         .get("/posts", {
           params: {
-            page: this.currentPage,
-            size: this.size
+            page: this.currentPage
           }
         })
         .then(res => {
           this.posts = res.data.data;
-          this.meta = res.data.meta;
+          console.log(res.data);
         })
         .catch(e => {});
     },

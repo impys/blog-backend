@@ -12,7 +12,7 @@
         type="text"
         v-model="query"
         @keyup.enter="search"
-        class="outline-none border-transparent text-base bg-transparent h-6 w-full z-10"
+        class="outline-none border-transparent text-sm bg-transparent h-6 w-full z-10"
       />
       <i
         class="fas fa-times text-lg block mx-2 text-gray-400 cursor-pointer"
