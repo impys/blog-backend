@@ -50,6 +50,7 @@ export default {
     },
     updateCurrentPage(currentPage) {
       this.currentPage = currentPage;
+      this.fetchPost();
     },
     scrollToTop() {
       window.scrollTo({
