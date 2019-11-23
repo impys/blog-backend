@@ -104,9 +104,8 @@ class Post extends Model
 
     public function getCoverAttribute(): ?string
     {
-        // preg_match_all("/<img(.*)>/U", Markdown::parse($this->body), $res);
         preg_match_all("/\!\[\]\((.*)\)/U", $this->body, $res);
-        dump($res);
+        
         if (count($res[0])) {
             return $res[1][0];
         } else {
