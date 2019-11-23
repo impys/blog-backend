@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 
 class File extends Model
 {
@@ -35,11 +36,23 @@ class File extends Model
 
     public static function newInstanceForUploadFile(UploadedFile $uploadedFile): self
     {
-        $mime = $uploadedFile->getClientMimeType();
-        $extension = $uploadedFile->extension();
+        [$mime, $extension] = self::getExtensionAndMime($uploadedFile);
+
         $file = new File();
         $file->name = $file->name . '.' . $extension;
         $file->type = $mime;
         return $file;
+    }
+
+    protected static function getExtensionAndMime(UploadedFile $uploadedFile)
+    {
+        $mime = $uploadedFile->getClientMimeType();
+        $extension = $uploadedFile->extension();
+        if (Str::contains($mime, 'image')) {
+            $mime = 'image/webp';
+            $extension = 'webp';
+        }
+
+        return [$mime, $extension];
     }
 }

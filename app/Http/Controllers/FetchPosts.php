@@ -18,7 +18,7 @@ class FetchPosts extends Controller
     {
         $posts = Post::query()
             ->with('tags')
-            // ->latest()
+            ->latest()
             ->paginate(POST::SIZE);
 
         return PostsResource::collection($posts);

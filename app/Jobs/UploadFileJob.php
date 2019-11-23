@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class UploadFileJob implements ShouldQueue
 {
@@ -36,6 +37,8 @@ class UploadFileJob implements ShouldQueue
     {
         $file = base64_decode($this->base64File);
 
-        Storage::disk('b2')->put('/' . $this->name, $file);
+        $image = (string) Image::make($file)->encode('webp');
+
+        Storage::disk('b2')->put('/' . $this->name, $image);
     }
 }

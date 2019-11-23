@@ -5,6 +5,8 @@
         <i class="fas fa-thumbtack"></i>
       </div>
 
+      <img :src="post.cover" height="20px" alt />
+
       <div class="flex items-center justify-between mx-4 my-2">
         <a :href="'/posts/' + post.id" class="outline-none block text-sm z-10">{{ post.title }}</a>
       </div>

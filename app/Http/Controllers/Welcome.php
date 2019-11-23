@@ -17,7 +17,7 @@ class Welcome extends Controller
     {
         $posts = Post::query()
             ->with('tags')
-            // ->latest()
+            ->latest()
             ->paginate(POST::SIZE);
 
         return view('Welcome', ['data' => $posts]);

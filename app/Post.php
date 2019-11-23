@@ -26,7 +26,11 @@ class Post extends Model
 
     protected $appends = [
         'created_at_human',
-        'updated_at_human'
+        'updated_at_human',
+        'length',
+        'audio_count',
+        'video_count',
+        'cover',
     ];
 
     public function searchableAs()
@@ -73,6 +77,41 @@ class Post extends Model
     public function getUpdatedAtHumanAttribute()
     {
         return $this->updated_at->diffForHumans();
+    }
+
+    public function getLengthAttribute(): string
+    {
+        $length = mb_strlen($this->body, 'utf-8');
+
+        if ($length > 300) {
+            return 'more';
+        } else {
+            return 'less';
+        }
+    }
+
+    public function getAudioCountAttribute(): int
+    {
+        preg_match_all("/<audio(.*)>(.*)<\/audio>/U", $this->body, $res);
+        return count($res[0]);
+    }
+
+    public function getVideoCountAttribute(): int
+    {
+        preg_match_all("/<video(.*)>(.*)<\/video>/U", $this->body, $res);
+        return count($res[0]);
+    }
+
+    public function getCoverAttribute(): ?string
+    {
+        // preg_match_all("/<img(.*)>/U", Markdown::parse($this->body), $res);
+        preg_match_all("/\!\[\]\((.*)\)/U", $this->body, $res);
+        dump($res);
+        if (count($res[0])) {
+            return $res[1][0];
+        } else {
+            return null;
+        }
     }
 
     public function makeTag(Collection $tags)

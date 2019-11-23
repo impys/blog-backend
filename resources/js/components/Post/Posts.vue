@@ -18,7 +18,7 @@ export default {
 
 <style lang="scss">
 .custom__masonry {
-  column-count: 2;
+  column-count: 1;
   column-gap: 0;
   counter-reset: item-counter;
 
@@ -31,11 +31,11 @@ export default {
 //   }
 
   @media screen and (min-width: 1024px) {
-    column-count: 3;
+    column-count: 2;
   }
 
   @media screen and (min-width: 1280px) {
-    column-count: 4;
+    column-count: 3;
   }
 }
 

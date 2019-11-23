@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Qingfengbaili\PostEditor\PostEditor;
 use Qingfengbaili\TagAutocomplete\TagAutocomplete;
@@ -33,6 +34,10 @@ class Post extends Resource
         'id',
     ];
 
+    public static $with = [
+        'tags',
+    ];
+
     /**
      * Get the fields displayed by the resource.
      *
@@ -47,6 +52,25 @@ class Post extends Resource
             Text::make('Title')
                 ->sortable()
                 ->rules('required', 'max:255'),
+
+            Image::make('Cover')
+                ->preview(function () {
+                    return $this->cover;
+                })
+                ->thumbnail(function () {
+                    return $this->cover;
+                })
+                ->onlyOnDetail(),
+
+            Text::make('Tags', function () {
+                return $this->tags->pluck('name')->implode('、');
+            }),
+
+            Text::make('Length')->exceptOnForms(),
+
+            Text::make('Audio Count')->exceptOnForms(),
+
+            Text::make('Video Count')->exceptOnForms(),
 
             PostEditor::make('body')->hideFromIndex(),
 
