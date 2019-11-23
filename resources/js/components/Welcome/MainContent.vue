@@ -23,8 +23,6 @@ export default {
   },
 
   mounted() {
-    // this.fetchPost();
-    console.log(this.data);
     EventHub.$on("updateCurrentPage", currentPage => {
       this.scrollToTop();
       this.updateCurrentPage(currentPage);
@@ -47,7 +45,6 @@ export default {
         })
         .then(res => {
           this.posts = res.data.data;
-          console.log(res.data);
         })
         .catch(e => {});
     },
