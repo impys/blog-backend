@@ -1,12 +1,12 @@
 <template>
   <div class="px-4 pb-8">
-    <div class="relative rounded border border hover:shadow-lg">
+    <div class="relative rounded border border-gray-700 hover:shadow-lg">
       <div class="absolute right-0 text-red-700 top-0 mr-2 mt-1 rotate-45" v-if="post.is_top">
         <i class="fas fa-thumbtack"></i>
       </div>
 
       <a :href="'/posts/' + post.id" class="outline-none block text-sm">
-        <img :src="post.cover" :alt="post.title" v-if="post.cover" />
+        <img :src="post.cover" :alt="post.title" v-if="post.cover" class="rounded-t" />
       </a>
 
       <div class="flex items-center justify-between mx-4 my-2">
