@@ -13,8 +13,6 @@
 <script>
 export default {
   props: ["lastPage"],
-  computed: {},
-  mounted() {},
   data() {
     return {
       currentPage: 1
