@@ -33,13 +33,6 @@
         </div>
       </div>
     </div>
-    <div class="flex">
-      <button
-        type="button"
-        class="btn btn-default btn-primary inline-flex items-center relative ml-auto mr-3"
-        @click="submit"
-      >确认</button>
-    </div>
   </div>
 </template>
 
@@ -57,6 +50,13 @@ export default {
       tags: this.panel.fields[0].tags || []
     };
   },
+
+  watch: {
+    tags: function(newValue, oldValue) {
+      this.submit();
+    }
+  },
+
   methods: {
     addTag() {
       let index = this.tags.findIndex(tag => {
@@ -64,7 +64,7 @@ export default {
       });
 
       if (index != -1) {
-        this.$toasted.show("标签已经存在", { type: "success" });
+        this.$toasted.show("标签已经存在", { type: "error" });
       } else {
         this.tags.unshift(this.tag);
       }
