@@ -39,7 +39,7 @@
 
           <div
             class="flex flex-row flex-wrap items-center content-start w-1/2"
-            v-if="allTags.length"
+            v-if="unselectedAllTags.length"
           >
             <div
               class="flex justify-center py-2 w-1/5 break-words text-80"
