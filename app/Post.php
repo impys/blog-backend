@@ -13,7 +13,7 @@ class Post extends Model
     use HasEnable;
     use Searchable;
 
-    const SIZE = 21;
+    const SIZE = 30;
 
     protected $fillable = [
         'title',
@@ -57,6 +57,15 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function scopeInTagIds($query, $tagIds)
+    {
+        return $query->whereHas('tags', function ($query) use ($tagIds) {
+            return $query->when(count($tagIds), function ($query) use ($tagIds) {
+                return $query->whereIn('id', $tagIds);
+            });
+        });
     }
 
     public function scopeMostVisit($query)
@@ -105,7 +114,7 @@ class Post extends Model
     public function getCoverAttribute(): ?string
     {
         preg_match_all("/\!\[\]\((.*)\)/U", $this->body, $res);
-        
+
         if (count($res[0])) {
             return $res[1][0];
         } else {
@@ -129,6 +138,17 @@ class Post extends Model
                 ];
             })
             ->toArray();
+    }
+
+    public static function getPostPaginator(?array $tagIds)
+    {
+        return self::query()
+            ->with('tags')
+            ->when($tagIds, function ($query) use ($tagIds) {
+                return $query->inTagIds($tagIds);
+            })
+            ->latest()
+            ->paginate(self::SIZE);
     }
 
     // public function fillSlug()

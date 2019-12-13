@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row justify-between">
     <main-content :data="data"></main-content>
-    <sidebar></sidebar>
+    <sidebar :tags="data.tags"></sidebar>
   </div>
 </template>
 

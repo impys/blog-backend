@@ -7,12 +7,7 @@
         <div class="mr-1">
           <i class="fas fa-tags"></i>
         </div>
-        <a
-          v-for="(tag,index) in data.tags"
-          :href="'/tags/' + tag.id"
-          :key="index"
-          class="outline-none block text-gray-600 rounded bg-gray-100 px-1 mr-1"
-        >{{ tag.name }}</a>
+        <tags :tags="data.tags"></tags>
       </div>
     </div>
   </div>

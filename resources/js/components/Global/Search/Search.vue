@@ -94,7 +94,6 @@ export default {
         })
         .then(res => {
           this.searchSuccess();
-          console.log(res.data);
           this.data = res.data;
         })
         .catch(e => {

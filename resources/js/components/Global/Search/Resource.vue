@@ -24,9 +24,6 @@ export default {
   components: {
     PostHit
   },
-  props: ["resource"],
-  mounted() {}
+  props: ["resource"]
 };
 </script>
-<style lang="scss">
-</style>

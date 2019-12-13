@@ -16,10 +16,9 @@ class FetchPosts extends Controller
      */
     public function __invoke(Request $request)
     {
-        $posts = Post::query()
-            ->with('tags')
-            ->latest()
-            ->paginate(POST::SIZE);
+        $tagIds = json_decode($request->input('tags'));
+
+        $posts = Post::getPostPaginator($tagIds);
 
         return PostsResource::collection($posts);
     }

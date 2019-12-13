@@ -1,7 +1,7 @@
 <template>
   <div class="lg:w-2/3 sm:w-full">
     <posts :posts="posts"></posts>
-    <paginator :lastPage="lastPage" v-if="lastPage"></paginator>
+    <paginator :lastPage="lastPage" v-if="lastPage > 1"></paginator>
   </div>
 </template>
 
@@ -16,22 +16,25 @@ export default {
 
   data() {
     return {
-      posts: this.data.data,
-      lastPage: this.data.last_page,
-      currentPage: 1
+      posts: this.data.posts.data,
+      lastPage: this.data.posts.last_page,
+      currentPage: 1,
+      tagIds: []
     };
   },
 
   mounted() {
-    EventHub.$on("updateCurrentPage", currentPage => {
-      this.scrollToTop();
-      this.updateCurrentPage(currentPage);
+    EventHub.$on("clickPaginationButton", currentPage => {
+      this.handleClickPaginationButton(currentPage);
+    });
+    EventHub.$on("clickTag", selectedTagIds => {
+      this.handleCilckTag(selectedTagIds);
     });
   },
 
   watch: {
     currentPage: function(newValue, oldValue) {
-      this.fetchPost();
+      EventHub.$emit("updatePaginatorCurrentPage", this.currentPage);
     }
   },
 
@@ -40,18 +43,29 @@ export default {
       axios
         .get("/posts", {
           params: {
-            page: this.currentPage
+            page: this.currentPage,
+            tags: JSON.stringify(this.tagIds)
           }
         })
         .then(res => {
           this.posts = res.data.data;
+          this.lastPage = res.data.meta.last_page;
+          this.scrollToTop();
         })
         .catch(e => {});
     },
-    updateCurrentPage(currentPage) {
+
+    handleClickPaginationButton(currentPage) {
       this.currentPage = currentPage;
       this.fetchPost();
     },
+
+    handleCilckTag(selectedTagIds) {
+      this.tagIds = selectedTagIds;
+      this.currentPage = 1;
+      this.fetchPost();
+    },
+
     scrollToTop() {
       window.scrollTo({
         top: 0,

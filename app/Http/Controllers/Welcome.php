@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 
 class Welcome extends Controller
@@ -15,11 +16,19 @@ class Welcome extends Controller
      */
     public function __invoke(Request $request)
     {
-        $posts = Post::query()
-            ->with('tags')
-            ->latest()
-            ->paginate(POST::SIZE);
+        $tagIds = json_decode($request->input('tags'));
 
-        return view('Welcome', ['data' => $posts]);
+        $posts = Post::getPostPaginator($tagIds);
+
+        $tags = Tag::query()
+            ->withCount('posts')
+            ->get();
+
+        return view('Welcome', [
+            'data' => [
+                'posts' => $posts,
+                'tags' => $tags
+            ],
+        ]);
     }
 }

@@ -100,6 +100,9 @@ export default {
   }
   .aplayer-info {
     padding-right: 0;
+    .aplayer-title {
+      color: #4a5568;
+    }
   }
   .aplayer-pic {
     background-image: none;

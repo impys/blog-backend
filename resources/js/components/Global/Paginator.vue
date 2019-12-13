@@ -4,7 +4,7 @@
       <div
         class="flex items-center justify-center border-gray-700 border rounded-full mb-2 w-8 h-8 cursor-pointer"
         v-bind:class="[ (n == currentPage) ? 'border-red-400':'',(n == currentPage) ? 'text-red-400':'']"
-        v-on:click="handleCurrnetPage(n)"
+        v-on:click="clickPaginationButton(n)"
       >{{ n }}</div>
     </div>
   </div>
@@ -18,10 +18,16 @@ export default {
       currentPage: 1
     };
   },
-  methods: {
-    handleCurrnetPage(currentPage) {
+  mounted() {
+    EventHub.$on("updatePaginatorCurrentPage", currentPage => {
       this.currentPage = currentPage;
-      EventHub.$emit("updateCurrentPage", currentPage);
+    });
+  },
+
+  methods: {
+    clickPaginationButton(currentPage) {
+      this.currentPage = currentPage;
+      EventHub.$emit("clickPaginationButton", currentPage);
     }
   }
 };

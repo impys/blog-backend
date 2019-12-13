@@ -17,12 +17,7 @@
         <div class="mr-1">
           <i class="fas fa-tags"></i>
         </div>
-        <a
-          v-for="(tag,index) in post.tags"
-          :href="'/tags/' + tag.id"
-          :key="index"
-          class="outline-none block text-gray-600 rounded bg-gray-100 px-1 mr-1 z-10"
-        >{{ tag.name }}</a>
+        <tags :tags="post.tags"></tags>
       </div>
 
       <div class="flex items-center justify-between mx-4 my-2 text-xs text-gray-600">
