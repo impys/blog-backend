@@ -21,7 +21,7 @@ class Welcome extends Controller
         $posts = Post::getPostPaginator($tagIds);
 
         $tags = Tag::query()
-            ->withCount('posts')
+            ->hasPosts()
             ->get();
 
         return view('Welcome', [

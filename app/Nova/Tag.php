@@ -46,6 +46,9 @@ class Tag extends Resource
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
+
+            Text::make('Posts Count')
+                ->exceptOnForms(),
         ];
     }
 
