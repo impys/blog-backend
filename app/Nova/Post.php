@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Tag;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Image;
@@ -79,6 +80,9 @@ class Post extends Resource
                     ->tags()
                     ->latest()
                     ->get()
+                    ->pluck('name')
+                    ->toArray(),
+                'allTags' => Tag::all()
                     ->pluck('name')
                     ->toArray()
             ])
