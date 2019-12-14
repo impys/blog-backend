@@ -1,17 +1,14 @@
 <template>
   <div class="px-4 pb-8">
     <div class="relative rounded border border-gray-700 hover:shadow-lg">
+      <a :href="'/posts/' + post.id" class="absolute top-0 left-0 z-10 w-full h-full"></a>
       <div class="absolute right-0 text-red-700 top-0 mr-2 mt-1 rotate-45" v-if="post.is_top">
         <i class="fas fa-thumbtack"></i>
       </div>
 
-      <a :href="'/posts/' + post.id" class="outline-none block text-sm">
-        <img :src="post.cover" :alt="post.title" v-if="post.cover" class="rounded-t" />
-      </a>
+      <img :src="post.cover" :alt="post.title" v-if="post.cover" class="rounded-t" />
 
-      <div class="flex items-center justify-between mx-4 my-2">
-        <a :href="'/posts/' + post.id" class="outline-none block text-sm">{{ post.title }}</a>
-      </div>
+      <div class="flex items-center justify-between mx-4 my-2">{{ post.title }}</div>
 
       <div class="flex text-xs mx-4 my-2" v-if="post.tags.length">
         <div class="mr-1">
@@ -21,7 +18,7 @@
       </div>
 
       <div class="flex items-center justify-between mx-4 my-2 text-xs text-gray-600">
-        <div class="mr-2">{{ post.created_at_human }}</div>
+        <div class="mr-2">{{ post.updated_at_human }}</div>
         <!-- <div class="flex">
           <div class="mr-2">
             <i class="far fa-heart"></i>
