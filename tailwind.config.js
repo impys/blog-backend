@@ -15,6 +15,7 @@ module.exports = {
             '3/4': '75%',
             'full': '100%',
             'vh-96': '96vh',
+            'vh-92': '80vh',
         },
     },
     variants: {},

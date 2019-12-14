@@ -1,7 +1,9 @@
 <template>
   <div
     class="w-full sm:w-full lg:w-1/3 max-h-vh-96 bg-white custom__box-shadow rounded-lg flex flex-col"
-    v-bind:class="[loaded ? 'h-auto' : 'h-10']"
+    v-bind:class="[loaded && !hidden ? 'h-auto' : 'h-10']"
+    @mouseenter="handleMouseEnter()"
+    @mouseleave="handleMouseLeave()"
   >
     <div class="flex h-10 flex-row items-center min-h-10">
       <transition name="slide-fade" mode="out-in">
@@ -10,6 +12,7 @@
       </transition>
       <input
         type="text"
+        ref="searchInput"
         v-model="query"
         @keyup.enter="search"
         class="outline-none border-transparent text-sm bg-transparent h-6 w-full z-10"
@@ -20,17 +23,13 @@
         @click="resetSearchInput()"
       ></i>
     </div>
-    <div class="overflow-scroll min-h-10 flex items-center" v-if="loaded">
-      <div v-if="hasSearchResult">
-        <div v-for="(resource,index) in data" :key="index">
-          <resource :resource="resource" v-if="resource.data.length"></resource>
-        </div>
+
+    <div v-if="loaded && !hidden" class="overflow-y-auto">
+      <div v-for="(resource,index) in data" :key="index">
+        <resource :resource="resource" v-if="resource.data.length"></resource>
       </div>
-      <div v-if="!hasSearchResult && !failed" class="flex justify-center w-full">
-        <no-result></no-result>
-      </div>
-      <div v-if="failed" class="flex justify-center w-full">
-        <failed></failed>
+      <div class="flex justify-center mb-2">
+        <i class="far fa-frown text-lg block" key="noresult" v-if="!hasSearchResult || failed"></i>
       </div>
     </div>
   </div>
@@ -41,21 +40,18 @@
 const SEARCH_API = "/search";
 import LoadingIcon from "./LoadingIcon";
 import Resource from "./Resource";
-import NoResult from "./NoResult";
-import Failed from "./Failed";
 
 export default {
   components: {
     LoadingIcon,
-    Resource,
-    NoResult,
-    Failed
+    Resource
   },
   data() {
     return {
       loading: false,
       loaded: false,
       failed: false,
+      hidden: true,
       query: "",
       data: []
     };
@@ -113,6 +109,16 @@ export default {
     searchSuccess() {
       this.loading = false;
       this.loaded = true;
+      this.hidden = false;
+    },
+    handleMouseEnter() {
+      this.$refs.searchInput.focus();
+      if (this.loaded) {
+        this.hidden = false;
+      }
+    },
+    handleMouseLeave() {
+      this.hidden = true;
     }
   }
 };

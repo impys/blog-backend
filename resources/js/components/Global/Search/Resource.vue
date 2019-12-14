@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap mb-2 pb-2 bg-white" style="margin:216px 34px 0 34px">
+  <div class="flex flex-wrap mb-2 pb-2 bg-white" style="margin:0 34px">
     <div class="mb-2 w-full flex justify-between sticky bg-white z-10" style="top:0">
       <div>
         <h2 class="text-base">{{ resource.label_zh }}</h2>
