@@ -45,7 +45,7 @@ class Post extends Model
 
     public function searchableAs()
     {
-        return 'blog_posts_index';
+        return config('scout.posts_index');
     }
 
     public function shouldBeSearchable()

@@ -88,4 +88,6 @@ return [
         'secret' => env('ALGOLIA_SECRET', ''),
     ],
 
+    'posts_index' => env('POSTS_INDEX', ''),
+
 ];
