@@ -42,13 +42,53 @@
         </div>
       </div>
 
-      <div v-html="post.first_video" v-if="post.first_video" class="outline-none rounded-t"></div>
+      <div
+        @mouseenter="handleMouseEnter()"
+        @mouseleave="handleMouseLeave()"
+        v-html="post.first_video"
+        v-if="post.first_video"
+        class="outline-none rounded-t"
+        :id="'video-'+post.id"
+      ></div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["post"]
+  props: ["post"],
+
+  mounted() {
+    this.initVideoControls();
+  },
+
+  methods: {
+    handleMouseEnter() {
+      this.toggleVideoControls();
+    },
+
+    handleMouseLeave() {
+      this.toggleVideoControls();
+    },
+
+    toggleVideoControls(postId) {
+      let id = "#video-" + this.post.id;
+      let video = document.querySelector(id).childNodes[0];
+      if (video.hasAttribute("controls")) {
+        video.removeAttribute("controls");
+      } else {
+        video.setAttribute("controls", "controls");
+      }
+    },
+
+    initVideoControls() {
+      let videos = document.querySelectorAll("video");
+      videos.forEach(video => {
+        if (video.hasAttribute("controls")) {
+          video.removeAttribute("controls");
+        }
+      });
+    }
+  }
 };
 </script>
