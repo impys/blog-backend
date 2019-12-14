@@ -36,7 +36,7 @@ class Post extends Model
 
     public function searchableAs()
     {
-        return 'moreless_post_index';
+        return 'blog_posts_index';
     }
 
     public function shouldBeSearchable()
