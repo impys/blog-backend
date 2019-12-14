@@ -30,6 +30,7 @@ class Post extends Model
         'length',
         'audio_count',
         'video_count',
+        'first_video',
         'cover',
     ];
 
@@ -109,6 +110,17 @@ class Post extends Model
     {
         preg_match_all("/<video(.*)>(.*)<\/video>/U", $this->body, $res);
         return count($res[0]);
+    }
+
+    public function getFirstVideoAttribute(): ?string
+    {
+        preg_match_all("/<video(.*)>(.*)<\/video>/U", $this->body, $res);
+
+        if (count($res[0])) {
+            return $res[0][0];
+        }
+
+        return null;
     }
 
     public function getCoverAttribute(): ?string
