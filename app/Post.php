@@ -34,6 +34,15 @@ class Post extends Model
         'cover',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($post) {
+            $post->user_id = auth()->user()->id;
+        });
+    }
+
     public function searchableAs()
     {
         return 'blog_posts_index';
@@ -53,6 +62,11 @@ class Post extends Model
         $array['tags'] = $this->buildTagsForSearch();
 
         return $array;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function tags()

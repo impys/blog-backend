@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Tag;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Qingfengbaili\PostEditor\PostEditor;
@@ -74,6 +75,8 @@ class Post extends Resource
             Text::make('Video Count')->exceptOnForms(),
 
             PostEditor::make('body')->hideFromIndex(),
+
+            BelongsTo::make('User')->hideWhenCreating()->hideWhenUpdating(),
 
             TagAutocomplete::make()->withMeta([
                 'tags' => $this
