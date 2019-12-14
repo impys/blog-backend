@@ -17,6 +17,11 @@ module.exports = {
             'vh-96': '96vh',
             'vh-92': '80vh',
         },
+        extend: {
+            colors: {
+                'primary': '#fc8181',
+            }
+        },
     },
     variants: {},
     plugins: [

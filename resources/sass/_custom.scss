@@ -1,3 +1,11 @@
+:root {
+    --color-primary: #fc8181;
+}
+
+* {
+    outline: none;
+}
+
 .custom__border {
     border: 1px solid #4a5568; //700
     border-radius: 2% 2% 6% 4% / 1% 1% 3% 4%;
@@ -19,8 +27,4 @@
         transform: translate3d(-50%, -50%, 0) scale(1.015) rotate(0.5deg);
         border-radius: 1% 1% 2% 4% / 2% 6% 5% 4%;
     }
-}
-
-video {
-    outline: none;
 }

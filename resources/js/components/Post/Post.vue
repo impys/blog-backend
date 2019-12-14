@@ -18,7 +18,7 @@
 
       <div class="relative">
         <div
-          class="absolute text-xs text-red-400 mr-2 mt-1 rotate-45"
+          class="absolute text-xs text-primary mr-2 mt-1 rotate-45"
           v-if="post.is_top"
           style="right:0;top:-2px"
         >
@@ -56,7 +56,7 @@
         @mouseleave="handleMouseLeave()"
         v-html="post.first_video"
         v-if="post.first_video"
-        class="outline-none rounded-t"
+        class="rounded-t"
         :id="'video-'+post.id"
       ></div>
     </div>

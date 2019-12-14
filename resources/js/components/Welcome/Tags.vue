@@ -2,7 +2,7 @@
   <div class="flex flex-wrap -mx-1 justify-between customer__tags">
     <div
       class="inline-block mx-1 mb-1 border px-1 rounded text-xs cursor-pointer"
-      v-bind:class="[ isSelected(tag) ? 'bg-red-400':'',isSelected(tag) ? 'text-white':'',isSelected(tag) ? 'border-red-400':'']"
+      v-bind:class="[ isSelected(tag) ? 'bg-primary':'',isSelected(tag) ? 'text-white':'',isSelected(tag) ? 'border-primary':'']"
       v-for="(tag,index) in tags"
       :key="index"
       v-on:click="clickTag(tag)"

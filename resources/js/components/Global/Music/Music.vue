@@ -16,7 +16,7 @@
         type="text"
         v-model="query"
         @keyup.enter="search"
-        class="outline-none border-transparent text-xs px-2 bg-transparent h-atuo w-full pr-6"
+        class="border-transparent text-xs px-2 bg-transparent h-atuo w-full pr-6"
       />
     </div>
     <loading-icon key="loading" class="absolute z-10" v-if="loading" style="top:7px;right:-1px;"></loading-icon>
@@ -106,7 +106,7 @@ export default {
   }
   .aplayer-pic {
     background-image: none;
-    background-color: #fc8181;
+    background-color: var(--color-primary);
   }
   .aplayer-pic .aplayer-pause .aplayer-icon-pause {
     position: absolute;
