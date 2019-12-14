@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class UploadService
 {
-    const END_POINT = 'https://asset.qingfeng.blog/file/qingfeng-public/';
+    const END_POINT = 'https://assets.qingfeng.blog/file/qingfeng-public/';
 
     public function store(UploadedFile $uploadedFile): string
     {

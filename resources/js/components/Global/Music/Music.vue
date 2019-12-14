@@ -50,7 +50,7 @@ export default {
         title: "世间美好与你环环相扣",
         artist: "柏松",
         src:
-          "https://asset.qingfeng.blog/file/qingfeng-public/default/default.mp3"
+          "https://assets.qingfeng.blog/file/qingfeng-public/default/default.mp3"
       }
     };
   },
