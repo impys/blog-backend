@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap">
+  <div class="flex flex-wrap justify-between customer__tags">
     <div
       v-for="(tag,index) in tags"
       :key="index"
@@ -13,3 +13,10 @@ export default {
   props: ["tags"]
 };
 </script>
+
+<style lang="scss">
+.customer__tags::after {
+  content: "";
+  flex: auto;
+}
+</style>
