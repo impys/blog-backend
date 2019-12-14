@@ -1,11 +1,20 @@
 <template>
   <div class="px-4 pb-8">
     <div class="rounded border border-gray-700 hover:shadow-lg">
-      <div v-if="post.cover && !post.first_video">
-        <a :href="'/posts/' + post.id">
-          <img :src="post.cover" :alt="post.title" v-if="post.cover" class="rounded-t" />
-        </a>
-      </div>
+      <a
+        class="block"
+        :href="'/posts/' + post.id"
+        v-if="post.cover && !post.first_video"
+        id="custom_cover-image"
+      >
+        <img
+          :src="post.cover"
+          :alt="post.title"
+          v-if="post.cover"
+          class="rounded-t w-full"
+          @load="hanldeImageLoad"
+        />
+      </a>
 
       <div class="relative">
         <div
@@ -58,8 +67,8 @@
 export default {
   props: ["post"],
 
-  mounted() {
-    this.initVideoControls();
+  data() {
+    return {};
   },
 
   methods: {
@@ -71,6 +80,9 @@ export default {
       this.toggleVideoControls();
     },
 
+    /**
+     * show or hidden this video control panel by dom id
+     */
     toggleVideoControls(postId) {
       let id = "#video-" + this.post.id;
       let video = document.querySelector(id).childNodes[0];
@@ -81,14 +93,31 @@ export default {
       }
     },
 
-    initVideoControls() {
-      let videos = document.querySelectorAll("video");
-      videos.forEach(video => {
-        if (video.hasAttribute("controls")) {
-          video.removeAttribute("controls");
-        }
-      });
+    hanldeImageLoad(e) {
+      let image = e.path[0];
+      if (image.complete) {
+        let customCoverImage = document.querySelector("#custom_cover-image");
+        let clientHeight = this.calculateImageClientHeight(image);
+        customCoverImage.style.maxHeight = clientHeight + "px";
+        customCoverImage.style.opacity = 1;
+      }
+    },
+
+    calculateImageClientHeight(image) {
+      let clientWidth = image.clientWidth;
+      let naturalHeight = image.naturalHeight;
+      let naturalWidth = image.naturalWidth;
+      let clientHeight = (naturalHeight / naturalWidth) * clientWidth;
+      return clientHeight;
     }
   }
 };
 </script>
+
+<style lang="scss">
+#custom_cover-image {
+  max-height: 0;
+  opacity: 0;
+  transition: 0.5s max-height ease-in, 0.5s opacity ease-in;
+}
+</style>

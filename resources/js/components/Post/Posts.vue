@@ -12,6 +12,30 @@ export default {
 
   components: {
     Post
+  },
+
+  mounted() {
+    this.initVideos();
+  },
+
+  data() {
+    return {
+      videos: null
+    };
+  },
+
+  methods: {
+    /**
+     * remove controls attribute of all video dom for hidden control panel
+     */
+    initVideos() {
+      let videos = document.querySelectorAll("video");
+      videos.forEach(video => {
+        if (video.hasAttribute("controls")) {
+          video.removeAttribute("controls");
+        }
+      });
+    }
   }
 };
 </script>
@@ -22,13 +46,13 @@ export default {
   column-gap: 0;
   counter-reset: item-counter;
 
-//   @media screen and (min-width: 300px) {
-//     column-count: 2;
-//   }
+  //   @media screen and (min-width: 300px) {
+  //     column-count: 2;
+  //   }
 
-//   @media screen and (min-width: 768px) {
-//     column-count: 2;
-//   }
+  //   @media screen and (min-width: 768px) {
+  //     column-count: 2;
+  //   }
 
   @media screen and (min-width: 1024px) {
     column-count: 2;
