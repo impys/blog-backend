@@ -7,7 +7,7 @@
         v-if="post.cover && !post.first_video"
       >
         <div v-bind:style="{ paddingBottom: post.cover_aspect_ratio }"></div>
-        <img :src="post.cover" :alt="post.title" v-if="post.cover" class="rounded-t w-full" />
+        <img :src="post.cover" :alt="post.title" v-if="post.cover" />
       </a>
 
       <div class="relative">
