@@ -6,6 +6,7 @@ use App\Tag;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Qingfengbaili\PostEditor\PostEditor;
@@ -68,11 +69,15 @@ class Post extends Resource
                 return $this->tags->pluck('name')->implode('、');
             }),
 
-            Text::make('Length')->exceptOnForms(),
+            Boolean::make('Is Top'),
 
-            Text::make('Audio Count')->exceptOnForms(),
+            Boolean::make('Is Enable'),
 
-            Text::make('Video Count')->exceptOnForms(),
+            // Text::make('Length')->exceptOnForms(),
+
+            // Text::make('Audio Count')->exceptOnForms(),
+
+            // Text::make('Video Count')->exceptOnForms(),
 
             PostEditor::make('body')->hideFromIndex(),
 
