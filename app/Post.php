@@ -193,18 +193,27 @@ class Post extends Model
     {
         $url = $this->getFirstImageUrl();
 
-        try {
-            $image = Image::make($url);
-            $width = $image->width();
-            $height = $image->height();
-
-            $this->cover = $url;
-            $this->cover_width = $width;
-            $this->cover_height = $height;
-            $this->save();
-        } catch (\Throwable $th) {
+        if ($url == $this->cover) {
             return;
         }
+
+        if (!$url) {
+            $width = null;
+            $height = null;
+        } else {
+            try {
+                $image = Image::make($url);
+                $width = $image->width();
+                $height = $image->height();
+            } catch (\Throwable $th) {
+                return;
+            }
+        }
+
+        $this->cover = $url;
+        $this->cover_width = $width;
+        $this->cover_height = $height;
+        $this->save();
     }
 
     // public function fillSlug()
