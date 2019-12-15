@@ -6,7 +6,7 @@
       :autoplay="autoplay"
       :music="music"
       :list="list"
-      theme="#fc8181"
+      theme="#177cb0"
     />
     <div
       class="border-gray-300 rounded-full border h-6 absolute w-1/4 z-10 bg-white"
