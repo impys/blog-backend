@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nova\Observers;
+namespace App\Observers;
 
 use App\Jobs\HandlePostCoverJob;
 use App\Post;
