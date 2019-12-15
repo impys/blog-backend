@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Markdown;
 use Laravel\Scout\Searchable;
+use Intervention\Image\Facades\Image;
 
 class Post extends Model
 {
@@ -17,6 +18,9 @@ class Post extends Model
 
     protected $fillable = [
         'title',
+        'cover',
+        'cover_width',
+        'cover_height',
         'body',
         'is_top',
         'sort',
@@ -31,7 +35,7 @@ class Post extends Model
         'audio_count',
         'video_count',
         'first_video',
-        'cover',
+        'cover_aspect_ratio',
     ];
 
     public static function boot()
@@ -137,7 +141,15 @@ class Post extends Model
         return null;
     }
 
-    public function getCoverAttribute(): ?string
+    public function getCoverAspectRatioAttribute(): ?string
+    {
+        if (!$this->cover) {
+            return null;
+        }
+        return round($this->cover_height / $this->cover_width * 100, 2) . '%';
+    }
+
+    public function getFirstImageUrl(): ?string
     {
         preg_match_all("/\!\[\]\((.*)\)/U", $this->body, $res);
 
@@ -175,6 +187,24 @@ class Post extends Model
             })
             ->latest()
             ->paginate(self::SIZE);
+    }
+
+    public function handleCover()
+    {
+        $url = $this->getFirstImageUrl();
+
+        try {
+            $image = Image::make($url);
+            $width = $image->width();
+            $height = $image->height();
+
+            $this->cover = $url;
+            $this->cover_width = $width;
+            $this->cover_height = $height;
+            $this->save();
+        } catch (\Throwable $th) {
+            return;
+        }
     }
 
     // public function fillSlug()

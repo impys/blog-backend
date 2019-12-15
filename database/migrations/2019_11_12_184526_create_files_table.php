@@ -19,6 +19,7 @@ class CreateFilesTable extends Migration
 
             $table->string('type');
             $table->string('name');
+            $table->string('extension');
             $table->string('status');
         });
     }

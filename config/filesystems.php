@@ -69,6 +69,7 @@ return [
             'accountId' => env('BACKBLAZE_ID'),
             'applicationKey' => env('BACKBLAZE_KEY'),
             'bucketName' => env('BACKBLAZE_BUCKET_NAME'),
+            'asset_prefix' => env('BUKET_ASSEET_PREFIX'),
         ],
     ],
 

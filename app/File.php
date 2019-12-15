@@ -11,9 +11,11 @@ class File extends Model
     const STATUS_FAIL = 'fail';
     const STATUS_PENDING = 'pending';
     const STATUS_SUCCESS = 'success';
+
     protected $fillable = [
         'type',
         'name',
+        'extension',
         'status',
     ];
 
@@ -29,6 +31,11 @@ class File extends Model
         parent::__construct($attributes);
     }
 
+    public function scopeOfName($query, string $name)
+    {
+        return $query->where('name', $name);
+    }
+
     protected static function generateName(): string
     {
         return today()->format('ymd') . sprintf("%08d", random_int(0, 99999999));
@@ -36,23 +43,27 @@ class File extends Model
 
     public static function newInstanceForUploadFile(UploadedFile $uploadedFile): self
     {
-        [$mime, $extension] = self::getExtensionAndMime($uploadedFile);
+        $mime = $uploadedFile->getClientMimeType();
+        $extension = $uploadedFile->extension();
 
         $file = new File();
         $file->name = $file->name . '.' . $extension;
         $file->type = $mime;
+        $file->extension = $extension;
         return $file;
     }
 
-    protected static function getExtensionAndMime(UploadedFile $uploadedFile)
+    public static function updateStatusSuccess(string $name)
     {
-        $mime = $uploadedFile->getClientMimeType();
-        $extension = $uploadedFile->extension();
-        if (Str::contains($mime, 'image')) {
-            $mime = 'image/webp';
-            $extension = 'webp';
-        }
+        $self = self::ofName($name)->first();
+        $self->status = self::STATUS_SUCCESS;
+        $self->save();
+    }
 
-        return [$mime, $extension];
+    public static function updateStatusFail(string $name)
+    {
+        $self = self::ofName($name)->first();
+        $self->status = self::STATUS_FAIL;
+        $self->save();
     }
 }

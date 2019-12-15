@@ -2,18 +2,12 @@
   <div class="px-4 pb-8">
     <div class="rounded border border-gray-700 hover:shadow-lg">
       <a
-        class="block"
+        class="block flex items-center justify-center"
         :href="'/posts/' + post.id"
         v-if="post.cover && !post.first_video"
-        id="custom_cover-image"
       >
-        <img
-          :src="post.cover"
-          :alt="post.title"
-          v-if="post.cover"
-          class="rounded-t w-full"
-          @load="hanldeImageLoad"
-        />
+        <div v-bind:style="{ paddingBottom: post.cover_aspect_ratio }"></div>
+        <img :src="post.cover" :alt="post.title" v-if="post.cover" class="rounded-t w-full" />
       </a>
 
       <div class="relative">
@@ -65,11 +59,7 @@
 
 <script>
 export default {
-  props: ["post"],
-
-  data() {
-    return {};
-  },
+  props: ["post", "width"],
 
   methods: {
     handleMouseEnter() {
@@ -91,33 +81,7 @@ export default {
       } else {
         video.setAttribute("controls", "controls");
       }
-    },
-
-    hanldeImageLoad(e) {
-      let image = e.path[0];
-      if (image.complete) {
-        let customCoverImage = document.querySelector("#custom_cover-image");
-        let clientHeight = this.calculateImageClientHeight(image);
-        customCoverImage.style.maxHeight = clientHeight + "px";
-        customCoverImage.style.opacity = 1;
-      }
-    },
-
-    calculateImageClientHeight(image) {
-      let clientWidth = image.clientWidth;
-      let naturalHeight = image.naturalHeight;
-      let naturalWidth = image.naturalWidth;
-      let clientHeight = (naturalHeight / naturalWidth) * clientWidth;
-      return clientHeight;
     }
   }
 };
 </script>
-
-<style lang="scss">
-#custom_cover-image {
-  max-height: 0;
-  opacity: 0;
-  transition: 0.5s max-height ease-in, 0.5s opacity ease-in;
-}
-</style>

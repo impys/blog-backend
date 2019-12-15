@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\File;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -16,16 +17,18 @@ class UploadFileJob implements ShouldQueue
 
     protected $base64File;
     protected $name;
+    protected $extension;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($base64File, string $name)
+    public function __construct($base64File, string $name, string $extension)
     {
         $this->base64File = $base64File;
         $this->name = $name;
+        $this->extension = $extension;
     }
 
     /**
@@ -37,8 +40,14 @@ class UploadFileJob implements ShouldQueue
     {
         $file = base64_decode($this->base64File);
 
-        $image = (string) Image::make($file)->encode('webp');
+        $image = (string) Image::make($file)->encode($this->extension, 80);
 
-        Storage::disk('b2')->put('/' . $this->name, $image);
+        $result = Storage::disk('b2')->put('/' . $this->name, $image);
+
+        if ($result) {
+            File::updateStatusSuccess($this->name);
+        } else {
+            File::updateStatusFail($this->name);
+        }
     }
 }

@@ -17,6 +17,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Nova::serving(function () {
+            \App\Post::observe(\App\Nova\Observers\PostObserver::class);
+        });
     }
 
     /**
