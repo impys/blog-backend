@@ -123,21 +123,27 @@ export default {
           "Content-Type": "multipart/form-data"
         }
       };
-      axios.post(UPLOAD_API, formData, config).then(res => {
-        this.tip = "点击复制";
-        if (typePrefix == "audio") {
-          let link = this.buildAudio(res.data);
-          this.link = link;
-        }
-        if (typePrefix == "video") {
-          let link = this.buildVideo(res.data);
-          this.link = link;
-        }
-        if (typePrefix == "image") {
-          let link = "![](" + res.data + ")\n";
-          this.link = link;
-        }
-      });
+      this.tip = "上传中";
+      axios
+        .post(UPLOAD_API, formData, config)
+        .then(res => {
+          this.tip = "成功,点击复制";
+          if (typePrefix == "audio") {
+            let link = this.buildAudio(res.data);
+            this.link = link;
+          }
+          if (typePrefix == "video") {
+            let link = this.buildVideo(res.data);
+            this.link = link;
+          }
+          if (typePrefix == "image") {
+            let link = "![](" + res.data + ")\n";
+            this.link = link;
+          }
+        })
+        .catch(e => {
+          this.tip = "上传失败";
+        });
     },
 
     onPaste(e) {
@@ -150,10 +156,16 @@ export default {
             "Content-Type": "multipart/form-data"
           }
         };
-        axios.post(UPLOAD_API, formData, config).then(res => {
-          this.insertStringToTextarea("![](" + res.data + ")\n");
-          this.value = document.getElementById("markdown-textarea").value;
-        });
+        axios
+          .post(UPLOAD_API, formData, config)
+          .then(res => {
+            this.$toasted.show("成功", { type: "success" });
+            this.insertStringToTextarea("![](" + res.data + ")\n");
+            this.value = document.getElementById("markdown-textarea").value;
+          })
+          .catch(e => {
+            this.$toasted.show("失败", { type: "error" });
+          });
       }
     },
 
@@ -236,12 +248,15 @@ export default {
   flex-direction: column;
   justify-content: center;
   button {
-    background-color: rgb(58, 197, 39);
-    color: white;
-    border: none;
-    border-radius: 4px;
+    border: 1px solid #bacad6;
+    border-radius: 10px;
     height: 40px;
     width: 100%;
+    outline: none;
+  }
+
+  input {
+    opacity: 0;
   }
 }
 </style>
