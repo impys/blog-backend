@@ -110,7 +110,7 @@ export default {
     },
 
     buildVideo(url) {
-      return `<video controls=""><source src="${url}"></video>`;
+      return `<video controls="" controlsList="nodownload"><source src="${url}"></video>`;
     },
 
     uploadFile() {

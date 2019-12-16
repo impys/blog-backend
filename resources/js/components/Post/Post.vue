@@ -10,6 +10,15 @@
         <img :src="post.cover" :alt="post.title" v-if="post.cover" />
       </a>
 
+      <div
+        @mouseenter="handleMouseEnter()"
+        @mouseleave="handleMouseLeave()"
+        v-html="post.first_video"
+        v-if="post.first_video"
+        class="rounded-t"
+        :id="'video-'+post.id"
+      ></div>
+
       <div class="relative">
         <div
           class="absolute text-xs text-primary mr-2 mt-1 rotate-45"
@@ -44,15 +53,6 @@
           </div>-->
         </div>
       </div>
-
-      <div
-        @mouseenter="handleMouseEnter()"
-        @mouseleave="handleMouseLeave()"
-        v-html="post.first_video"
-        v-if="post.first_video"
-        class="rounded-t"
-        :id="'video-'+post.id"
-      ></div>
     </div>
   </div>
 </template>
