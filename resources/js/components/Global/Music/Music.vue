@@ -9,14 +9,14 @@
       theme="#177cb0"
     />
     <div
-      class="border-gray-300 rounded-full border h-6 absolute w-1/4 z-10 bg-white"
-      style="top:8px;right:2px;"
+      class="border-gray-300 rounded-full border h-6 absolute z-10 bg-white"
+      style="top:4px;left:76px;min-width:216px;"
     >
       <input
         type="text"
         v-model="query"
         @keyup.enter="search"
-        class="border-transparent text-xs px-2 bg-transparent h-atuo w-full pr-6"
+        class="border-transparent text-xs px-2 bg-transparent h-atuo w-full pr-6 custpm_search-input"
       />
     </div>
     <loading-icon key="loading" class="absolute z-10" v-if="loading" style="top:7px;right:-1px;"></loading-icon>
@@ -99,7 +99,11 @@ export default {
     font-size: 0.875rem !important;
   }
   .aplayer-info {
-    padding-right: 0;
+    padding-top: 32px;
+    .aplayer-music {
+      margin: 0;
+      padding: 0;
+    }
     .aplayer-title {
       color: #4a5568;
     }
@@ -129,5 +133,9 @@ export default {
   .aplayer-icon-mode {
     margin-left: 4px !important;
   }
+}
+
+.custpm_search-input {
+  caret-color: var(--color-primary);
 }
 </style>
