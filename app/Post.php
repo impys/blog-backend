@@ -185,6 +185,7 @@ class Post extends Model
             ->when($tagIds, function ($query) use ($tagIds) {
                 return $query->inTagIds($tagIds);
             })
+            ->select(['id', 'title', 'updated_at', 'created_at', 'is_top'])
             ->latest()
             ->paginate(self::SIZE);
     }
