@@ -1,17 +1,17 @@
 <template>
   <div class="custom__masonry">
-    <post v-for="post in posts" :key="post.id" :post="post" class="custom__masonry-item"></post>
+    <post-card v-for="post in posts" :key="post.id" :post="post" class="custom__masonry-item"></post-card>
   </div>
 </template>
 
 
 <script>
-import Post from "./Post";
+import PostCard from "./PostCard";
 export default {
   props: ["posts"],
 
   components: {
-    Post
+    PostCard
   },
 
   mounted() {

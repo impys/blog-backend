@@ -1,15 +1,15 @@
 <template>
   <div class="lg:w-2/3 sm:w-full">
-    <posts :posts="posts"></posts>
+    <post-cards :posts="posts"></post-cards>
     <paginator :lastPage="lastPage" v-if="lastPage > 1"></paginator>
   </div>
 </template>
 
 <script>
-import Posts from "./../Post/Posts";
+import PostCards from "./../Post/PostCards";
 export default {
   components: {
-    Posts
+    PostCards
   },
 
   props: ["data"],

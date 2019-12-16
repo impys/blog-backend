@@ -33,6 +33,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "marked": "^0.8.0",
         "remove": "^0.1.5"
     }
 }

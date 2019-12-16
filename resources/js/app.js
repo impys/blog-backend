@@ -6,6 +6,8 @@
 
 require('./bootstrap');
 
+require('./prism')
+
 window.Vue = require('vue');
 
 window.EventHub = new Vue();
@@ -29,6 +31,8 @@ Vue.component('Paginator', require('./components/Global/Paginator.vue').default)
 Vue.component('Search', require('./components/Global/Search/Search.vue').default);
 Vue.component('Music', require('./components/Global/Music/Music.vue').default);
 Vue.component('Tags', require('./components/Global/Tag/Tags.vue').default);
+
+Vue.component('Post', require('./components/Post/Post.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
