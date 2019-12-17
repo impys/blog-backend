@@ -41,8 +41,8 @@
                   @change="uploadFile"
                 />
               </div>
-              <div class="custom__upload-msg" v-if="tip.length">
-                <button @click.prevent="copyLink">{{ tip }}</button>
+              <div class="custom__upload-msg" v-if="showCopyLinkButton">
+                <button @click.prevent="copyLink">点击复制链接</button>
                 <input type="text" id="custom__copy" :value="link" />
               </div>
             </div>
@@ -68,7 +68,7 @@ export default {
   data() {
     return {
       file: "",
-      tip: "",
+      showCopyLinkButton: false,
       link: ""
     };
   },
@@ -99,9 +99,9 @@ export default {
       var copyText = document.getElementById("custom__copy");
       copyText.select();
       if (document.execCommand("copy")) {
-        this.tip = "复制成功";
+        this.$toasted.show("复制成功", { type: "success" });
       } else {
-        this.tip = "复制失败";
+        this.$toasted.show("复制失败", { type: "error" });
       }
     },
 
@@ -123,29 +123,37 @@ export default {
           "Content-Type": "multipart/form-data"
         }
       };
-      this.tip = "上传中";
+      this.$toasted.show("开始上传");
       axios
         .post(UPLOAD_API, formData, config)
         .then(res => {
-          this.tip = "成功,点击复制";
-          if (typePrefix == "audio") {
-            let link = this.buildAudio(res.data);
-            this.link = link;
-          }
-          if (typePrefix == "video") {
-            let link = this.buildVideo(res.data);
-            this.link = link;
-          }
-          if (typePrefix == "image") {
-            let link = "![](" + res.data + ")\n";
-            this.link = link;
-          }
+          this.showCopyLinkButton = true;
+          this.$toasted.show("上传成功", { type: "success" });
+          this.setLink();
         })
         .catch(e => {
-          this.tip = "上传失败";
+          this.$toasted.show("上传失败", { type: "error" });
         });
     },
 
+    /**
+     * set the link by file type
+     */
+    setLink(typePrefix, link) {
+      if (typePrefix == "audio") {
+        let link = this.buildAudio(res.data);
+        this.link = link;
+      }
+      if (typePrefix == "video") {
+        let link = this.buildVideo(res.data);
+        this.link = link;
+      }
+      if (typePrefix == "image") {
+        let link = "![](" + res.data + ")\n";
+        this.link = link;
+      }
+    },
+    
     onPaste(e) {
       let file = e.clipboardData.items[0].getAsFile();
       if (file) {
@@ -248,7 +256,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   button {
-    border: 1px solid #bacad6;
+    background-color: var(--success);
+    color: #fff;
     border-radius: 10px;
     height: 40px;
     width: 100%;
