@@ -53,17 +53,16 @@ class Post extends Resource
             ID::make()->sortable(),
 
             Text::make('Title')
-                ->sortable()
-                ->rules('required', 'max:255'),
+                ->sortable(),
 
-            Image::make('Cover')
-                ->preview(function () {
-                    return $this->cover;
-                })
-                ->thumbnail(function () {
-                    return $this->cover;
-                })
-                ->onlyOnDetail(),
+            // Image::make('Cover')
+            //     ->preview(function () {
+            //         return $this->cover;
+            //     })
+            //     ->thumbnail(function () {
+            //         return $this->cover;
+            //     })
+            //     ->onlyOnDetail(),
 
             Text::make('Tags', function () {
                 return $this->tags->pluck('name')->implode('、');

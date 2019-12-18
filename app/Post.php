@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Markdown;
 use Laravel\Scout\Searchable;
-use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -18,9 +18,7 @@ class Post extends Model
 
     protected $fillable = [
         'title',
-        'cover',
-        'cover_width',
-        'cover_height',
+
         'body',
         'is_top',
         'sort',
@@ -34,16 +32,20 @@ class Post extends Model
         'length',
         'audio_count',
         'video_count',
-        'first_video',
-        'cover_aspect_ratio',
+        'cover_video',
+        'cover_image',
+    ];
+
+    protected $attributes = [
+        'is_enable' => true
     ];
 
     public static function boot()
     {
         parent::boot();
 
-        static::creating(function ($post) {
-            $post->user_id = auth()->user()->id;
+        static::creating(function ($self) {
+            $self->user_id = auth()->user()->id;
         });
     }
 
@@ -130,37 +132,67 @@ class Post extends Model
         return count($res[0]);
     }
 
-    public function getFirstVideoAttribute(): ?string
+    /**
+     * get the first image file of this post serves as cover image
+     *
+     * @return File|null
+     */
+    public function getCoverImageAttribute(): ?File
     {
-        preg_match_all("/<video(.*)>(.*)<\/video>/U", $this->body, $res);
-
-        if (count($res[0])) {
-            return $res[0][0];
-        }
-
-        return null;
+        return $this->getFirstFileFor(File::TYPE_IMAGE);
     }
 
-    public function getCoverAspectRatioAttribute(): ?string
+    /**
+     * get the first video file of this post serves as cover video
+     *
+     * @return File|null
+     */
+    public function getCoverVideoAttribute(): ?File
     {
-        if (!$this->cover) {
+        $video = $this->getFirstFileFor(File::TYPE_VIDEO);
+
+        if ($video) {
+            $video->load('poster');
+        }
+
+        return $video;
+    }
+
+    /**
+     * get the first image or video or audio file of this post
+     *
+     * @param string $type
+     * @return File|null
+     */
+    protected function getFirstFileFor(string $type): ?File
+    {
+        $assetPrefix = config('filesystems.disks.b2.asset_prefix');
+
+        $assetPrefix = preg_replace("/\//", "\\\/", $assetPrefix);
+
+        switch ($type) {
+            case File::TYPE_VIDEO:
+                $pattern = "/<source src=\"" . $assetPrefix . "(.*)\">/U";
+                break;
+            case File::TYPE_IMAGE:
+                $pattern = "/\!\[\]\(" . $assetPrefix . "(.*)." . File::ENCODE_IMAGE_EXT . "\)/U";
+                break;
+            default:
+                break;
+        }
+
+        preg_match_all($pattern, $this->body, $res);
+
+        if (!count($res[0])) {
             return null;
         }
-        return round($this->cover_height / $this->cover_width * 100, 2) . '%';
+
+        $fileName = $res[1][0];
+
+        return File::ofName($fileName)->first();
     }
 
-    public function getFirstImageUrl(): ?string
-    {
-        preg_match_all("/\!\[\]\((.*)\)/U", $this->body, $res);
-
-        if (count($res[0])) {
-            return $res[1][0];
-        } else {
-            return null;
-        }
-    }
-
-    public function makeTag(Collection $tags)
+    public function makeTag(Collection $tags): self
     {
         $this->tags()->sync($tags->pluck('id')->toArray());
         return $this;
@@ -188,33 +220,6 @@ class Post extends Model
             ->select(['id', 'title', 'updated_at', 'created_at', 'is_top'])
             ->latest()
             ->paginate(self::SIZE);
-    }
-
-    public function handleCover()
-    {
-        $url = $this->getFirstImageUrl();
-
-        if ($url == $this->cover) {
-            return;
-        }
-
-        if (!$url) {
-            $width = null;
-            $height = null;
-        } else {
-            try {
-                $image = Image::make($url);
-                $width = $image->width();
-                $height = $image->height();
-            } catch (\Throwable $th) {
-                return;
-            }
-        }
-
-        $this->cover = $url;
-        $this->cover_width = $width;
-        $this->cover_height = $height;
-        $this->save();
     }
 
     // public function fillSlug()

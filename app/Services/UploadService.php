@@ -3,27 +3,21 @@
 namespace App\Services;
 
 use App\File;
-use App\Jobs\UploadFileJob;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class UploadService
 {
-    public function store(UploadedFile $uploadedFile): string
+    public function store(UploadedFile $uploadedFile): File
     {
-        $prefix = config('filesystems.disks.b2.asset_prefix');
-        $file = File::newInstanceForUploadFile($uploadedFile);
-        $extension = $file->extension;
-        $file->save();
+        return DB::transaction(function () use ($uploadedFile) {
+            $file = File::newInstanceForUploadFile($uploadedFile);
 
-        if (Str::contains($file->type, 'image')) {
-            $base64File = base64_encode(file_get_contents($uploadedFile));
-            UploadFileJob::dispatch($base64File, $file->name, $extension);
-        } else {
-            Storage::disk('b2')->putFileAs('/', $uploadedFile, $file->name);
-        }
+            $file->save();
 
-        return $prefix . $file->name;
+            $uploadedFile->storeAs('/public', $file->original_full_name);
+
+            return $file;
+        });
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FileResource;
 use App\Services\UploadService;
 use Illuminate\Http\Request;
 
@@ -17,8 +18,8 @@ class Upload extends Controller
     {
         $uploadedFile = $request->file;
 
-        $url = $uploadService->store($uploadedFile);
+        $file = $uploadService->store($uploadedFile);
 
-        return response()->json($url);
+        return new FileResource($file);
     }
 }

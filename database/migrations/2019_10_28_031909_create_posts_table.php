@@ -18,9 +18,6 @@ class CreatePostsTable extends Migration
             $table->timestamps();
 
             $table->string('title')->nullable();
-            $table->string('cover')->nullable();
-            $table->string('cover_width')->nullable();
-            $table->string('cover_height')->nullable();
             $table->text('body');
             $table->boolean('is_enable')->default(true);
             $table->boolean('is_top')->default(false);
