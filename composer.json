@@ -19,10 +19,11 @@
         "laravel/horizon": "^3.4",
         "laravel/nova": "*",
         "laravel/scout": "^7.2",
+        "laravel/telescope": "^2.1",
         "laravel/tinker": "^1.0",
         "qingfengbaili/post-editor": "*",
-        "stichoza/google-translate-php": "^4.0",
-        "qingfengbaili/tag-autocomplete": "*"
+        "qingfengbaili/tag-autocomplete": "*",
+        "stichoza/google-translate-php": "^4.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.3",
