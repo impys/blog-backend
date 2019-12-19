@@ -7,7 +7,7 @@
         :class="errorClasses"
         :placeholder="field.name"
       >
-        <div class="custom__markdown-editor w-5/6">
+        <div class="custom__markdown-editor w-5/6 form-input-bordered">
           <pre class="hidden-pre">{{ value }}<br /></pre>
           <textarea
             id="markdown-textarea"
@@ -19,7 +19,7 @@
         <div class="w-1/6 relative ml-2">
           <div class="sticky" style="top:10px">
             <div class="flex flex-col">
-              <div class="custom__upload-icon">
+              <div class="custom__upload-icon form-input-bordered">
                 <label for="file-input">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -40,6 +40,10 @@
                   ref="fileInput"
                   @change="uploadFile"
                 />
+              </div>
+              <div class="relative my-2" v-if="showProgress">
+                <progress id="progressBar" class="w-full" value="0" max="100"></progress>
+                <div id="progressLabel" class="absolute" style="top:0;left:4px">0%</div>
               </div>
               <div class="custom__upload-msg" v-if="showCopyLinkButton">
                 <button @click.prevent="copyLink">点击复制链接</button>
@@ -63,12 +67,11 @@ export default {
 
   props: ["resourceName", "resourceId", "field"],
 
-  mounted() {},
-
   data() {
     return {
       file: "",
       showCopyLinkButton: false,
+      showProgress: false,
       link: ""
     };
   },
@@ -105,15 +108,8 @@ export default {
       }
     },
 
-    buildAudio(url) {
-      return `<audio controls=""><source src="${url}"></audio>`;
-    },
-
-    buildVideo(url) {
-      return `<video controls="" controlsList="nodownload"><source src="${url}"></video>`;
-    },
-
     uploadFile() {
+      let self = this;
       let file = this.$refs.fileInput.files[0];
       let typePrefix = file.type.slice(0, 5);
       let formData = new FormData();
@@ -121,39 +117,40 @@ export default {
       let config = {
         headers: {
           "Content-Type": "multipart/form-data"
-        }
+        },
+        onUploadProgress: self.handleProgress
       };
-      this.$toasted.show("开始上传");
+      this.showProgress = true;
+      this.$toasted.info("正在上传", { duration: 0 });
       axios
         .post(UPLOAD_API, formData, config)
         .then(res => {
           this.showCopyLinkButton = true;
-          this.$toasted.show("上传成功", { type: "success" });
-          this.setLink();
+          this.$toasted.clear();
+          this.$toasted.success("上传成功");
+          this.setLink(typePrefix, res.data.data.url);
         })
         .catch(e => {
-          this.$toasted.show("上传失败", { type: "error" });
+          this.$toasted.error("上传失败");
         });
     },
 
     /**
      * set the link by file type
      */
-    setLink(typePrefix, link) {
+    setLink(typePrefix, url) {
       if (typePrefix == "audio") {
-        let link = this.buildAudio(res.data);
-        this.link = link;
+        this.link = `<audio controls=""><source src="${url}"></audio>`;
       }
       if (typePrefix == "video") {
-        let link = this.buildVideo(res.data);
-        this.link = link;
+        this.link = `<video controls="" controlsList="nodownload"><source src="${url}"></video>`;
       }
       if (typePrefix == "image") {
-        let link = "![](" + res.data + ")\n";
+        let link = `![](${url})\n`;
         this.link = link;
       }
     },
-    
+
     onPaste(e) {
       let file = e.clipboardData.items[0].getAsFile();
       if (file) {
@@ -167,12 +164,12 @@ export default {
         axios
           .post(UPLOAD_API, formData, config)
           .then(res => {
-            this.$toasted.show("成功", { type: "success" });
+            this.$toasted.success("成功");
             this.insertStringToTextarea("![](" + res.data + ")\n");
             this.value = document.getElementById("markdown-textarea").value;
           })
           .catch(e => {
-            this.$toasted.show("失败", { type: "error" });
+            this.$toasted.error("失败");
           });
       }
     },
@@ -185,16 +182,30 @@ export default {
     },
 
     insertStringToTextarea(string) {
-      var textarea = document.getElementById("markdown-textarea");
-      var value = textarea.value.split("");
-      var pos = textarea.selectionStart;
-      var insertValue = string;
+      let textarea = document.getElementById("markdown-textarea");
+      let value = textarea.value.split("");
+      let pos = textarea.selectionStart;
+      let insertValue = string;
       value.splice(pos, 0, insertValue);
       textarea.value = value.join("");
       // 定位新的光标位置
       textarea.selectionStart = textarea.selectionEnd =
         pos + insertValue.length;
       textarea.focus();
+    },
+
+    handleProgress(e) {
+      let progressBar = document.getElementById("progressBar");
+      if (e.lengthComputable) {
+        console.log(e);
+        let percent = Math.round((e.loaded * 100) / e.total);
+
+        document.getElementById("progressLabel").innerHTML =
+          percent.toFixed(2) + "%"; //
+
+        progressBar.max = e.total;
+        progressBar.value = e.loaded;
+      }
     }
   }
 };
@@ -203,10 +214,7 @@ export default {
 
 <style lang="scss">
 .custom__markdown-editor {
-  border-radius: 0.5rem;
-  border: #bacad6 1px solid;
   position: relative;
-  border-radius: 0.5rem;
   min-height: 400px;
   overflow: hidden;
 
@@ -236,8 +244,6 @@ export default {
 }
 .custom__upload-icon {
   height: 100px;
-  border-radius: 10px;
-  border: 1px #bacad6 dashed;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -267,5 +273,15 @@ export default {
   input {
     opacity: 0;
   }
+}
+
+progress::-webkit-progress-bar {
+  border-radius: 10px;
+  background-color: var(--white);
+  border: 1px solid var(--success);
+}
+progress::-webkit-progress-value {
+  border-radius: 10px;
+  background-color: var(--success);
 }
 </style>

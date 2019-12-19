@@ -5,12 +5,14 @@
         class="outline-none font-bold text-primary mb-4"
         @click="toggleShowBody"
       >{{ showBody?'收起':'展开' }}</button>
-      <div class="custom__markdown" v-html="field.value_marked" v-if="showBody"></div>
+      <div class="custom__markdown" v-html="markedBody" v-if="showBody"></div>
     </template>
   </panel-item>
 </template>
 
 <script>
+import marked from "marked";
+
 export default {
   props: ["resource", "resourceName", "resourceId", "field"],
   data() {
@@ -18,7 +20,16 @@ export default {
       showBody: false
     };
   },
-  mounted() {},
+
+  updated() {
+    Prism.highlightAll();
+  },
+
+  computed: {
+    markedBody: function() {
+      return marked(this.field.value);
+    }
+  },
 
   methods: {
     toggleShowBody() {

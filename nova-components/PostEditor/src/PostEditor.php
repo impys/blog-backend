@@ -13,11 +13,4 @@ class PostEditor extends Field
      * @var string
      */
     public $component = 'post-editor';
-
-    public function jsonSerialize()
-    {
-        return array_merge(parent::jsonSerialize(), [
-            'value_marked' => Markdown::parse($this->value)->toHtml(),
-        ]);
-    }
 }

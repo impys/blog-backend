@@ -3,3 +3,5 @@ Nova.booting((Vue, router, store) => {
   Vue.component('detail-post-editor', require('./components/DetailField'))
   Vue.component('form-post-editor', require('./components/FormField'))
 })
+
+require('./prism')
