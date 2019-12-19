@@ -165,7 +165,7 @@ export default {
           .post(UPLOAD_API, formData, config)
           .then(res => {
             this.$toasted.success("成功");
-            this.insertStringToTextarea("![](" + res.data + ")\n");
+            this.insertStringToTextarea("![](" + res.data.data.url + ")\n");
             this.value = document.getElementById("markdown-textarea").value;
           })
           .catch(e => {
