@@ -1,7 +1,10 @@
 <template>
   <div class="px-4 pb-8">
     <div class="rounded border border-gray-700 hover:shadow-lg">
-      <a
+      <div v-if="post.cover_media">
+        <component :is="post.cover_media.type+'-media'" :media="post.cover_media"></component>
+      </div>
+      <!-- <a
         class="block flex items-center justify-center"
         :href="'/posts/' + post.id"
         v-if="post.cover && !post.first_video"
@@ -17,7 +20,7 @@
         v-if="post.first_video"
         class="rounded-t"
         :id="'video-'+post.id"
-      ></div>
+      ></div>-->
 
       <div class="relative">
         <div
@@ -30,7 +33,7 @@
 
         <a :href="'/posts/' + post.id" class="absolute top-0 left-0 z-10 w-full h-full"></a>
 
-        <div class="mx-4 my-2">{{ post.title }}</div>
+        <div class="mx-4 my-2 text-lg">{{ post.title }}</div>
 
         <div class="flex text-xs mx-4 my-2" v-if="post.tags.length">
           <div class="mr-1">
@@ -58,8 +61,20 @@
 </template>
 
 <script>
+import ImageMedia from "./CoverMedia/ImageMedia";
+import VideoMedia from "./CoverMedia/VideoMedia";
+
 export default {
   props: ["post", "width"],
+
+  components: {
+    ImageMedia,
+    VideoMedia
+  },
+
+  mounted() {
+    console.log(this.post);
+  },
 
   methods: {
     handleMouseEnter() {

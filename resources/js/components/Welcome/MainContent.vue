@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import PostCards from "./../Post/PostCards";
+import PostCards from "./Cards/PostCards";
 export default {
   components: {
     PostCards

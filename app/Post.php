@@ -18,7 +18,6 @@ class Post extends Model
 
     protected $fillable = [
         'title',
-
         'body',
         'is_top',
         'sort',
@@ -32,8 +31,7 @@ class Post extends Model
         'length',
         'audio_count',
         'video_count',
-        'cover_video',
-        'cover_image',
+        'cover_media',
     ];
 
     protected $attributes = [
@@ -132,30 +130,10 @@ class Post extends Model
         return count($res[0]);
     }
 
-    /**
-     * get the first image file of this post serves as cover image
-     *
-     * @return File|null
-     */
-    public function getCoverImageAttribute(): ?File
+    public function getCoverMediaAttribute(): ?file
     {
-        return $this->getFirstFileFor(File::TYPE_IMAGE);
-    }
-
-    /**
-     * get the first video file of this post serves as cover video
-     *
-     * @return File|null
-     */
-    public function getCoverVideoAttribute(): ?File
-    {
-        $video = $this->getFirstFileFor(File::TYPE_VIDEO);
-
-        if ($video) {
-            $video->load('poster');
-        }
-
-        return $video;
+        return $this->getFirstFileFor(File::TYPE_VIDEO)
+            ?? $this->getFirstFileFor(File::TYPE_IMAGE);
     }
 
     /**
@@ -164,7 +142,7 @@ class Post extends Model
      * @param string $type
      * @return File|null
      */
-    protected function getFirstFileFor(string $type): ?File
+    public function getFirstFileFor(string $type): ?File
     {
         $assetPrefix = config('filesystems.disks.b2.asset_prefix');
 
@@ -189,7 +167,10 @@ class Post extends Model
 
         $fileName = $res[1][0];
 
-        return File::ofName($fileName)->first();
+        return File::query()
+            ->with('poster')
+            ->ofName($fileName)
+            ->first();
     }
 
     public function makeTag(Collection $tags): self
@@ -210,14 +191,13 @@ class Post extends Model
             ->toArray();
     }
 
-    public static function getPostPaginator(?array $tagIds)
+    public static function getPostsPaginator(?array $tagIds)
     {
         return self::query()
             ->with('tags')
             ->when($tagIds, function ($query) use ($tagIds) {
                 return $query->inTagIds($tagIds);
             })
-            ->select(['id', 'title', 'updated_at', 'created_at', 'is_top'])
             ->latest()
             ->paginate(self::SIZE);
     }

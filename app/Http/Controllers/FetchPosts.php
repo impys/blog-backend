@@ -18,7 +18,7 @@ class FetchPosts extends Controller
     {
         $tagIds = json_decode($request->input('tags'));
 
-        $posts = Post::getPostPaginator($tagIds);
+        $posts = Post::getPostsPaginator($tagIds);
 
         return PostsResource::collection($posts);
     }

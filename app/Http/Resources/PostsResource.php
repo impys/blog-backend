@@ -14,6 +14,8 @@ class PostsResource extends JsonResource
      */
     public function toArray($request)
     {
+        $this->setHidden(['body']);
+
         return parent::toArray($request);
     }
 }

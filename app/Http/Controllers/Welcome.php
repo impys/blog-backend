@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
+use App\Http\Resources\PostsResource;
 
 class Welcome extends Controller
 {
@@ -18,7 +19,7 @@ class Welcome extends Controller
     {
         $tagIds = json_decode($request->input('tags'));
 
-        $posts = Post::getPostPaginator($tagIds);
+        $posts = Post::getPostsPaginator($tagIds);
 
         $tags = Tag::query()
             ->hasPosts()

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap -mx-1 justify-between customer__tags">
+  <div class="flex flex-wrap -mx-1 justify-between">
     <div
       class="inline-block mx-1 mb-2 border px-1 rounded text-xs cursor-pointer"
       v-bind:class="[ isSelected(tag) ? 'bg-primary':'',isSelected(tag) ? 'text-white':'',isSelected(tag) ? 'border-primary':'']"
@@ -45,10 +45,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.customer__tags::after {
-  content: "";
-  flex: auto;
-}
-</style>
