@@ -47,7 +47,9 @@ class File extends Model
         parent::boot();
 
         static::creating(function ($self) {
-            $self->name = self::generateName();
+            if (!$self->name) {
+                $self->name = self::generateName();
+            }
         });
     }
 
@@ -131,7 +133,7 @@ class File extends Model
 
         $type = explode('/', $mime)[0];
 
-        $originalExt = $uploadedFile->extension();
+        $originalExt = $uploadedFile->clientExtension();
 
         $encodeExt = self::getEncodeExtViaType($type);
 
@@ -140,6 +142,22 @@ class File extends Model
             'type' => $type,
             'original_ext' => $originalExt,
             'encode_ext' => $encodeExt,
+            'size' => $size,
+        ]);
+
+        return $file;
+    }
+
+    public static function newInstanceForPoster(string $path, string $name): self
+    {
+        $size = filesize($path);
+
+        $file = new File([
+            'name' => $name,
+            'mime' => 'image/png',
+            'type' => 'image',
+            'original_ext' => 'png',
+            'encode_ext' => 'webp',
             'size' => $size,
         ]);
 
@@ -209,7 +227,48 @@ class File extends Model
 
     protected function handleVideo()
     {
-        //TODO: logic
+        $this->grabVideoFrame();
+
+        $this->encodeVideoToMp4();
+    }
+
+    protected function grabVideoFrame()
+    {
+        if ($this->poster) {
+            return;
+        }
+        $path = public_path("storage/{$this->original_full_name}");
+
+        $newFileName = self::generateName();
+
+        $newPath = public_path("storage/{$newFileName}.png");
+
+        $command = "ffmpeg -i {$path} -y -f image2 -ss 4.0 -t 0.001 {$newPath}  2>&1";
+
+        $this->execCommand($command);
+
+        $file = self::newInstanceForPoster($newPath, $newFileName);
+
+        $file->save();
+
+        $this->poster_id = $file->id;
+
+        $this->save();
+
+        //TODO: why use save method not set poster id???
+        // $this->poster()->save($file);
+    }
+
+    protected function encodeVideoToMp4(): bool
+    {
+        if ($this->original_ext === self::ENCODE_VIDEO_EXT) {
+            return true;
+        }
+
+        $path = public_path("storage/{$this->original_full_name}");
+        $newPath = public_path("storage/{$this->encode_full_name}");
+        $command = "ffmpeg -i {$path} -vcodec libx264 {$newPath}  2>&1";
+        return $this->execCommand($command);
     }
 
     protected function handleImage()
@@ -226,6 +285,10 @@ class File extends Model
 
     protected function encodeImageToWebp(): bool
     {
+        if ($this->original_ext === self::ENCODE_VIDEO_EXT) {
+            return true;
+        }
+
         $path = public_path("storage/{$this->original_full_name}");
         [$width] = getimagesize($path);
         $width = min($width, 800);
@@ -237,6 +300,7 @@ class File extends Model
                 break;
             case 'png':
             case 'jpeg':
+            case 'jpg':
             case 'tiff':
             case 'webp':
                 $command = "~/webp/bin/cwebp -near_lossless 60 -resize {$width} 0 {$path} -o {$newPath} 2>&1";
@@ -245,11 +309,22 @@ class File extends Model
                 break;
         }
 
+        return $this->execCommand($command);
+    }
+
+    protected function execCommand(string $command): bool
+    {
         exec($command, $output, $result); // $result 为 0 代表成功
 
         if ($result) {
             $error = implode('-', $output);
-            throw new \Exception("Encode image to webp failed with message {$error}");
+
+            logger(__("Encode image to webp failed file - :fileId - error :error", [
+                'fileId' => $this->id,
+                'error' => $error,
+            ]));
+
+            throw new \Exception("Encode file {$this->id} failed with message {$error}");
         }
 
         return $result;
@@ -275,9 +350,19 @@ class File extends Model
         return $result;
     }
 
-    public function clearLocalFile()
+    protected function clearLocalFile()
+    {
+        $this->clearOriginalFile();
+        $this->clearEncodeFile();
+    }
+
+    protected function clearOriginalFile()
     {
         Storage::disk('public')->delete($this->original_full_name);
+    }
+
+    protected function clearEncodeFile()
+    {
         Storage::disk('public')->delete($this->encode_full_name);
     }
 }
