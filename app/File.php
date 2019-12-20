@@ -16,8 +16,8 @@ class File extends Model
     const TYPE_AUDIO = 'audio';
     const TYPE_IMAGE = 'image';
 
-    const ENCODE_VIDEO_EXT = '';
-    const ENCODE_AUDIO_EXT = '';
+    const ENCODE_VIDEO_EXT = 'mp4';
+    const ENCODE_AUDIO_EXT = 'mp3';
     const ENCODE_IMAGE_EXT = 'webp';
 
     protected $fillable = [
@@ -62,6 +62,16 @@ class File extends Model
     }
 
     /**
+     * poster of video file related by self
+     *
+     * @return void
+     */
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    /**
      * full url of this file
      *
      * @return string
@@ -96,6 +106,11 @@ class File extends Model
     public function scopeOfName($query, string $name)
     {
         return $query->where('name', $name);
+    }
+
+    public function scopeInNames($query, array $names)
+    {
+        return $query->whereIn('name', $names);
     }
 
     protected static function generateName(): string

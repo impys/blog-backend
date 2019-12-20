@@ -6,6 +6,7 @@ use App\Traits\HasEnable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Markdown;
+use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
 use Illuminate\Support\Str;
 
@@ -78,6 +79,11 @@ class Post extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+
     public function scopeInTagIds($query, $tagIds)
     {
         return $query->whereHas('tags', function ($query) use ($tagIds) {
@@ -134,6 +140,51 @@ class Post extends Model
     {
         return $this->getFirstFileFor(File::TYPE_VIDEO)
             ?? $this->getFirstFileFor(File::TYPE_IMAGE);
+    }
+
+    public function getAllFileNames(): array
+    {
+        $prefix = preg_replace("/\//", "\\\/", config('filesystems.disks.b2.asset_prefix'));
+
+        $pattern = "/$prefix(.*)\./U";
+
+        preg_match_all($pattern, $this->body, $results);
+
+        return $results[1];
+    }
+
+
+    public function syncFiles()
+    {
+        $this->dissociateAllFiles();
+        $this->associateFiles();
+    }
+
+    protected function dissociateAllFiles()
+    {
+        DB::table('files')
+            ->where('post_id', $this->id)
+            ->update(
+                [
+                    'post_id' => null,
+                    'sort' => null
+                ]
+            );
+    }
+
+    protected function associateFiles()
+    {
+        $names = $this->getAllFileNames();
+
+        $sort = array_flip($names);
+
+        $files = File::inNames($names)->get();
+
+        foreach ($files as $file) {
+            $file->post()->associate($this);
+            $file->sort = $sort[$file->name] + 1;
+            $file->save();
+        }
     }
 
     /**

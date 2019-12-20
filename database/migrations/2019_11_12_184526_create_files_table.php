@@ -29,6 +29,11 @@ class CreateFilesTable extends Migration
 
             $table->unsignedBigInteger('poster_id')->nullable();
             $table->foreign('poster_id')->references('id')->on('files');
+
+            $table->unsignedBigInteger('post_id')->nullable();
+            $table->foreign('post_id')->references('id')->on('post');
+
+            $table->string('sort')->nullable();
         });
     }
 
