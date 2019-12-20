@@ -108,6 +108,11 @@ class File extends Model
         return $query->where('name', $name);
     }
 
+    public function scopeOfSort($query)
+    {
+        return $query->where('sort', 1);
+    }
+
     public function scopeInNames($query, array $names)
     {
         return $query->whereIn('name', $names);
