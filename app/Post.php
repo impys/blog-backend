@@ -224,12 +224,23 @@ class Post extends Model
             ->first();
     }
 
+    /**
+     * 给文章打标签
+     *
+     * @param Collection $tags
+     * @return self
+     */
     public function makeTag(Collection $tags): self
     {
         $this->tags()->sync($tags->pluck('id')->toArray());
         return $this;
     }
 
+    /**
+     * get tags id and name for algolia
+     *
+     * @return array
+     */
     public function buildTagsForSearch(): array
     {
         return $this->tags
