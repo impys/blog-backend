@@ -28,6 +28,8 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
 
         $schedule->command('telescope:prune')->daily();
+
+        $schedule->command('command:put-file-to-b2')->everyFiveMinutes();
     }
 
     /**

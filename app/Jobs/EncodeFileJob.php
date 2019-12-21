@@ -9,7 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class PutFileToBackblazeJob implements ShouldQueue
+class EncodeFileJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -32,6 +32,6 @@ class PutFileToBackblazeJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->file->HandlePutFileToBackblaze();
+        $this->file->encode();
     }
 }

@@ -2,12 +2,15 @@
 
 namespace App;
 
+use App\Traits\HasStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class File extends Model
 {
+    use HasStatus;
+
     const STATUS_FAIL = 'fail';
     const STATUS_PENDING = 'pending';
     const STATUS_SUCCESS = 'success';
@@ -88,7 +91,7 @@ class File extends Model
     /**
      * name dot original extension of this file
      *
-     * @return void
+     * @return string
      */
     public function getOriginalFullNameAttribute(): string
     {
@@ -98,7 +101,7 @@ class File extends Model
     /**
      * name dot encoded extension of this file
      *
-     * @return void
+     * @return string
      */
     public function getEncodeFullNameAttribute(): string
     {
@@ -198,7 +201,28 @@ class File extends Model
         return $this->save();
     }
 
-    public function handlePutFileToBackblaze()
+    /**
+     * get full physical path of uncoded file
+     *
+     * @return string
+     */
+    protected function getOriginPath(): string
+    {
+        return public_path("storage/{$this->original_full_name}");
+    }
+
+    /**
+     * get full physical path of encoded file
+     *
+     * @param string $newName
+     * @return string
+     */
+    protected function getEncodePath(): string
+    {
+        return public_path("storage/encodedFiles/{$this->encode_full_name}");
+    }
+
+    public function handlePutFileToB2()
     {
         if ($this->status === self::STATUS_SUCCESS) {
             return;
@@ -218,11 +242,12 @@ class File extends Model
                 break;
         }
 
-        $this->putFileToBackblaze();
+        $isPutToB2Success = $this->putFileToB2();
 
-        $this->updateStatusSuccess();
+        // change status success or fail based on result
+        $this->changeStatus($isPutToB2Success);
 
-        $this->clearLocalFile();
+        $this->clearLocalFile($isPutToB2Success);
     }
 
     protected function handleVideo()
@@ -234,25 +259,33 @@ class File extends Model
 
     protected function grabVideoFrame()
     {
+        // if the video has poster，no need to grab a frame
         if ($this->poster) {
             return;
         }
-        $path = public_path("storage/{$this->original_full_name}");
 
+        //拿到视频物理路径
+        $path = $this->getOriginPath();
+
+        //生成一个新的文件名字
         $newFileName = self::generateName();
 
-        $newPath = public_path("storage/{$newFileName}.png");
+        //加上扩展名
+        $newFileFullName = $newFileName . '.png';
 
+        //物理路径
+        $newPath = public_path("storage/{$newFileFullName}");
+
+        //执行命令截取帧，保存在 storage 路径下
         $command = "ffmpeg -i {$path} -y -f image2 -ss 4.0 -t 0.001 {$newPath}  2>&1";
-
         $this->execCommand($command);
 
+        //视频截图存入数据库
         $file = self::newInstanceForPoster($newPath, $newFileName);
-
         $file->save();
 
+        //关联视频海报
         $this->poster_id = $file->id;
-
         $this->save();
 
         //TODO: why use save method not set poster id???
@@ -261,12 +294,8 @@ class File extends Model
 
     protected function encodeVideoToMp4(): bool
     {
-        if ($this->original_ext === self::ENCODE_VIDEO_EXT) {
-            return true;
-        }
-
-        $path = public_path("storage/{$this->original_full_name}");
-        $newPath = public_path("storage/{$this->encode_full_name}");
+        $path = $this->getOriginPath();
+        $newPath = $this->getEncodePath();
         $command = "ffmpeg -i {$path} -vcodec libx264 {$newPath}  2>&1";
         return $this->execCommand($command);
     }
@@ -280,19 +309,18 @@ class File extends Model
 
     protected function handleAudio()
     {
-        //TODO: logic
+        // no need to encode audio file now
+        Storage::disk('public')
+            ->copy($this->original_full_name, 'encodedFiles/' . $this->original_full_name);
     }
 
     protected function encodeImageToWebp(): bool
     {
-        if ($this->original_ext === self::ENCODE_VIDEO_EXT) {
-            return true;
-        }
+        $path = $this->getOriginPath();
+        $newPath = $this->getEncodePath();
 
-        $path = public_path("storage/{$this->original_full_name}");
         [$width] = getimagesize($path);
         $width = min($width, 800);
-        $newPath = public_path("storage/{$this->encode_full_name}");
 
         switch ($this->original_ext) {
             case 'gif':
@@ -319,7 +347,7 @@ class File extends Model
         if ($result) {
             $error = implode('-', $output);
 
-            logger(__("Encode image to webp failed file - :fileId - error :error", [
+            logger(__("Encode file failed file - :fileId - error :error", [
                 'fileId' => $this->id,
                 'error' => $error,
             ]));
@@ -332,16 +360,16 @@ class File extends Model
 
     protected function syncWidthAndHeight(): bool
     {
-        [$width, $height] = getimagesize(public_path("storage/{$this->encode_full_name}"));
+        [$width, $height] = getimagesize($this->getEncodePath());
 
         $this->width = $width;
         $this->height = $height;
         return $this->save();
     }
 
-    protected function putFileToBackblaze(): bool
+    protected function putFileToB2(): bool
     {
-        $content = Storage::disk('public')->get($this->encode_full_name);
+        $content = Storage::disk('public')->get('encodedFiles/' . $this->encode_full_name);
         try {
             $result = Storage::disk('b2')->put("/{$this->encode_full_name}", $content);
         } catch (\Throwable $th) {
@@ -350,9 +378,22 @@ class File extends Model
         return $result;
     }
 
-    protected function clearLocalFile()
+    protected function changeStatus(bool $isPutToB2Success)
     {
-        $this->clearOriginalFile();
+        if ($isPutToB2Success) {
+            $this->updateStatusSuccess();
+        } else {
+            $this->updateStatusFail();
+        }
+    }
+
+    protected function clearLocalFile(bool $isPutToB2Success)
+    {
+        //如果推送失败，不应该把源文件清除，因为下一次跑 command 的时候还需要用到源文件
+        if ($isPutToB2Success) {
+            $this->clearOriginalFile();
+        }
+
         $this->clearEncodeFile();
     }
 
@@ -363,6 +404,6 @@ class File extends Model
 
     protected function clearEncodeFile()
     {
-        Storage::disk('public')->delete($this->encode_full_name);
+        Storage::disk('public')->delete('encodedFiles/' . $this->encode_full_name);
     }
 }
