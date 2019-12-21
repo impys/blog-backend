@@ -1,12 +1,15 @@
 <template>
-  <div class="flex flex-wrap -mx-1 justify-between">
+  <div class="flex flex-wrap -mx-1 justify-between customer__tags">
     <div
-      class="inline-block mx-1 mb-2 border px-1 rounded text-xs cursor-pointer"
+      class="inline-block mx-1 mb-2 border px-2 py-1 rounded text-sm cursor-pointer"
       v-bind:class="[ isSelected(tag) ? 'bg-primary':'',isSelected(tag) ? 'text-white':'',isSelected(tag) ? 'border-primary':'']"
       v-for="(tag,index) in tags"
       :key="index"
       v-on:click="clickTag(tag)"
-    >{{tag.name+' '+tag.posts_count}}</div>
+    >
+      <span>{{tag.name}}</span>
+      <span>{{tag.posts_count}}</span>
+    </div>
   </div>
 </template>
 

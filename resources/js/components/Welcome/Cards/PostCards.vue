@@ -12,37 +12,13 @@ export default {
 
   components: {
     PostCard
-  },
-
-  mounted() {
-    this.initVideos();
-  },
-
-  data() {
-    return {
-      videos: null
-    };
-  },
-
-  methods: {
-    /**
-     * remove controls attribute of all video dom for hidden control panel
-     */
-    initVideos() {
-      let videos = document.querySelectorAll("video");
-      videos.forEach(video => {
-        if (video.hasAttribute("controls")) {
-          video.removeAttribute("controls");
-        }
-      });
-    }
   }
 };
 </script>
 
 <style lang="scss">
 .custom__masonry {
-  column-count: 1;
+  column-count: 2;
   column-gap: 0;
   counter-reset: item-counter;
 
@@ -54,9 +30,9 @@ export default {
   //     column-count: 2;
   //   }
 
-  @media screen and (min-width: 1024px) {
-    column-count: 2;
-  }
+  //   @media screen and (min-width: 1024px) {
+  //     column-count: 2;
+  //   }
 
   @media screen and (min-width: 1280px) {
     column-count: 3;

@@ -13,10 +13,3 @@ export default {
   props: ["tags"]
 };
 </script>
-
-<style lang="scss">
-.customer__tags::after {
-  content: "";
-  flex: auto;
-}
-</style>

@@ -138,7 +138,7 @@ class Post extends Model
 
     public function getCoverMediaAttribute(): ?file
     {
-        return $this->files()->ofSort(1)->first();
+        return $this->files()->with('poster')->ofSort(1)->first();
     }
 
     public function getAllFileNames(): array

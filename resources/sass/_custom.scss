@@ -1,7 +1,13 @@
 :root {
     --color-primary: #177cb0;
+    --text-color-primary: #4a5568;
 }
 
 * {
     outline: none;
+}
+
+.customer__tags::after {
+    content: "";
+    flex: auto;
 }
