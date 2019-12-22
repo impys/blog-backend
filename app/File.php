@@ -294,10 +294,13 @@ class File extends Model
 
     protected function encodeVideoToMp4(): bool
     {
-        $path = $this->getOriginPath();
-        $newPath = $this->getEncodePath();
-        $command = "ffmpeg -i {$path} -vcodec libx264 {$newPath}  2>&1";
-        return $this->execCommand($command);
+        // no need to encode video file now
+        Storage::disk('public')
+            ->copy($this->original_full_name, 'encodedFiles/' . $this->original_full_name);
+        // $path = $this->getOriginPath();
+        // $newPath = $this->getEncodePath();
+        // $command = "ffmpeg -i {$path} -vcodec libx264 {$newPath}  2>&1";
+        // return $this->execCommand($command);
     }
 
     protected function handleImage()
