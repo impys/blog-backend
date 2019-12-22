@@ -103,6 +103,12 @@ class Post extends Model
         return $query->orderBy('upvote_count', 'desc');
     }
 
+    public function scopeAllFileSuccess($query)
+    {
+        return $query->whereIn('name');
+    }
+
+
     public function getCreatedAtHumanAttribute()
     {
         return $this->created_at->diffForHumans();

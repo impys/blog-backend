@@ -295,6 +295,10 @@ class File extends Model
     protected function encodeVideoToMp4()
     {
         // no need to encode video file now
+        $exists = Storage::disk('public')->exists('encodedFiles/' . $this->original_full_name);
+        if ($exists) {
+            return;
+        }
         Storage::disk('public')
             ->copy($this->original_full_name, 'encodedFiles/' . $this->original_full_name);
         // $path = $this->getOriginPath();
@@ -313,6 +317,10 @@ class File extends Model
     protected function handleAudio()
     {
         // no need to encode audio file now
+        $exists = Storage::disk('public')->exists('encodedFiles/' . $this->original_full_name);
+        if (!$exists) {
+            return;
+        }
         Storage::disk('public')
             ->copy($this->original_full_name, 'encodedFiles/' . $this->original_full_name);
     }
