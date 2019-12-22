@@ -292,7 +292,7 @@ class File extends Model
         // $this->poster()->save($file);
     }
 
-    protected function encodeVideoToMp4(): bool
+    protected function encodeVideoToMp4()
     {
         // no need to encode video file now
         Storage::disk('public')
