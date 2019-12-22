@@ -189,7 +189,6 @@ class File extends Model
         }
         $this->status = self::STATUS_SUCCESS;
         return $this->save();
-        return $this;
     }
 
     public function updateStatusFail(): bool
