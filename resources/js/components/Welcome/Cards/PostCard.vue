@@ -56,10 +56,6 @@ export default {
     ImageMedia,
     VideoMedia,
     AudioMedia
-  },
-
-  mounted() {
-    console.log(this.post);
   }
 };
 </script>

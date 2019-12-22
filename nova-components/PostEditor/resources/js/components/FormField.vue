@@ -140,10 +140,10 @@ export default {
      */
     setLink(typePrefix, url) {
       if (typePrefix == "audio") {
-        this.link = `<audio controls=""><source src="${url}"></audio>`;
+        this.link = `<audio controls controlslist="nodownload" oncontextmenu="return false"><source src="${url}"></audio>`;
       }
       if (typePrefix == "video") {
-        this.link = `<video controls="" controlsList="nodownload"><source src="${url}"></video>`;
+        this.link = `<video controls controlsList="nodownload" oncontextmenu="return false"  preload="metadata"><source src="${url}"></video>`;
       }
       if (typePrefix == "image") {
         let link = `![](${url})\n`;
@@ -197,7 +197,6 @@ export default {
     handleProgress(e) {
       let progressBar = document.getElementById("progressBar");
       if (e.lengthComputable) {
-        console.log(e);
         let percent = Math.round((e.loaded * 100) / e.total);
 
         document.getElementById("progressLabel").innerHTML =
