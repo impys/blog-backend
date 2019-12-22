@@ -64,21 +64,21 @@ class Post extends Resource
             //     })
             //     ->onlyOnDetail(),
 
+            PostEditor::make('body')->hideFromIndex(),
+
+            Boolean::make('Is Enable'),
+
+            Boolean::make('Is Top'),
+
             Text::make('Tags', function () {
                 return $this->tags->pluck('name')->implode('、');
             }),
 
-            Boolean::make('Is Top'),
+            Text::make('Length')->exceptOnForms(),
 
-            Boolean::make('Is Enable'),
+            Text::make('Audio Count')->exceptOnForms(),
 
-            // Text::make('Length')->exceptOnForms(),
-
-            // Text::make('Audio Count')->exceptOnForms(),
-
-            // Text::make('Video Count')->exceptOnForms(),
-
-            PostEditor::make('body')->hideFromIndex(),
+            Text::make('Video Count')->exceptOnForms(),
 
             BelongsTo::make('User')->hideWhenCreating()->hideWhenUpdating(),
 
