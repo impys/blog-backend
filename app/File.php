@@ -344,18 +344,16 @@ class File extends Model
     {
         exec($command, $output, $result); // $result 为 0 代表成功
 
-        if ($result) {
+        if ($result != 0) {
             $error = implode('-', $output);
 
             logger(__("Encode file failed file - :fileId - error :error", [
                 'fileId' => $this->id,
                 'error' => $error,
             ]));
-
-            throw new \Exception("Encode file {$this->id} failed with message {$error}");
         }
 
-        return $result;
+        return !$result;
     }
 
     protected function syncWidthAndHeight(): bool
