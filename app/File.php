@@ -374,7 +374,10 @@ class File extends Model
         try {
             $result = Storage::disk('b2')->put("/{$this->encode_full_name}", $content);
         } catch (\Throwable $th) {
-            throw new \Exception("Put file to b2 failed with message {$th->getMessage()}");
+            logger(__("Put file to b2 failed - :fileId - error :error", [
+                'fileId' => $this->id,
+                'error' => $th->getMessage(),
+            ]));
         }
         return $result;
     }
