@@ -21,7 +21,7 @@ module.exports = {
             colors: {
                 'ching': '#177cb0',
                 'pink': '#fb7299',
-                'black': '#4a5568',
+                'black': '#212121',
                 'grey': '#999999',
             }
         },
