@@ -2,8 +2,8 @@
   <div class="flex flex-wrap px-4">
     <div v-for="n in lastPage" :key="n" :class="[ (n != lastPage) ? 'pr-1':'']">
       <div
-        class="flex items-center justify-center border-gray-700 border rounded-full mb-2 w-8 h-8 cursor-pointer"
-        v-bind:class="[ (n == currentPage) ? 'border-ching':'',(n == currentPage) ? 'text-ching':'']"
+        class="flex items-center justify-center border rounded-full mb-2 w-8 h-8 cursor-pointer"
+        v-bind:class="[ (n == currentPage) ? 'bg-ching':'',(n == currentPage) ? 'text-white':'']"
         v-on:click="clickPaginationButton(n)"
       >{{ n }}</div>
     </div>
