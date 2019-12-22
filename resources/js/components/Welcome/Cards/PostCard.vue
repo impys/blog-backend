@@ -7,7 +7,7 @@
 
       <div class="relative">
         <div
-          class="absolute text-xs text-primary mr-2 mt-1 rotate-45"
+          class="absolute text-xs text-pink mr-2 mt-1 rotate-45"
           v-if="post.is_top"
           style="right:0;top:-2px"
         >
@@ -20,16 +20,13 @@
           class="absolute top-0 left-0 z-10 w-full h-full"
         ></a>
 
-        <div class="px-4 py-2 text-lg">{{ post.title }}</div>
+        <div class="px-4 pt-2 pb-1 text-base">{{ post.title }}</div>
 
-        <div class="flex text-xs px-4" v-if="post.tags.length">
-          <div class="mr-1">
-            <i class="fas fa-tags"></i>
-          </div>
+        <div class="px-4" v-if="post.tags.length">
           <tags :tags="post.tags"></tags>
         </div>
 
-        <div class="flex items-center justify-between px-4 py-2 text-xs text-gray-600">
+        <div class="flex items-center justify-between px-4 pb-2 pt-1 text-xs text-grey">
           <div class="mr-2">{{ post.updated_at_human }}</div>
           <!-- <div class="flex">
           <div class="mr-2">

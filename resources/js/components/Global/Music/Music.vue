@@ -110,7 +110,7 @@ export default {
   }
   .aplayer-pic {
     background-image: none;
-    background-color: var(--color-primary);
+    background-color: var(--color-ching);
   }
   .aplayer-pic .aplayer-pause .aplayer-icon-pause {
     position: absolute;
@@ -136,6 +136,6 @@ export default {
 }
 
 .custpm_search-input {
-  caret-color: var(--color-primary);
+  caret-color: var(--color-ching);
 }
 </style>

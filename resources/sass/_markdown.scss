@@ -15,7 +15,7 @@
         font-size: 1.4em;
         margin: 40px 10px 20px 0;
         padding-left: 9px;
-        border-left: 6px solid var(--color-primary);
+        border-left: 6px solid var(--color-ching);
         font-weight: 700;
         line-height: 1.4;
     }
@@ -24,7 +24,7 @@
         font-size: 1.2em;
         margin: 40px 10px 20px 0;
         padding-left: 9px;
-        border-left: 6px solid var(--color-primary);
+        border-left: 6px solid var(--color-ching);
         font-weight: 700;
         line-height: 1.4;
     }
@@ -76,12 +76,12 @@
     }
 
     a {
-        color: #f22f27;
+        color: var(--color-ching);
         text-decoration: none;
     }
 
     a:hover {
-        color: #f55852;
+        color: var(--color-pink);
         text-decoration: underline;
     }
 
@@ -98,7 +98,7 @@
         line-height: 1.8;
         text-indent: 0;
         border: none;
-        color: #888;
+        color: var(--color-grey);
     }
 
     blockquote:before {

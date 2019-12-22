@@ -7,7 +7,7 @@
   >
     <div class="flex h-10 flex-row items-center min-h-10">
       <transition name="slide-fade" mode="out-in">
-        <i class="fa fa-search text-lg block mx-2 text-primary" v-if="!loading" key="unloading"></i>
+        <i class="fa fa-search text-lg block mx-2 text-ching" v-if="!loading" key="unloading"></i>
         <loading-icon key="loading" v-if="loading"></loading-icon>
       </transition>
       <input
@@ -15,10 +15,10 @@
         ref="searchInput"
         v-model="query"
         @keyup.enter="search"
-        class="outline-none border-transparent text-sm bg-transparent h-6 w-full z-10 custpm_search-input"
+        class="outline-none border-transparent text-sm bg-transparent h-6 w-full z-10 custom_search-input"
       />
       <i
-        class="fas fa-times text-lg block mx-2 text-gray-400 cursor-pointer"
+        class="fas fa-times text-lg block mx-2 text-grey cursor-pointer"
         v-if="query.length"
         @click="resetSearchInput()"
       ></i>
@@ -118,7 +118,7 @@ export default {
       }
     },
     handleMouseLeave() {
-      this.hidden = true;
+    //   this.hidden = true;
     }
   }
 };
@@ -141,7 +141,7 @@ export default {
 }
 
 .highlight {
-  color: var(--color-primary);
+  color: var(--color-ching);
 }
 
 .custom__box-shadow {
@@ -149,7 +149,7 @@ export default {
     0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 }
 
-.custpm_search-input {
-  caret-color: var(--color-primary);
+.custom_search-input {
+  caret-color: var(--color-ching);
 }
 </style>

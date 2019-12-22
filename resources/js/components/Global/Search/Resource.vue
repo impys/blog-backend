@@ -3,7 +3,7 @@
     <div class="mb-2 w-full flex justify-between sticky bg-white z-10" style="top:0">
       <div>
         <h2 class="text-lg">{{ resource.label_zh }}</h2>
-        <div class="bg-primary w-full h-1 rounded-lg shadow-md -mt-1"></div>
+        <div class="bg-ching w-full h-1 rounded-lg shadow-md -mt-1"></div>
       </div>
     </div>
     <component

@@ -3,7 +3,7 @@
     <div v-for="n in lastPage" :key="n" :class="[ (n != lastPage) ? 'pr-1':'']">
       <div
         class="flex items-center justify-center border-gray-700 border rounded-full mb-2 w-8 h-8 cursor-pointer"
-        v-bind:class="[ (n == currentPage) ? 'border-primary':'',(n == currentPage) ? 'text-primary':'']"
+        v-bind:class="[ (n == currentPage) ? 'border-ching':'',(n == currentPage) ? 'text-ching':'']"
         v-on:click="clickPaginationButton(n)"
       >{{ n }}</div>
     </div>

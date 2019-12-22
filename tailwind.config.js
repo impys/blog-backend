@@ -19,7 +19,10 @@ module.exports = {
         },
         extend: {
             colors: {
-                'primary': '#177cb0',
+                'ching': '#177cb0',
+                'pink': '#fb7299',
+                'black': '#4a5568',
+                'grey': '#999999',
             }
         },
     },

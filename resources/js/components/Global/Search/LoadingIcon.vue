@@ -40,6 +40,6 @@
 <style lang="scss">
 svg path,
 svg rect {
-  fill: var(--color-primary);
+  fill: var(--color-ching);
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-wrap justify-between customer__tags">
+  <div class="flex flex-wrap text-xs justify-between last-row-justify-start">
     <div
       v-for="(tag,index) in tags"
       :key="index"
-      class="text-gray-700 rounded px-1 mr-1 mb-1 bg-gray-100"
+      class="rounded px-1 mr-1 my-1 text-pink border border-pink"
     >{{ tag.name }}</div>
   </div>
 </template>
