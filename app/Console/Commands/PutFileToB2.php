@@ -13,10 +13,13 @@ class PutFileToB2 extends Command
 
     public function handle()
     {
-        File::query()
+        $files = File::query()
             ->notOfStatus(File::STATUS_SUCCESS)
-            ->get()
-            ->each
-            ->handlePutFileToB2();
+            ->get();
+
+        foreach ($files as $file) {
+            $file->handlePutFileToB2();
+            sleep(60);
+        }
     }
 }
