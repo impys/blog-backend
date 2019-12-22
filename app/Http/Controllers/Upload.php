@@ -16,6 +16,10 @@ class Upload extends Controller
      */
     public function __invoke(Request $request, UploadService $uploadService)
     {
+        $request->validate([
+            'file' => 'required|file|mimetypes:video/mp4,image/png,image/jpeg,image/gif',
+        ]);
+
         $uploadedFile = $request->file;
 
         $file = $uploadService->store($uploadedFile);
