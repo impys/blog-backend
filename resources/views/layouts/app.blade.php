@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') - Moreless Blog</title>
+    <title>@yield('title') - 青风百里的博客</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

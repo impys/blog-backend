@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','文章')
+@section('title',$post->title)
 
 @section('content')
 
