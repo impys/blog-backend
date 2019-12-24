@@ -6726,6 +6726,11 @@ vm-browserify@^1.0.1:
   resolved "https://registry.npm.taobao.org/vm-browserify/download/vm-browserify-1.1.0.tgz#bd76d6a23323e2ca8ffa12028dc04559c75f9019"
   integrity sha1-vXbWojMj4sqP+hICjcBFWcdfkBk=
 
+vudio.js@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npm.taobao.org/vudio.js/download/vudio.js-1.0.3.tgz#a4310316475ded4572e0daf55e30ed791adbd46f"
+  integrity sha1-pDEDFkdd7UVy4Nr1XjDteRrb1G8=
+
 vue-aplayer@^1.6.1:
   version "1.6.1"
   resolved "https://registry.npm.taobao.org/vue-aplayer/download/vue-aplayer-1.6.1.tgz#17fd419b091e09425bc737fa9e84f55565160df6"
