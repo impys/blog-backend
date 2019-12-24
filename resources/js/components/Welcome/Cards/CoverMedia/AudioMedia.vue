@@ -3,6 +3,7 @@
     <audio
       :id="'audio-'+media.id"
       class="w-full z-10"
+      crossorigin="anonymous"
       controls
       controlslist="nodownload"
       @play="handlePlay"
