@@ -192,43 +192,6 @@ class Post extends Model
         }
     }
 
-    // /**
-    //  * get the first image or video or audio file of this post
-    //  *
-    //  * @param string $type
-    //  * @return File|null
-    //  */
-    // public function getFirstFileFor(string $type): ?File
-    // {
-    //     $assetPrefix = config('filesystems.disks.b2.asset_prefix');
-
-    //     $assetPrefix = preg_replace("/\//", "\\\/", $assetPrefix);
-
-    //     switch ($type) {
-    //         case File::TYPE_VIDEO:
-    //             $pattern = "/<source src=\"" . $assetPrefix . "(.*)\">/U";
-    //             break;
-    //         case File::TYPE_IMAGE:
-    //             $pattern = "/\!\[\]\(" . $assetPrefix . "(.*)." . File::ENCODE_IMAGE_EXT . "\)/U";
-    //             break;
-    //         default:
-    //             break;
-    //     }
-
-    //     preg_match_all($pattern, $this->body, $res);
-
-    //     if (!count($res[0])) {
-    //         return null;
-    //     }
-
-    //     $fileName = $res[1][0];
-
-    //     return File::query()
-    //         ->with('poster')
-    //         ->ofName($fileName)
-    //         ->first();
-    // }
-
     /**
      * 给文章打标签
      *
