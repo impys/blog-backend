@@ -10,10 +10,10 @@
     "require": {
         "php": "^7.2",
         "algolia/algoliasearch-client-php": "^2.2",
+        "barryvdh/laravel-cors": "^0.11",
         "fideloper/proxy": "^4.0",
         "fzaninotto/faker": "^1.8",
         "gliterd/laravel-backblaze-b2": "^1.2",
-        "intervention/image": "^2.5",
         "laravel/framework": "^6.3",
         "laravel/nova": "*",
         "laravel/scout": "^7.2",
