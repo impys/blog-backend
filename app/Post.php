@@ -261,6 +261,7 @@ class Post extends Model
     public static function getPostsPaginator(?array $tagIds)
     {
         return self::query()
+            ->enable()
             ->with('tags')
             ->when($tagIds, function ($query) use ($tagIds) {
                 return $query->inTagIds($tagIds);
