@@ -317,7 +317,7 @@ class File extends Model
     {
         // no need to encode audio file now
         $exists = Storage::disk('public')->exists('encodedFiles/' . $this->original_full_name);
-        if (!$exists) {
+        if ($exists) {
             return;
         }
         Storage::disk('public')
