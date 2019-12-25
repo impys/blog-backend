@@ -31,7 +31,7 @@ class File extends Model
 
     public function getUrlAttribute(): string
     {
-        return asset("assets/{$this->name}");
+        return Storage::disk('public')->url("assets/{$this->name}");
     }
 
     public function scopeOfName($query, string $name)
