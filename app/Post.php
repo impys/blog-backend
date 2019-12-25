@@ -9,6 +9,7 @@ use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {
@@ -129,9 +130,9 @@ class Post extends Model
 
     public function getAllFilesName(): array
     {
-        $prefix = preg_replace("/\//", "\\\/", url("/assets"));
+        $prefix = preg_replace("/\//", "\\\/", Storage::disk('public')->url("assets/"));
 
-        $pattern = "/$prefix\/(.*)(\)|\")/U";
+        $pattern = "/$prefix(.*)(\)|\")/U";
 
         preg_match_all($pattern, $this->body, $results);
 
