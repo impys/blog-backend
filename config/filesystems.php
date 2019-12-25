@@ -63,14 +63,6 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
-
-        'b2' => [
-            'driver' => 'b2',
-            'accountId' => env('BACKBLAZE_ID'),
-            'applicationKey' => env('BACKBLAZE_KEY'),
-            'bucketName' => env('BACKBLAZE_BUCKET_NAME'),
-            'asset_prefix' => env('BUKET_ASSEET_PREFIX'),
-        ],
     ],
 
 ];

@@ -1,7 +1,6 @@
 <template>
   <div class="lg:w-1/3 hidden lg:block ml-4">
-    <tags :tags="tags" class="mb-4"></tags>
-    <!-- <music></music> -->
+    <!-- <tags :tags="tags" class="mb-4"></tags> -->
   </div>
 </template>
 

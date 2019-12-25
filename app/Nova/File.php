@@ -39,7 +39,6 @@ class File extends Resource
 
     public static $with = [
         'post',
-        'poster',
     ];
 
     /**
@@ -55,9 +54,6 @@ class File extends Resource
 
             BelongsTo::make('post'),
 
-            Text::make('Status')
-                ->sortable(),
-
             Text::make('Type')
                 ->sortable(),
 
@@ -67,16 +63,8 @@ class File extends Resource
             Text::make('Size')
                 ->sortable(),
 
-            Text::make('Original Ext')
-                ->sortable(),
-
-            Text::make('Encode Ext')
-                ->sortable(),
-
             Text::make('Width')
                 ->sortable(),
-
-            BelongsTo::make('Poster', 'poster', self::class),
 
             Text::make('Height')
                 ->sortable(),

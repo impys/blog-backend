@@ -29,7 +29,6 @@ Vue.component('Welcome', require('./components/Welcome/Welcome.vue').default);
 // global
 Vue.component('Paginator', require('./components/Global/Paginator.vue').default);
 Vue.component('Search', require('./components/Global/Search/Search.vue').default);
-Vue.component('Music', require('./components/Global/Music/Music.vue').default);
 Vue.component('Tags', require('./components/Global/Tag/Tags.vue').default);
 
 Vue.component('Post', require('./components/Post/Post.vue').default);

@@ -6731,11 +6731,6 @@ vudio.js@^1.0.3:
   resolved "https://registry.npm.taobao.org/vudio.js/download/vudio.js-1.0.3.tgz#a4310316475ded4572e0daf55e30ed791adbd46f"
   integrity sha1-pDEDFkdd7UVy4Nr1XjDteRrb1G8=
 
-vue-aplayer@^1.6.1:
-  version "1.6.1"
-  resolved "https://registry.npm.taobao.org/vue-aplayer/download/vue-aplayer-1.6.1.tgz#17fd419b091e09425bc737fa9e84f55565160df6"
-  integrity sha1-F/1BmwkeCUJbxzf6noT1VWUWDfY=
-
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.4.tgz?cache=0&sync_timestamp=1568190386192&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-hot-reload-api%2Fdownload%2Fvue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"

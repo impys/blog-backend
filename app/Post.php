@@ -31,7 +31,6 @@ class Post extends Model
         'updated_at_human',
         'length',
         'audio_count',
-        'video_count',
         'cover_media',
     ];
 
@@ -103,12 +102,6 @@ class Post extends Model
         return $query->orderBy('upvote_count', 'desc');
     }
 
-    public function scopeAllFileSuccess($query)
-    {
-        return $query->whereIn('name');
-    }
-
-
     public function getCreatedAtHumanAttribute()
     {
         return $this->created_at->diffForHumans();
@@ -119,39 +112,26 @@ class Post extends Model
         return $this->updated_at->diffForHumans();
     }
 
-    public function getLengthAttribute(): string
+    public function getLengthAttribute()
     {
-        $length = mb_strlen($this->body, 'utf-8');
-
-        if ($length > 300) {
-            return 'more';
-        } else {
-            return 'less';
-        }
+        return mb_strlen($this->body, 'utf-8');
     }
 
     public function getAudioCountAttribute(): int
     {
-        preg_match_all("/<audio(.*)>(.*)<\/audio>/U", $this->body, $res);
-        return count($res[0]);
-    }
-
-    public function getVideoCountAttribute(): int
-    {
-        preg_match_all("/<video(.*)>(.*)<\/video>/U", $this->body, $res);
-        return count($res[0]);
+        return $this->files()->ofType(File::TYPE_AUDIO)->count();
     }
 
     public function getCoverMediaAttribute(): ?file
     {
-        return $this->files()->with('poster')->ofSort(1)->first();
+        return $this->files()->ofSort(1)->first();
     }
 
-    public function getAllFileNames(): array
+    public function getAllFilesName(): array
     {
-        $prefix = preg_replace("/\//", "\\\/", config('filesystems.disks.b2.asset_prefix'));
+        $prefix = preg_replace("/\//", "\\\/", url("/assets"));
 
-        $pattern = "/$prefix(.*)\./U";
+        $pattern = "/$prefix\/(.*)(\)|\")/U";
 
         preg_match_all($pattern, $this->body, $results);
 
@@ -179,7 +159,7 @@ class Post extends Model
 
     protected function associateFiles()
     {
-        $names = $this->getAllFileNames();
+        $names = $this->getAllFilesName();
 
         $sort = array_flip($names);
 

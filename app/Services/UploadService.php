@@ -13,9 +13,9 @@ class UploadService
         return DB::transaction(function () use ($uploadedFile) {
             $file = File::newInstanceForUploadFile($uploadedFile);
 
-            $file->save();
+            $uploadedFile->storeAs('/public/assets/', $file->name);
 
-            $uploadedFile->storeAs('/public', $file->original_full_name);
+            $file->save();
 
             return $file;
         });

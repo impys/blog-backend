@@ -24,5 +24,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         \App\Post::observe(\App\Observers\PostObserver::class);
+        \App\File::observe(\App\Observers\FileObserver::class);
     }
 }

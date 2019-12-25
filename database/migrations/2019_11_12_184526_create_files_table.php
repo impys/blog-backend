@@ -17,18 +17,12 @@ class CreateFilesTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
 
-            $table->string('status');
             $table->string('type');
             $table->string('mime');
             $table->string('name');
             $table->string('size');
-            $table->string('original_ext');
-            $table->string('encode_ext')->nullable();
             $table->string('width')->nullable();
             $table->string('height')->nullable();
-
-            $table->unsignedBigInteger('poster_id')->nullable();
-            $table->foreign('poster_id')->references('id')->on('files');
 
             $table->unsignedBigInteger('post_id')->nullable();
             $table->foreign('post_id')->references('id')->on('posts');

@@ -7,7 +7,6 @@ use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Qingfengbaili\PostEditor\PostEditor;
 use Qingfengbaili\TagAutocomplete\TagAutocomplete;
@@ -35,10 +34,13 @@ class Post extends Resource
      */
     public static $search = [
         'id',
+        'title',
     ];
 
     public static $with = [
         'tags',
+        'files',
+        'user',
     ];
 
     /**
@@ -55,15 +57,6 @@ class Post extends Resource
             Text::make('Title')
                 ->sortable(),
 
-            // Image::make('Cover')
-            //     ->preview(function () {
-            //         return $this->cover;
-            //     })
-            //     ->thumbnail(function () {
-            //         return $this->cover;
-            //     })
-            //     ->onlyOnDetail(),
-
             PostEditor::make('body')->hideFromIndex(),
 
             Boolean::make('Is Enable'),
@@ -77,8 +70,6 @@ class Post extends Resource
             Text::make('Length')->exceptOnForms(),
 
             Text::make('Audio Count')->exceptOnForms(),
-
-            Text::make('Video Count')->exceptOnForms(),
 
             BelongsTo::make('User')->hideWhenCreating()->hideWhenUpdating(),
 

@@ -46,7 +46,6 @@
 
 <script>
 import ImageMedia from "./CoverMedia/ImageMedia";
-import VideoMedia from "./CoverMedia/VideoMedia";
 import AudioMedia from "./CoverMedia/AudioMedia";
 
 export default {
@@ -54,7 +53,6 @@ export default {
 
   components: {
     ImageMedia,
-    VideoMedia,
     AudioMedia
   }
 };
