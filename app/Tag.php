@@ -11,10 +11,6 @@ class Tag extends Model
         'name'
     ];
 
-    protected $appends = [
-        'posts_count'
-    ];
-
     public function posts()
     {
         return $this->belongsToMany(Post::class);
@@ -28,11 +24,6 @@ class Tag extends Model
     public function scopeHasPosts($query)
     {
         return $query->whereHas('posts');
-    }
-
-    public function getPostsCountAttribute()
-    {
-        return $this->posts()->count();
     }
 
     public static function findOrCreateByNames(array $names)

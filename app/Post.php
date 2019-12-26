@@ -120,12 +120,12 @@ class Post extends Model
 
     public function getAudioCountAttribute(): int
     {
-        return $this->files()->ofType(File::TYPE_AUDIO)->count();
+        return $this->files->where('type', File::TYPE_AUDIO)->count();
     }
 
     public function getCoverMediaAttribute(): ?file
     {
-        return $this->files()->ofSort(1)->first();
+        return $this->files->firstWhere('sort', 1);
     }
 
     public function getAllFilesName(): array
@@ -206,7 +206,7 @@ class Post extends Model
     {
         return self::query()
             ->enable()
-            ->with('tags')
+            ->with(['tags', 'files'])
             ->when($tagIds, function ($query) use ($tagIds) {
                 return $query->inTagIds($tagIds);
             })
