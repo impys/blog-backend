@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-wrap -mx-1 justify-between last-row-justify-start">
     <div
-      class="inline-block mx-1 mb-2 border px-2 py-1 rounded text-xs cursor-pointer"
+      class="inline-block bg-white mx-1 mb-2 border px-2 py-1 rounded text-xs cursor-pointer"
       v-bind:class="[ isSelected(tag) ? 'bg-pink':'',isSelected(tag) ? 'text-white':'',isSelected(tag) ? 'border-pink':'']"
       v-for="(tag,index) in tags"
       :key="index"

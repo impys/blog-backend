@@ -5,7 +5,7 @@
         <component :is="post.cover_media.type+'-media'" :media="post.cover_media"></component>
       </div>
 
-      <div class="relative">
+      <div class="relative bg-white">
         <div
           class="absolute text-xs text-pink mr-2 mt-1 rotate-45"
           v-if="post.is_top"

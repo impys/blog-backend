@@ -71,6 +71,10 @@ export default {
 </script>
 
 <style lang="scss">
+audio {
+  border-left: 2px solid var(--color-pink);
+}
+
 audio::-webkit-media-controls-current-time-display,
 audio::-webkit-media-controls-time-remaining-display,
 audio::-webkit-media-controls-timeline,
@@ -81,6 +85,6 @@ audio::-webkit-media-controls-enclosure {
   background-color: transparent;
 }
 audio::-webkit-media-controls-panel {
-  padding-left: 8px;
+  padding-left: 4px;
 }
 </style>

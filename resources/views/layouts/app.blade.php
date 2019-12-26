@@ -17,7 +17,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
-<body class="text-black antialiased leading-tight">
+<body class="text-black antialiased leading-tight bg-white">
     <div id="app" class="relative">
 
         <header class="h-16 fixed w-full bg-white z-20">
