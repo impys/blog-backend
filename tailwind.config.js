@@ -2,6 +2,11 @@ module.exports = {
     theme: {
         extend: {},
         inset: {},
+        screens: {
+            'sm': { 'min': '640px', 'max': '767px' },
+            'md': { 'min': '768px', 'max': '1399px' },
+            'lg': { 'min': '1400px' }
+        },
         minHeight: {
             '10': '2.5rem',
         },
@@ -15,7 +20,7 @@ module.exports = {
             '3/4': '75%',
             'full': '100%',
             'vh-96': '96vh',
-            'vh-92': '80vh',
+            'vh-60': '60vh',
         },
         extend: {
             colors: {
@@ -23,6 +28,7 @@ module.exports = {
                 'pink': '#fb7299',
                 'black': '#212121',
                 'grey': '#999999',
+                'offwhite': '#f6f6f6',
             }
         },
     },

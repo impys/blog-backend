@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-use App\Tag;
 use Illuminate\Http\Request;
-use App\Http\Resources\PostsResource;
 
 class Welcome extends Controller
 {
@@ -17,20 +15,12 @@ class Welcome extends Controller
      */
     public function __invoke(Request $request)
     {
-        $tagIds = json_decode($request->input('tags'));
+        $posts = Post::query()
+            ->enable()
+            ->with(['tags', 'files'])
+            ->latest()
+            ->paginate(Post::SIZE);
 
-        $posts = Post::getPostsPaginator($tagIds);
-
-        $tags = Tag::query()
-            ->withCount('posts')
-            ->hasPosts()
-            ->get();
-
-        return view('Welcome', [
-            'data' => [
-                'posts' => $posts,
-                'tags' => $tags
-            ],
-        ]);
+        return view('Welcome', ['posts' => $posts]);
     }
 }

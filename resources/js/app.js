@@ -23,14 +23,8 @@ window.EventHub = new Vue();
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-// Vue.component('article-card', require('./components/ArticleCard.vue').default);
-Vue.component('Welcome', require('./components/Welcome/Welcome.vue').default);
-
-// global
-Vue.component('Paginator', require('./components/Global/Paginator.vue').default);
-Vue.component('Search', require('./components/Global/Search/Search.vue').default);
-Vue.component('Tags', require('./components/Global/Tag/Tags.vue').default);
-
+Vue.component('Search', require('./components/Search/Search.vue').default);
+Vue.component('PostCards', require('./components/Cards/Post/PostCards.vue').default);
 Vue.component('Post', require('./components/Post/Post.vue').default);
 
 /**

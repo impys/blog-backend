@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use App\Http\Resources\PostSearchCollection;
 
 class Search extends Controller
 {
@@ -17,16 +18,8 @@ class Search extends Controller
     {
         $query = $request->input('query');
 
-        $posts = handle_hits(Post::search($query)->raw()['hits']);
+        $posts = Post::search($query)->paginateRaw();
 
-        $data = [
-            [
-                'label' => 'post',
-                'label_zh' => '文章',
-                'data' => $posts
-            ]
-        ];
-
-        return response()->json($data);
+        return new PostSearchCollection($posts);
     }
 }

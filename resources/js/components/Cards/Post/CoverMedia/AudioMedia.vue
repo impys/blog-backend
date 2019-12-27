@@ -1,7 +1,7 @@
 <template>
   <div class="rounded-t relative">
     <audio
-      :id="'audio-'+media.id"
+      :id="'audio-' + media.id"
       class="w-full z-10"
       crossorigin="anonymous"
       controls
@@ -11,7 +11,7 @@
       <source :src="media.url" />
     </audio>
     <canvas
-      :id="'canvas-'+media.id"
+      :id="'canvas-' + media.id"
       class="absolute w-full h-full"
       style="top:0;left:0px;z-index:-1"
     ></canvas>
@@ -71,10 +71,6 @@ export default {
 </script>
 
 <style lang="scss">
-audio {
-  border-left: 2px solid var(--color-pink);
-}
-
 audio::-webkit-media-controls-current-time-display,
 audio::-webkit-media-controls-time-remaining-display,
 audio::-webkit-media-controls-timeline,

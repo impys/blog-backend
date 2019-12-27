@@ -1,6 +1,6 @@
 <template>
-  <div class="custom__masonry">
-    <post-card v-for="post in posts" :key="post.id" :post="post" class="custom__masonry-item"></post-card>
+  <div class="custom__masonry -mx-2 lg:-mx-3">
+    <post-card v-for="post in posts.data" :key="post.id" :post="post" class="custom__masonry-item"></post-card>
   </div>
 </template>
 
@@ -30,12 +30,12 @@ export default {
   //     column-count: 2;
   //   }
 
-  //   @media screen and (min-width: 1024px) {
-  //     column-count: 2;
-  //   }
-
-  @media screen and (min-width: 1280px) {
+  @media screen and (min-width: 1024px) {
     column-count: 3;
+  }
+
+  @media screen and (min-width: 1400px) {
+    column-count: 4;
   }
 }
 

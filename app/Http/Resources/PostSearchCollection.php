@@ -2,9 +2,7 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-
-class PostsResource extends JsonResource
+class PostSearchCollection extends BaseSearchCollection
 {
     /**
      * Transform the resource into an array.
@@ -14,8 +12,9 @@ class PostsResource extends JsonResource
      */
     public function toArray($request)
     {
-        $this->setHidden(['body']);
-
-        return parent::toArray($request);
+        return [
+            'data' => $this->getHits(),
+            'meta' => $this->getMeta(),
+        ];
     }
 }

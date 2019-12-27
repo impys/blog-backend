@@ -8,7 +8,7 @@
       y="0px"
       width="34px"
       height="34px"
-      viewBox="-6 -4 50 50"
+      viewBox="-6 -5 50 50"
       enable-background="new 0 0 40 40"
       xml:space="preserve"
     >

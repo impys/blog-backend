@@ -1,18 +1,15 @@
 <?php
 
+namespace App\Http\Resources;
+
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Arr;
 
-if (!function_exists('unslug')) {
-    function unslug($slug)
+class BaseSearchCollection extends ResourceCollection
+{
+    public function getHits(): array
     {
-        return ucfirst(str_replace('-', ' ', $slug));
-    }
-}
-
-if (!function_exists('handle_hits')) {
-    function handle_hits(array $hits)
-    {
-        return collect($hits)
+        return collect($this->collection->get('hits'))
             ->map(function ($hit) {
                 $snippetResult = $hit['_snippetResult'];
                 foreach ($snippetResult as $attr => $snippet) {
@@ -26,5 +23,10 @@ if (!function_exists('handle_hits')) {
             })
             ->values()
             ->toArray();
+    }
+
+    public function getMeta()
+    {
+        return $this->collection->except('hits')->toArray();
     }
 }

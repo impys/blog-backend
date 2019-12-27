@@ -202,18 +202,6 @@ class Post extends Model
             ->toArray();
     }
 
-    public static function getPostsPaginator(?array $tagIds)
-    {
-        return self::query()
-            ->enable()
-            ->with(['tags', 'files'])
-            ->when($tagIds, function ($query) use ($tagIds) {
-                return $query->inTagIds($tagIds);
-            })
-            ->latest()
-            ->paginate(self::SIZE);
-    }
-
     // public function fillSlug()
     // {
     //     $this->slug = $this->id;

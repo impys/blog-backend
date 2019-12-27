@@ -21,18 +21,20 @@
     <div id="app" class="relative">
 
         <header class="h-16 fixed w-full bg-white z-20">
-            <nav class="container mx-auto py-3 h-16 pl-4 pr-4 lg:pr-0 flex items-start justify-between">
-                <div class="mr-4 flex-shrink-0">
-                    <a href="/" class="text-3xl pr-4">
-                        <img src="{{ asset('img/logo.png') }}" alt="qingfeng.blog" class="h-10 w-10">
+            <nav class="container mx-auto py-3 px-4 lg:px-0 h-16 flex items-start justify-between">
+                <div class="flex-shrink-0 h-10 w-10 mr-4 lg:mr-0">
+                    <a href="/" class="text-3xl">
+                        <img src="{{ asset('img/logo.png') }}" alt="qingfeng.blog">
                     </a>
                 </div>
-                <search></search>
+                <div class="w-full sm:w-full lg:w-1/4">
+                    <search></search>
+                </div>
 
             </nav>
         </header>
 
-        <div class="container mx-auto py-24">
+        <div class="container mx-auto py-24 px-4 lg:px-0">
             @yield('content')
         </div>
     </div>

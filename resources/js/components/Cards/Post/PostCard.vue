@@ -1,11 +1,11 @@
 <template>
-  <div class="px-4 pb-8">
-    <div class="rounded shadow hover:shadow-xl custom__post-card">
+  <div class="mx-2 pb-4 lg:mx-3 lg:pb-6">
+    <div class="rounded border border-black">
       <div v-if="post.cover_media">
         <component :is="post.cover_media.type+'-media'" :media="post.cover_media"></component>
       </div>
 
-      <div class="relative bg-white">
+      <div class="relative bg-white rounded">
         <div
           class="absolute text-xs text-pink mr-2 mt-1 rotate-45"
           v-if="post.is_top"
@@ -14,13 +14,16 @@
           <i class="fas fa-thumbtack"></i>
         </div>
 
-        <a
+        <!-- <a
           :href="'/posts/' + post.id"
           target="_blank"
           class="absolute top-0 left-0 z-10 w-full h-full"
-        ></a>
+        ></a>-->
 
-        <div class="px-4 pt-2 pb-1 text-base">{{ post.title }}</div>
+        <a
+          :href="'/posts/' + post.id"
+          class="px-4 pt-2 pb-1 text-black hover:text-ching block w-full"
+        >{{ post.title }}</a>
 
         <div class="px-4" v-if="post.tags.length">
           <tags :tags="post.tags"></tags>
@@ -47,19 +50,15 @@
 <script>
 import ImageMedia from "./CoverMedia/ImageMedia";
 import AudioMedia from "./CoverMedia/AudioMedia";
+import Tags from "./Tags";
 
 export default {
-  props: ["post", "width"],
+  props: ["post"],
 
   components: {
     ImageMedia,
-    AudioMedia
+    AudioMedia,
+    Tags
   }
 };
 </script>
-
-<style lang="scss">
-.custom__post-card {
-  transition: 0.6s box-shadow;
-}
-</style>

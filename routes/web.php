@@ -18,7 +18,6 @@
 Route::get('/', 'Welcome');
 
 Route::group(['middleware' => 'throttle'], function () {
-    Route::get('/posts', 'FetchPosts');
     Route::get('/posts/{post}', 'ShowPost');
     Route::get('/search', 'Search');
 });

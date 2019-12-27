@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,5 +26,8 @@ class AppServiceProvider extends ServiceProvider
     {
         \App\Post::observe(\App\Observers\PostObserver::class);
         \App\File::observe(\App\Observers\FileObserver::class);
+
+
+        Paginator::defaultView('vendor.pagination.default');
     }
 }
