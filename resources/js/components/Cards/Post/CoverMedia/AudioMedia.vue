@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-t relative">
+  <div class="rounded-t relative block sm:hidden md:block">
     <audio
       :id="'audio-' + media.id"
       class="w-full"
