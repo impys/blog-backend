@@ -23,11 +23,11 @@
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
                         @if ($page == $paginator->currentPage())
-                            <li class="flex items-center justify-center mx-1 border rounded-full w-8 h-8 bg-ching text-white">
+                            <li class="flex items-center justify-center mx-1 border-none rounded-full w-8 h-8 bg-ching text-white">
                                 <span>{{ $page }}</span>
                             </li>
                         @else
-                            <li class="flex items-center justify-center mx-1 border rounded-full w-8 h-8 bg-white text-black relative">
+                            <li class="flex items-center justify-center mx-1 border border-black rounded-full w-8 h-8 bg-white text-black relative">
                                 <a href="{{ $url }}" class="absolute top-0 left-0 z-10 w-full h-full"></a>
                                 <span>{{ $page }}</span>
                             </li>

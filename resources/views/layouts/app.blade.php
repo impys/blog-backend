@@ -27,10 +27,13 @@
                         <img src="{{ asset('img/logo.png') }}" alt="qingfeng.blog">
                     </a>
                 </div>
-                <div class="w-full sm:w-full lg:w-1/4">
+                <div class="w-full md:w-1/3 lg:w-1/4 py-1 lg:py-0">
                     <search></search>
                 </div>
-
+                <div
+                    class="flex items-center justify-center flex-shrink-0 h-10 w-10 ml-4 block md:hidden lg:hidden text-4xl text-ching">
+                    <i class="fas fa-bars block"></i>
+                </div>
             </nav>
         </header>
 

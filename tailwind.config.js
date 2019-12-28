@@ -1,6 +1,5 @@
 module.exports = {
     theme: {
-        extend: {},
         inset: {},
         screens: {
             'sm': { 'min': '640px', 'max': '767px' },
@@ -9,9 +8,7 @@ module.exports = {
         },
         minHeight: {
             '10': '2.5rem',
-        },
-        minWidth: {
-            'xp-320': '320px',
+            '8': '2em',
         },
         maxHeight: {
             '0': '0',
@@ -21,14 +18,23 @@ module.exports = {
             'full': '100%',
             'vh-96': '96vh',
             'vh-60': '60vh',
+            'vh-45': '45vh',
+        },
+        boxShadow: {
+            'focus': '0 4px 6px 0 rgba(32,33,36,0.28);'
         },
         extend: {
             colors: {
-                'ching': '#177cb0',
-                'pink': '#fb7299',
-                'black': '#212121',
-                'grey': '#999999',
-                'offwhite': '#f6f6f6',
+                'ching': 'var(--color-ching)',
+                'pink': 'var(--color-pink)',
+                'black': 'var(--color-black)',
+                'grey': 'var(--color-grey)',
+                'offwhite': 'var(--color-offwhite)',
+            },
+            borderRadius: {
+                '16': '16px',
+                '20': '20px',
+                '22': '22px',
             }
         },
     },
@@ -50,6 +56,12 @@ module.exports = {
                 },
                 '.rotate-270': {
                     transform: 'rotate(270deg)',
+                },
+                '.transition-box-shadow-05': {
+                    transition: '.5s box-shadow ease-in-out',
+                },
+                '.input-caret-color-ching': {
+                    'caret-color': 'var(--color-ching)',
                 },
             }
 

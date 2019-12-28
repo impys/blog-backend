@@ -1,26 +1,32 @@
 <template>
-  <div class="flex flex-col max-h-vh-96 bg-offwhite rounded">
-    <div class="flex flex-row items-center min-h-10">
+  <div
+    class="flex flex-col max-h-vh-45 bg-offwhite rounded-16 lg:rounded-20 hover:shadow-focus transition-box-shadow-05"
+  >
+    <div class="flex flex-row items-center min-h-8 lg:min-h-10">
       <!-- icon -->
       <transition name="slide-fade" mode="out-in">
         <i class="fa fa-search text-lg block mx-2 text-ching" v-if="!searchLoading" key="unloading"></i>
-        <loading-icon key="loading" v-if="searchLoading"></loading-icon>
+        <loading-icon key="loading" v-if="searchLoading" style="margin:0 1px;"></loading-icon>
       </transition>
       <!-- icon -->
 
       <input
         type="text"
         ref="searchInput"
-        :disabled="searchLoading"
         v-model="query"
         @keyup.enter="search()"
-        class="outline-none border-transparent bg-transparent h-6 w-full z-10 custom_search-input"
+        class="outline-none border-transparent bg-transparent h-6 w-full z-10 input-caret-color-ching"
       />
+      <i
+        class="fas fa-times text-lg block mx-2 text-grey cursor-pointer"
+        v-if="query.length"
+        @click="resetSearch()"
+      ></i>
     </div>
 
     <div v-if="meta && !searchLoading" class="overflow-y-auto" style="padding:0 34px 8px 34px">
       <!-- tips -->
-      <div class="text-xs text-grey">
+      <div class="text-xs text-grey test">
         <span>搜索到{{meta.total}}个结果</span>
       </div>
       <!-- tips -->
@@ -186,11 +192,6 @@ export default {
 }
 
 .highlight {
-  color: var(--color-pink);
-  font-weight: 700;
-}
-
-.custom_search-input {
-  caret-color: var(--color-ching);
+  border-bottom: 2px solid var(--color-pink);
 }
 </style>

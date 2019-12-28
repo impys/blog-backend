@@ -1,6 +1,6 @@
 <template>
   <div class="mx-2 pb-4 lg:mx-3 lg:pb-6">
-    <div class="rounded border border-black">
+    <div class="rounded border border-black hover:shadow-focus transition-box-shadow-05">
       <a v-if="post.cover_media" :href="'/posts/' + post.id">
         <component :is="post.cover_media.type+'-media'" :media="post.cover_media"></component>
       </a>
@@ -17,16 +17,9 @@
           <i class="fas fa-thumbtack"></i>
         </div>
 
-        <!-- <a
-          :href="'/posts/' + post.id"
-          target="_blank"
-          class="absolute top-0 left-0 z-10 w-full h-full"
-        ></a>-->
+        <a :href="'/posts/' + post.id" class="absolute top-0 left-0 z-10 w-full h-full"></a>
 
-        <a
-          :href="'/posts/' + post.id"
-          class="px-4 pt-2 pb-1 text-black hover:text-ching block w-full"
-        >{{ post.title }}</a>
+        <h2 class="px-4 pt-2 pb-1 text-black w-full text-sm md:text-base lg:text-base">{{ post.title }}</h2>
 
         <div class="px-4" v-if="post.tags.length">
           <tags :tags="post.tags"></tags>

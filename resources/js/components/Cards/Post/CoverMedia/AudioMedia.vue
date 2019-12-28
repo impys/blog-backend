@@ -50,8 +50,8 @@ export default {
           shadowBlur: 0,
           shadowColor: "#fb7299",
           fadeSide: true,
-          horizontalAlign: "center",
-          verticalAlign: "middle"
+          horizontalAlign: "start",
+          verticalAlign: "bottom"
         }
       });
       this.dancer = dancer;
