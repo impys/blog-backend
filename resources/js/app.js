@@ -26,6 +26,7 @@ window.EventHub = new Vue();
 Vue.component('Search', require('./components/Search/Search.vue').default);
 Vue.component('PostCards', require('./components/Cards/Post/PostCards.vue').default);
 Vue.component('Post', require('./components/Post/Post.vue').default);
+Vue.component('Tags', require('./components/Share/Tags.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

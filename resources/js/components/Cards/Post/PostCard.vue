@@ -50,15 +50,13 @@
 <script>
 import ImageMedia from "./CoverMedia/ImageMedia";
 import AudioMedia from "./CoverMedia/AudioMedia";
-import Tags from "./Tags";
 
 export default {
   props: ["post"],
 
   components: {
     ImageMedia,
-    AudioMedia,
-    Tags
+    AudioMedia
   }
 };
 </script>
