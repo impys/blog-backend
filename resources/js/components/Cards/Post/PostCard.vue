@@ -1,9 +1,12 @@
 <template>
   <div class="mx-2 pb-4 lg:mx-3 lg:pb-6">
     <div class="rounded border border-black">
-      <div v-if="post.cover_media">
+      <a v-if="post.cover_media" :href="'/posts/' + post.id">
         <component :is="post.cover_media.type+'-media'" :media="post.cover_media"></component>
-      </div>
+      </a>
+      <!-- <div v-if="post.cover_media">
+        <component :is="post.cover_media.type+'-media'" :media="post.cover_media"></component>
+      </div>-->
 
       <div class="relative bg-white rounded">
         <div

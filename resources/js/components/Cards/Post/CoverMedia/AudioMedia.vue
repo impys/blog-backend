@@ -2,8 +2,7 @@
   <div class="rounded-t relative">
     <audio
       :id="'audio-' + media.id"
-      class="w-full z-10"
-      crossorigin="anonymous"
+      class="w-full"
       controls
       controlslist="nodownload"
       @play="handlePlay"
@@ -45,7 +44,7 @@ export default {
         accuracy: 128,
         waveform: {
           maxHeight: 80,
-          minHeight: 1,
+          minHeight: 0,
           spacing: 1,
           color: "#fb7299",
           shadowBlur: 0,
