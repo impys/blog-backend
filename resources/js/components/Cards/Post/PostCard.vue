@@ -19,24 +19,26 @@
 
         <a :href="'/posts/' + post.id" class="absolute top-0 left-0 z-10 w-full h-full"></a>
 
-        <h2 class="px-4 pt-2 pb-1 text-black w-full text-sm md:text-base lg:text-base">{{ post.title }}</h2>
+        <h2
+          class="px-4 pt-2 pb-1 text-black w-full text-sm md:text-base lg:text-base"
+        >{{ post.title }}</h2>
 
         <div class="px-4" v-if="post.tags.length">
           <tags :tags="post.tags"></tags>
         </div>
 
         <div class="flex items-center justify-between px-4 pb-2 pt-1 text-xs text-grey">
-          <div class="mr-2">{{ post.updated_at_human }}</div>
-          <!-- <div class="flex">
-          <div class="mr-2">
-            <i class="far fa-heart"></i>
-            {{ post.visited_count }}
+          <div>{{ post.updated_at_human }}</div>
+          <div class="flex">
+            <i>
+              <i class="far fa-eye"></i>
+              {{ post.visited_count }}
+            </i>
+            <!-- <div class="mr-2">
+              <i class="far fa-eye"></i>
+              {{ post.upvote_count }}
+            </div>-->
           </div>
-          <div class="mr-2">
-            <i class="far fa-eye"></i>
-            {{ post.upvote_count }}
-          </div>
-          </div>-->
         </div>
       </div>
     </div>
