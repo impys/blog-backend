@@ -47,7 +47,7 @@
               :key="index"
             >
               <div
-                class="p-2 w-3/4 cursor-pointer form-input-bordered"
+                class="p-2 w-3/4 cursor-pointer form-input-bordered text-center"
                 @click="clickExistentTag(tag)"
               >{{ tag }}</div>
             </div>
@@ -82,7 +82,14 @@ export default {
 
   computed: {
     unselectedAllTags: function() {
-      return this.allTags.filter(tag => !this.tags.includes(tag));
+      return this.allTags.filter(tag => {
+        let include = this.tags.includes(tag);
+        let containThisTag = true;
+        if (this.tag) {
+          containThisTag = tag.indexOf(this.tag) != -1;
+        }
+        return !include && containThisTag;
+      });
     }
   },
 
