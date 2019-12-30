@@ -26,7 +26,7 @@
         <div class="px-4 pb-1 text-black w-full text-xs">{{ post.summary }}</div>
 
         <div
-          class="flex flex-row-reverse items-center justify-between px-4 pb-2 pt-1 text-xs text-grey"
+          class="flex flex-row-reverse items-center justify-between px-4 pb-2 text-xs text-grey"
         >
           <div class="flex">{{ post.updated_at_human }}</div>
           <div v-if="post.tags.length">
