@@ -3,7 +3,7 @@
     <div
       v-for="(tag,index) in tags"
       :key="index"
-      class="rounded px-1 mr-1 my-1 text-pink border border-pink"
+      class="rounded px-1 mr-1 text-pink border border-pink"
     >{{ tag.name }}</div>
   </div>
 </template>

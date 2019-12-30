@@ -33,6 +33,7 @@ class Post extends Model
         'length',
         'audio_count',
         'cover_media',
+        'summary',
     ];
 
     protected $attributes = [
@@ -113,9 +114,20 @@ class Post extends Model
         return $this->updated_at->diffForHumans();
     }
 
-    public function getLengthAttribute()
+    public function getLengthAttribute(): int
     {
         return mb_strlen($this->body, 'utf-8');
+    }
+
+    public function getSummaryAttribute(): ?string
+    {
+        preg_match("/<p>(.*)<\/p>/U", Markdown::parse($this->body), $results);
+
+        if (!count($results)) {
+            return null;
+        }
+
+        return Str::limit(strip_tags($results[0]), 96);
     }
 
     public function getAudioCountAttribute(): int
@@ -138,7 +150,6 @@ class Post extends Model
 
         return $results[1];
     }
-
 
     public function syncFiles()
     {
