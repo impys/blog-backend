@@ -12,7 +12,7 @@
         <div
           class="absolute text-xs text-pink mr-2 mt-1 rotate-45"
           v-if="post.is_top"
-          style="right:0;bottom:3px"
+          style="right:-4px;bottom:-1px"
         >
           <i class="fas fa-thumbtack"></i>
         </div>
