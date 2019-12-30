@@ -3,10 +3,6 @@
     <a :href="'/posts/' + post.id" class="absolute top-0 left-0 z-10 w-full h-full"></a>
     <h2 class="mb-1 text-sm md:text-base lg:text-base" v-html="post.title"></h2>
     <div class="text-xs" v-html="post.body"></div>
-    <div class="flex flex-row-reverse justify-between text-xs text-grey">
-      <div class="mt-2 mb-1">{{ post.updated_at_human }}</div>
-      <tags :tags="post.tags" v-if="post.tags.length"></tags>
-    </div>
   </div>
 </template>
 
