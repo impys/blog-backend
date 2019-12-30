@@ -32,8 +32,11 @@ export default {
           toc.children = [];
           tocs.push(toc);
         }
-        if (toc.children) {
-          if (toc.level == 3) {
+        if (toc.level == 3) {
+          if (
+            tocs[tocs.length - 1] &&
+            tocs[tocs.length - 1].hasOwnProperty("children")
+          ) {
             tocs[tocs.length - 1].children.push(toc);
           }
         }

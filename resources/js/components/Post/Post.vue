@@ -49,10 +49,13 @@ export default {
       const renderer = new marked.Renderer();
       const tocs = [];
       renderer.heading = function(text, level) {
-        tocs.push({
-          level: level,
-          value: text
-        });
+        // only need h2 and h3
+        if (level > 1 && level < 4) {
+          tocs.push({
+            level: level,
+            value: text
+          });
+        }
 
         return `<h${level} id="${text}" class="toc-anchor">${text}</h${level}>`;
       };
