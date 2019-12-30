@@ -24,7 +24,10 @@
       ></i>
     </div>
 
-    <div v-if="meta && !searchLoading" class="overflow-y-auto" style="padding:0 34px 8px 34px">
+    <div
+      v-if="meta && !searchLoading"
+      class="overflow-y-auto px-2 md:px-34-px lg:px-34-px pb-2 md:pb-8-px lg:pb-8-px"
+    >
       <!-- tips -->
       <div class="text-xs text-grey test">
         <span>搜索到{{meta.total}}个结果</span>

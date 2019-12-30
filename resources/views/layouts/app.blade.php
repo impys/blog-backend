@@ -22,7 +22,7 @@
 
         <header class="h-16 fixed w-full bg-white z-20">
             <nav class="container mx-auto py-3 px-4 lg:px-0 h-16 flex items-start justify-between">
-                <div class="flex-shrink-0 h-10 w-10 mr-4 lg:mr-0">
+                <div class="flex-shrink-0 h-10 w-10 mr-2 lg:mr-0">
                     <a href="/" class="text-3xl">
                         <img src="{{ asset('img/logo.png') }}" alt="qingfeng.blog">
                     </a>
@@ -31,7 +31,7 @@
                     <search></search>
                 </div>
                 <div
-                    class="flex items-center justify-center flex-shrink-0 h-10 w-10 ml-4 block md:hidden lg:hidden text-4xl text-ching">
+                    class="flex items-center justify-center flex-shrink-0 h-10 w-10 ml-2 block md:hidden lg:hidden text-4xl text-ching">
                     <i class="fas fa-bars block"></i>
                 </div>
             </nav>

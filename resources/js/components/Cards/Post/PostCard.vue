@@ -4,11 +4,8 @@
       <a v-if="post.cover_media" :href="'/posts/' + post.id">
         <component :is="post.cover_media.type+'-media'" :media="post.cover_media"></component>
       </a>
-      <!-- <div v-if="post.cover_media">
-        <component :is="post.cover_media.type+'-media'" :media="post.cover_media"></component>
-      </div>-->
 
-      <div class="relative bg-white rounded p-1 sm:p-1 md:p-2 lg:p-2">
+      <div class="relative bg-white rounded p-1 sm:p-1 md:p-3 lg:p-3">
         <div
           class="absolute text-xs text-pink mr-2 mt-1 rotate-45"
           v-if="post.is_top"

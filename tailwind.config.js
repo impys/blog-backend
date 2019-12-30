@@ -35,6 +35,13 @@ module.exports = {
                 '16': '16px',
                 '20': '20px',
                 '22': '22px',
+            },
+            padding: {
+                '8-px': '8px',
+                '34-px': '34px',
+            },
+            margin: {
+                '2-px': '2px',
             }
         },
     },
