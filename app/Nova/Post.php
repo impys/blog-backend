@@ -57,11 +57,11 @@ class Post extends Resource
             Text::make('Title')
                 ->sortable(),
 
-            PostEditor::make('body')->hideFromIndex(),
-
             Boolean::make('Is Enable'),
 
             Boolean::make('Is Top'),
+
+            PostEditor::make('body')->onlyOnForms(),
 
             Text::make('Tags', function () {
                 return $this->tags->pluck('name')->implode('、');
