@@ -19,6 +19,7 @@ class Welcome extends Controller
             ->enable()
             ->with(['tags', 'files'])
             ->latest()
+            ->top()
             ->paginate(Post::SIZE);
 
         return view('Welcome', ['posts' => $posts]);

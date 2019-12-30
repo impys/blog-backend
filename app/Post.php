@@ -99,6 +99,11 @@ class Post extends Model
         return $query->orderBy('visited_count', 'desc');
     }
 
+    public function scopeTop($query)
+    {
+        return $query->orderBy('is_top', 'desc');
+    }
+
     public function scopeMostUpvote($query)
     {
         return $query->orderBy('upvote_count', 'desc');
