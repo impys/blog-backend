@@ -8,7 +8,9 @@
         <component :is="post.cover_media.type+'-media'" :media="post.cover_media"></component>
       </div>-->
 
-      <div class="relative bg-white rounded">
+      <div
+        class="relative bg-white rounded p-1 sm:p-1 md:p-2 lg:p-2"
+      >
         <div
           class="absolute text-xs text-pink mr-2 mt-1 rotate-45"
           v-if="post.is_top"
@@ -19,16 +21,14 @@
 
         <a :href="'/posts/' + post.id" class="absolute top-0 left-0 z-10 w-full h-full"></a>
 
-        <h2
-          class="px-4 pt-2 pb-1 text-black w-full text-sm md:text-base lg:text-base"
-        >{{ post.title }}</h2>
+        <h2 class="mb-1 text-black w-full text-sm md:text-base lg:text-base">{{ post.title }}</h2>
 
-        <div class="px-4 pb-1 text-black w-full text-xs">{{ post.summary }}</div>
+        <div class="mb-1 text-black w-full text-xs">{{ post.summary }}</div>
 
         <div
-          class="flex flex-row-reverse items-center justify-between px-4 pb-2 text-xs text-grey"
+          class="flex felx-row sm:flex-row md:flex-row lg:flex-row-reverse items-center justify-between text-xs text-grey"
         >
-          <div class="flex">{{ post.updated_at_human }}</div>
+          <div class="flex hidden sm:hidden md:hidden lg:block">{{ post.updated_at_human }}</div>
           <div v-if="post.tags.length">
             <tags :tags="post.tags.slice(0,2)"></tags>
           </div>
