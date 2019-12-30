@@ -4,10 +4,13 @@
     <div
       class="w-full sm:w-full md:w-2/3 lg:w-1/2 pr-0 sm:pr-0 md:pr-4 lg:pr-4 pl-0 sm:pl-0 md:pl-0 lg:pl-4"
     >
-      <h1 class="text-4xl mb-6 ml-auto text-black">{{ post.title }}</h1>
-      <div
-        class="text-grey mb-6"
-      >创建于{{ post.created_at_human }} · 更新于{{ post.updated_at_human }} · 阅读{{ post.visited_count }}次</div>
+      <div class="mb-10">
+        <h1 class="text-4xl mb-2 ml-auto text-black">{{ post.title }}</h1>
+        <div
+          class="text-grey mb-2"
+        >创建于{{ post.created_at_human }} · 更新于{{ post.updated_at_human }} · 阅读{{ post.visited_count }}次</div>
+        <tags :tags="post.tags"></tags>
+      </div>
       <div class="markdown-body" v-html="markedBody"></div>
     </div>
     <div class="w-1/4 hidden sm:hidden md:block lg:block">

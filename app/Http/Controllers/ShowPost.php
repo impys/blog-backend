@@ -15,6 +15,7 @@ class ShowPost extends Controller
      */
     public function __invoke(Request $request, Post $post)
     {
+        $post->load('tags');
         return view('ShowPost', ['post' => $post]);
     }
 }
