@@ -53,6 +53,7 @@
     font-size: 16px;
     line-height: 1.5;
     word-wrap: break-word;
+    counter-reset: chapter;
 }
 
 .markdown-body .pl-c {
@@ -314,10 +315,25 @@
 
 .markdown-body h2 {
     font-size: 24px;
+    padding-top: 70px !important;
+    margin-top: -70px !important;
+    counter-reset: section;
+}
+
+.markdown-body h2:before {
+    counter-increment: chapter;
+    content: counter(chapter) " ";
 }
 
 .markdown-body h3 {
     font-size: 20px;
+    padding-top: 70px !important;
+    margin-top: -70px !important;
+}
+
+.markdown-body h3:before {
+    counter-increment: section;
+    content: counter(chapter) "."counter(section) " ";
 }
 
 .markdown-body h3,
@@ -492,7 +508,7 @@
 }
 
 .markdown-body>:first-child {
-    margin-top: 0 !important;
+    margin-top: 0;
 }
 
 .markdown-body>:last-child {

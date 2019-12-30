@@ -37,7 +37,7 @@
             </nav>
         </header>
 
-        <div class="container mx-auto pt-20 pb-12 px-4 lg:px-0">
+        <div class="container mx-auto pt-16 pb-12 px-4 lg:px-0">
             @yield('content')
         </div>
     </div>
