@@ -8,10 +8,10 @@
         :placeholder="field.name"
       >
         <div class="custom__markdown-editor w-5/6 form-input-bordered">
-          <pre class="hidden-pre">{{ value }}<br /></pre>
+          <!-- <pre class="hidden-pre">{{ value }}<br /></pre> -->
           <textarea
             id="markdown-textarea"
-            v-on:keydown.tab="tabIndent"
+            @keydown.tab="tabIndent"
             @paste="onPaste"
             v-model="value"
           ></textarea>
@@ -24,8 +24,8 @@
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
+                    width="60"
+                    height="60"
                   >
                     <path
                       class="heroicon-ui"
@@ -211,7 +211,8 @@ export default {
 <style lang="scss">
 .custom__markdown-editor {
   position: relative;
-  min-height: 400px;
+  //   min-height: 400px;
+  height: 700px;
   overflow: hidden;
 
   .hidden-pre {
@@ -279,5 +280,11 @@ progress::-webkit-progress-bar {
 progress::-webkit-progress-value {
   border-radius: 10px;
   background-color: var(--success);
+}
+</style>
+<style lang="scss">
+svg path,
+svg rect {
+  fill: #e3e7eb;
 }
 </style>
