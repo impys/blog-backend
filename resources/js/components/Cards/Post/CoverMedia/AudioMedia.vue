@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-t relative">
+  <div class="rounded-t relative hidden sm:hidden md:block lg:block">
     <div class="flex items-center h-16 pl-3 w-full z-10 px-1 sm:px-1 md:px-3 lg:px-3">
       <i
         class="fas fa-play text-lg cursor-pointer text-grey hover:text-pink"
