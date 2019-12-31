@@ -132,7 +132,7 @@ class Post extends Model
             return null;
         }
 
-        return Str::limit(strip_tags($results[0]), 96);
+        return Str::limit(strip_tags($results[0]), 140);
     }
 
     public function getAudioCountAttribute(): int

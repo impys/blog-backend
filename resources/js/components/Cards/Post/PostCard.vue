@@ -16,7 +16,7 @@
 
         <h2 class="mb-1 text-black w-full text-sm md:text-base lg:text-base">{{ post.title }}</h2>
 
-        <div class="mb-1 text-black w-full text-xs text-grey">{{ post.summary }}</div>
+        <div class="mb-1 text-black w-full text-xs text-grey text-justify">{{ post.summary }}</div>
 
         <div
           class="flex felx-row sm:flex-row md:flex-row lg:flex-row-reverse items-center justify-between text-xs text-grey"
