@@ -70,7 +70,7 @@ export default {
         effect: "waveform",
         accuracy: 128,
         waveform: {
-          maxHeight: 80,
+          maxHeight: 64,
           minHeight: 0,
           spacing: 1,
           color: "#fb7299",
