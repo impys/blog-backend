@@ -218,6 +218,11 @@ class Post extends Model
             ->toArray();
     }
 
+    public function beVisited()
+    {
+        $this->increment('visited_count');
+    }
+
     // public function fillSlug()
     // {
     //     $this->slug = $this->id;
