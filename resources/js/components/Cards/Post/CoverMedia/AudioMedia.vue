@@ -1,12 +1,18 @@
 <template>
-  <div class="rounded-t relative hidden sm:hidden md:block lg:block">
-    <audio
-      :id="'audio-' + media.id"
-      class="w-full hidden sm:hidden md:block lg:block"
-      controls
-      controlslist="nodownload"
-      @play="handlePlay"
-    >
+  <div class="rounded-t relative">
+    <div class="flex items-center h-16 pl-3 w-full z-10 px-1 sm:px-1 md:px-3 lg:px-3">
+      <i
+        class="fas fa-play text-lg cursor-pointer text-grey hover:text-pink"
+        v-if="!playing"
+        @click="play()"
+      ></i>
+      <i
+        class="fas fa-pause text-lg cursor-pointer text-grey hover:text-pink"
+        v-if="playing"
+        @click="pause()"
+      ></i>
+    </div>
+    <audio :id="'audio-' + media.id">
       <source :src="media.url" />
     </audio>
     <canvas
@@ -20,26 +26,47 @@
 import Dancer from "vudio.js";
 
 export default {
-  props: ["media"],
+  props: ["post"],
 
   data() {
     return {
-      dancer: null
+      media: this.post.cover_media,
+      dancer: null,
+      playing: false
     };
   },
 
+  mounted() {
+    EventHub.$on("pause", audio => {
+      this.pause(audio);
+    });
+  },
+
   methods: {
-    handlePlay() {
+    play() {
+      let audio = this.getAudio();
+      this.pauseAllOtherAudios();
+      this.playing = true;
+      audio.play();
+      this.dance();
+    },
+
+    dance() {
       if (!this.dancer) {
         this.setDancer();
       }
       this.dancer.dance();
-      this.pauseAllOthers();
     },
+
+    pause(audio = this.getAudio()) {
+      this.playing = false;
+      audio.pause();
+    },
+
     setDancer() {
-      let audio = document.querySelector(`#audio-${this.media.id}`);
-      let canvas = document.querySelector(`#canvas-${this.media.id}`);
-      let dancer = new Dancer(audio, canvas, {
+      let audio = this.getAudio();
+      let canvas = this.getCanvas();
+      this.dancer = new Dancer(audio, canvas, {
         effect: "waveform",
         accuracy: 128,
         waveform: {
@@ -54,32 +81,37 @@ export default {
           verticalAlign: "bottom"
         }
       });
-      this.dancer = dancer;
     },
-    pauseAllOthers() {
-      let audios = document.querySelectorAll("audio");
-      for (let index = 0; index < audios.length; index++) {
-        const audio = audios[index];
-        if (audio.id != `audio-${this.media.id}`) {
-          audio.pause();
-        }
+
+    getAudio() {
+      return document.querySelector(`#audio-${this.media.id}`);
+    },
+
+    getCanvas() {
+      return document.querySelector(`#canvas-${this.media.id}`);
+    },
+
+    pauseAllOtherAudios() {
+      let otherPlayingAudios = this.getOtherPlayingAudios();
+
+      for (const key in otherPlayingAudios) {
+        const audio = otherPlayingAudios[key];
+        console.log(audio);
+        EventHub.$emit("pause", audio);
       }
+    },
+
+    getOtherPlayingAudios() {
+      return Array.from(document.querySelectorAll("audio")).filter(audio => {
+        return !audio.paused && audio.id != `audio-${this.media.id}`;
+      });
     }
   }
 };
 </script>
 
 <style lang="scss">
-audio::-webkit-media-controls-current-time-display,
-audio::-webkit-media-controls-time-remaining-display,
-audio::-webkit-media-controls-timeline,
-audio::-webkit-media-controls-volume-control-container {
-  display: none;
-}
-audio::-webkit-media-controls-enclosure {
-  background-color: transparent;
-}
-audio::-webkit-media-controls-panel {
-  padding-left: 4px;
+audio {
+  display: none !important;
 }
 </style>
