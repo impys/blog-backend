@@ -12,7 +12,7 @@
         @click="pause()"
       ></i>
     </div>
-    <audio :id="'audio-' + media.id">
+    <audio :id="'audio-' + media.id" class="hidden">
       <source :src="media.url" />
     </audio>
     <canvas
@@ -111,7 +111,3 @@ export default {
 </script>
 
 <style lang="scss">
-audio {
-  display: none !important;
-}
-</style>

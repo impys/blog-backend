@@ -70,3 +70,22 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.markdown-body {
+  audio {
+    margin-bottom: 10px;
+  }
+
+  //   audio::-webkit-media-controls-current-time-display,
+  //   audio::-webkit-media-controls-time-remaining-display,
+  //   audio::-webkit-media-controls-timeline,
+  audio::-webkit-media-controls-volume-control-container {
+    display: none;
+  }
+  audio::-webkit-media-controls-enclosure {
+    background-color: var(--color-offwhite);
+    border-radius: 4px !important;
+  }
+}
+</style>
