@@ -27,7 +27,7 @@
                         <img src="{{ asset('img/logo.png') }}" alt="qingfeng.blog">
                     </a>
                 </div>
-                <div class="w-full md:w-1/3 lg:w-1/4 py-1 lg:py-0">
+                <div class="w-full md:w-1/3 lg:w-1/3 py-1 lg:py-0">
                     <search></search>
                 </div>
                 <div

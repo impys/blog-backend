@@ -3,8 +3,8 @@ module.exports = {
         inset: {},
         screens: {
             'sm': { 'min': '640px', 'max': '767px' },
-            'md': { 'min': '768px', 'max': '1399px' },
-            'lg': { 'min': '1400px' }
+            'md': { 'min': '768px', 'max': '999px' },
+            'lg': { 'min': '1000px' }
         },
         minHeight: {
             '10': '2.5rem',

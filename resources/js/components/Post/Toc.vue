@@ -1,5 +1,5 @@
 <template>
-  <div id="toc" class="bg-offwhite p-2 rounded">
+  <div id="toc">
     <div class="mb-2 text-ching text-lg">目录</div>
     <ul v-for="(toc,index) in tocsTree" :key="index" class="text-grey">
       <li

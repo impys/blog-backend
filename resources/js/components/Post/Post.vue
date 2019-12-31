@@ -1,8 +1,8 @@
 <template>
   <div class="w-full flex flex-row relative">
-    <div class="w-1/4 hidden sm:hidden md:hidden lg:block"></div>
+    <!-- <div class="w-1/4 hidden sm:hidden md:hidden lg:block"></div> -->
     <div
-      class="w-full sm:w-full md:w-2/3 lg:w-1/2 pr-0 sm:pr-0 md:pr-4 lg:pr-4 pl-0 sm:pl-0 md:pl-0 lg:pl-4"
+      class="w-full sm:w-full md:w-2/3 lg:w-2/3 pr-0 sm:pr-0 md:pr-8 lg:pr-8"
     >
       <div class="mb-10">
         <h1 class="text-4xl mb-2 ml-auto text-black">{{ post.title }}</h1>
@@ -13,7 +13,7 @@
       </div>
       <div class="markdown-body" v-html="markedBody"></div>
     </div>
-    <div class="w-1/4 hidden sm:hidden md:block lg:block">
+    <div class="w-1/3 hidden sm:hidden md:block lg:block">
       <toc :tocs="tocs" v-if="tocs.length" class="sticky" style="top:70px"></toc>
     </div>
   </div>
