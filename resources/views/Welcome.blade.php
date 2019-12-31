@@ -6,7 +6,7 @@
 @section('content')
 
 <div class="flex flex-col md:flex-row lg:flex-row justify-between ">
-    <div class="w-full md:w-2/3 lg:w-3/4 mr-0 md:mr-8 lg:mr-8">
+    <div class="w-full md:w-2/3 lg:w-3/4 mr-0 md:mr-8 lg:mr-8 mt-4">
         <post-cards :posts='@json($posts)'></post-cards>
         <div class="my-2">
             {{ $posts->links() }}

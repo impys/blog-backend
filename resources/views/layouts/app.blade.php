@@ -21,7 +21,7 @@
     <div id="app" class="relative">
 
         <header class="h-16 fixed w-full bg-white z-20">
-            <nav class="container mx-auto py-3 px-4 lg:px-0 h-16 flex items-start justify-between">
+            <nav class="container mx-auto py-3 px-3 lg:px-0 h-16 flex items-start justify-between">
                 <div class="flex-shrink-0 h-10 w-10 mr-2 lg:mr-0">
                     <a href="/" class="text-3xl">
                         <img src="{{ asset('img/logo.png') }}" alt="qingfeng.blog">
