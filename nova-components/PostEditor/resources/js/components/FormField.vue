@@ -140,7 +140,7 @@ export default {
      */
     setLink(typePrefix, url) {
       if (typePrefix == "audio") {
-        this.link = `<audio controls controlslist="nodownload"><source src="${url}"></audio>`;
+        this.link = `<audio controls><source src="${url}"></audio>`;
       }
       if (typePrefix == "image") {
         let link = `![](${url})\n`;
