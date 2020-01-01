@@ -7,7 +7,7 @@
       <div class="mb-10">
         <h1 class="text-4xl mb-2 ml-auto text-black">{{ post.title }}</h1>
         <div
-          class="text-grey mb-2"
+          class="text-grey mb-2 text-sm"
         >创建于{{ post.created_at_human }} · 更新于{{ post.updated_at_human }} · 阅读{{ post.visited_count }}次</div>
         <tags :tags="post.tags"></tags>
       </div>
