@@ -42,6 +42,10 @@ module.exports = {
             },
             margin: {
                 '2-px': '2px',
+            },
+            inset: {
+                '-3': '-0.75rem',
+                '-1': '-0.25rem',
             }
         },
     },

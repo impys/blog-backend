@@ -12,11 +12,16 @@
           <i class="fas fa-thumbtack"></i>
         </div>
 
-        <a :href="'/posts/' + post.id" class="absolute top-0 left-0 z-10 w-full h-full"></a>
+        <a
+          :href="'/posts/' + post.id"
+          class="absolute inset-0 -m-1 md:-m-3 lg:-m-3 z-10 w-full h-full"
+        ></a>
 
         <h2 class="mb-1 text-black w-full text-sm md:text-base lg:text-base">{{ post.title }}</h2>
 
-        <div class="mb-1 text-black w-full text-xs text-grey text-justify">{{ post.summary }}</div>
+        <div
+          class="mb-1 text-black w-full text-xs text-grey text-justify break-all"
+        >{{ post.summary }}</div>
 
         <div
           class="flex felx-row sm:flex-row md:flex-row lg:flex-row-reverse items-center justify-between text-xs text-grey"
