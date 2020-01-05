@@ -1,7 +1,8 @@
 :root {
     --color-ching: #177cb0;
+    // --color-ching: #032b3f;
     --color-pink: #fb7299;
-    --color-black: #212121;
+    --color-black: #333333;
     --color-grey: #999999;
     --color-offwhite: #f6f6f6;
 }
@@ -13,4 +14,12 @@
 .last-row-justify-start::after {
     content: "";
     flex: auto;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
 }

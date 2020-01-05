@@ -1,5 +1,5 @@
 <template>
-  <div id="toc">
+  <div id="toc" class="max-h-vh-80 overflow-y-auto">
     <div class="mb-2 text-ching text-lg">目录</div>
     <ul v-for="(toc,index) in tocsTree" :key="index" class="text-grey">
       <li
@@ -44,6 +44,7 @@ export default {
       return tocs;
     }
   },
+
   methods: {
     handleCilckToc(e) {
       let id = e.srcElement.innerText;

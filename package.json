@@ -16,7 +16,6 @@
         "build-tag-autocomplete-prod": "cd nova-components/TagAutocomplete && npm run prod"
     },
     "devDependencies": {
-        "@fortawesome/fontawesome-free": "^5.11.2",
         "animate.css": "^3.7.2",
         "axios": "^0.19",
         "cross-env": "^5.1",
@@ -29,6 +28,7 @@
         "sass-loader": "7.*",
         "tailwindcss": "^1.1.3",
         "vue": "^2.5.17",
+        "vue-router": "^3.1.3",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {

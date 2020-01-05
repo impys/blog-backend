@@ -13,6 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::group(['middleware' => ['api', 'throttle']], function () {
+    Route::get('/posts', 'GetPosts');
+    Route::get('/posts/{post}', 'GetPost');
+    Route::get('/simple-search', 'SimpleSearch');
+    Route::get('/search', 'Search');
 });
