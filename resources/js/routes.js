@@ -6,6 +6,7 @@ const routes = [
     {
         path: '/',
         component: Feeds,
+        name: 'home',
         meta: {
             keepAlive: true
         }

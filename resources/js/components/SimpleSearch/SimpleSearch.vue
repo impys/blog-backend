@@ -100,13 +100,17 @@ export default {
 
       try {
         const response = await api.search(this.query);
-        this.posts = response.data;
-        this.meta = response.meta;
+        this.handleResponse(response);
       } catch (error) {
         console.log(error);
       }
 
       this.finished();
+    },
+
+    handleResponse(response) {
+      this.posts = response.data;
+      this.meta = response.meta;
     },
 
     hiddenSearchResult() {

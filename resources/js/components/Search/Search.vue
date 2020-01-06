@@ -44,7 +44,7 @@ export default {
     }
     try {
       const response = await api.search(to.query.query);
-      next(vm => vm.setResults(response));
+      next(vm => vm.handleResponse(response));
     } catch (error) {
       return next(false);
     }
@@ -74,7 +74,7 @@ export default {
 
       try {
         const response = await api.search(this.query);
-        this.setResults(response);
+        this.handleResponse(response);
       } catch (error) {
         console.log(error);
       }
@@ -82,7 +82,7 @@ export default {
       this.finished();
     },
 
-    setResults(response) {
+    handleResponse(response) {
       this.posts = response.data;
       this.meta = response.meta;
     },

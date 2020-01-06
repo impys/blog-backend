@@ -1,11 +1,9 @@
 <template>
   <main-layout>
     <template v-slot:header>
-      <!-- <router-link to="/" class="text-2xl text-ching cursor-pointer"> -->
       <svg class="icon text-2xl text-ching cursor-pointer" @click="goBack">
         <use xlink:href="#icon-arrow-back-outline" />
       </svg>
-      <!-- </router-link> -->
       <h1 class="text-base lg:text-xl text-black mx-auto">{{ post.title }}</h1>
       <div class="text-2xl cursor-pointer hover:text-ching">
         <svg class="icon">
@@ -14,26 +12,16 @@
       </div>
     </template>
     <template v-slot:content>
+      <div
+        class="text-grey mb-2 text-sm"
+      >创建于{{ post.created_at_human }} · 更新于{{ post.updated_at_human }} · 阅读{{ post.visited_count }}次</div>
+      <tags v-if="post.tags && post.tags.length" :tags="post.tags" class="mb-2"></tags>
       <div class="markdown-body" v-html="markedBody"></div>
     </template>
     <template v-slot:sidebar-content>
       <toc :tocs="tocs" v-if="tocs.length" class="sticky top-12"></toc>
     </template>
   </main-layout>
-  <!-- <div class="w-1/4 hidden sm:hidden md:hidden lg:block"></div> -->
-  <!-- <div class="w-full sm:w-full md:w-2/3 lg:w-2/3 pr-0 sm:pr-0 md:pr-8 lg:pr-8">
-      <div class="mb-10">
-        <h1 class="text-4xl mb-2 ml-auto text-black">{{ post.title }}</h1>
-        <div
-          class="text-grey mb-2 text-sm"
-        >创建于{{ post.created_at_human }} · 更新于{{ post.updated_at_human }} · 阅读{{ post.visited_count }}次</div>
-        <tags :tags="post.tags"></tags>
-      </div>
-      <div class="markdown-body" v-html="markedBody"></div>
-    </div>
-    <div class="w-1/3 hidden sm:hidden md:block lg:block">
-      <toc :tocs="tocs" v-if="tocs.length" class="sticky" style="top:70px"></toc>
-  </div>-->
 </template>
 
 <script>
@@ -49,10 +37,18 @@ export default {
   async beforeRouteEnter(to, from, next) {
     try {
       const response = await api.get(to.params.id);
-      next(vm => (vm.post = response.data));
+      next(vm => {
+        vm.handleResponse(response);
+        vm.lastRouteName = from.name;
+      });
     } catch (error) {
       return next(false);
     }
+  },
+
+  async beforeRouteUpdate(to, from, next) {
+    this.get(to.params.id);
+    next();
   },
 
   mounted() {
@@ -77,11 +73,24 @@ export default {
     return {
       post: {},
       markedRenderer: {},
-      tocs: []
+      tocs: [],
+      lastRouteName: null
     };
   },
 
   methods: {
+    async get(postId) {
+      try {
+        const response = await api.get(postId);
+        this.handleResponse(response);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    handleResponse(response) {
+      this.post = response.data;
+    },
+
     setMarkedRendererAndToc() {
       const renderer = new marked.Renderer();
       const tocs = [];
@@ -101,8 +110,13 @@ export default {
 
       this.markedRenderer = renderer;
     },
+
     goBack() {
-      this.$router.go(-1);
+      if (this.lastRouteName == "home") {
+        this.$router.go(-1);
+      } else {
+        this.$router.push({ path: "/" });
+      }
     }
   }
 };
