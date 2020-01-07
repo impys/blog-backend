@@ -1,23 +1,10 @@
 <template>
   <div class="rounded-t relative hidden lg:block h-16">
     <div class="flex items-center absolute h-16 w-full h-10 top-0 left-0 z-10">
-      <div
-        class="text-3xl cursor-pointer text-grey hover:text-pink"
-        v-if="!playing"
-        @click="play()"
-      >
+      <div class="text-3xl text-grey hover:text-pink cursor-default" @click.stop="playOrPause()">
         <svg class="icon">
-          <use xlink:href="#icon-play-circle-outline" />
-        </svg>
-      </div>
-
-      <div
-        class="text-3xl cursor-pointer text-grey hover:text-pink"
-        v-if="playing"
-        @click="pause()"
-      >
-        <svg class="icon">
-          <use xlink:href="#icon-pause-circle-outline" />
+          <use xlink:href="#icon-play-circle-outline" v-if="!playing" />
+          <use xlink:href="#icon-pause-circle-outline" v-if="playing" />
         </svg>
       </div>
     </div>
@@ -47,6 +34,9 @@ export default {
   },
 
   methods: {
+    playOrPause() {
+      this.playing ? this.pause() : this.play();
+    },
     play() {
       let audio = this.getAudio();
       this.pauseAllOtherAudios();
@@ -100,7 +90,6 @@ export default {
 
       for (const key in otherPlayingAudios) {
         const audio = otherPlayingAudios[key];
-        console.log(audio);
         EventHub.$emit("pause", audio);
       }
     },

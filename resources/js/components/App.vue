@@ -4,7 +4,13 @@
       class="w-1/4 max-h-screen overflow-y-scroll hidden lg:block sticky top-0 text-xl text-black font-semibold pt-10 h-screen"
     >
       <div class="flex flex-col w-1/2 ml-auto">
-        <router-link :to="link.to" class="flex py-2" v-for="(link,index) in links" :key="index">
+        <router-link
+          :exact="link.exact"
+          :to="link.to"
+          class="flex py-2"
+          v-for="(link,index) in links"
+          :key="index"
+        >
           <div
             class="flex items-center inline-flex py-2 px-4 hover:text-ching hover:bg-offwhite rounded-full"
           >
@@ -31,14 +37,16 @@ export default {
     return {
       links: [
         {
-          content: "文章",
+          content: "主页",
           iconfont: "home-outline",
-          to: "/"
+          to: "/",
+          exact: true
         },
         {
           content: "搜索",
           iconfont: "search-outline",
-          to: "/search"
+          to: "/search",
+          exact: false
         }
       ]
     };

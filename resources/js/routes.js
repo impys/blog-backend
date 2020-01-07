@@ -14,6 +14,7 @@ const routes = [
     {
         path: '/posts/:id',
         component: Post,
+        name: 'post',
         meta: {
             keepAlive: false
         }
@@ -21,8 +22,9 @@ const routes = [
     {
         path: '/search',
         component: Search,
+        name: 'search',
         meta: {
-            keepAlive: true
+            keepAlive: false
         }
     },
 ]

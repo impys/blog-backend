@@ -3,18 +3,18 @@
     <div class="flex flex-row items-center min-h-7">
       <div class="w-8">
         <transition name="slide-fade" mode="out-in">
-          <svg class="icon block mx-2 text-ching" v-if="!searchLoading" key="unloading">
+          <svg class="icon block mx-2 text-ching" v-if="!loading" key="unloading">
             <use xlink:href="#icon-search-outline" />
           </svg>
 
-          <loading-icon key="loading" v-if="searchLoading"></loading-icon>
+          <loading-icon key="loading" v-if="loading"></loading-icon>
         </transition>
       </div>
       <div class="flex items-center w-full">
         <input
           type="text"
-          ref="searchInput"
-          placeholder=" ↵ 全局搜索"
+          ref="simpleSearchInput"
+          placeholder=" 按下回车全局搜索"
           @input="handelInputQuery"
           @focus="handleFocus"
           @keyup.enter="fullSearch"
@@ -27,7 +27,7 @@
         </svg>
       </div>
     </div>
-    <div v-if="meta && !hidden && !searchLoading" class="overflow-y-auto" v-closable="closeable">
+    <div v-if="meta && !hidden && !loading" class="overflow-y-auto" v-closable="closeable">
       <div class="px-3 font-normal text-xs text-grey">
         <span>搜索到{{meta.nbHits}}个结果</span>
       </div>
@@ -69,13 +69,13 @@ export default {
 
   data() {
     return {
-      searchLoading: false,
+      loading: false,
       hidden: true,
       query: "",
       posts: [],
       meta: null,
       closeable: {
-        exclude: ["searchInput"],
+        exclude: ["simpleSearchInput"],
         handler: "hiddenSearchResult"
       }
     };
@@ -92,7 +92,7 @@ export default {
       }
 
       // TODO:cancel last request by cancel token
-      if (this.searchLoading) {
+      if (this.loading) {
         return;
       }
 
@@ -122,7 +122,13 @@ export default {
     },
 
     fullSearch() {
-      this.$router.push({ path: "/search", query: { query: this.query } });
+      let location = { path: "/search" };
+
+      if (this.query.trim()) {
+        location.query = { query: this.query };
+      }
+
+      this.$router.push(location);
     },
 
     /**
@@ -131,7 +137,7 @@ export default {
     reset() {
       this.posts = [];
       this.meta = null;
-      this.searchLoading = false;
+      this.loading = false;
       this.emptyQuery();
     },
 
@@ -139,7 +145,7 @@ export default {
      * search start
      */
     start() {
-      this.searchLoading = true;
+      this.loading = true;
       this.posts = [];
     },
 
@@ -148,7 +154,7 @@ export default {
      * only set search loading status to false now
      */
     finished() {
-      this.searchLoading = false;
+      this.loading = false;
       this.hidden = false;
     },
 
@@ -157,8 +163,8 @@ export default {
      */
     emptyQuery() {
       this.query = "";
-      if (this.$refs.searchInput) {
-        this.$refs.searchInput.value = "";
+      if (this.$refs.simpleSearchInput) {
+        this.$refs.simpleSearchInput.value = "";
       }
     }
   }
@@ -166,22 +172,4 @@ export default {
 </script>
 
 <style lang="scss">
-.slide-fade-enter-active {
-  transition: all 0.2s;
-}
-.slide-fade-leave-active {
-  transition: all 0.2s;
-}
-.slide-fade-enter {
-  transform: translateX(-10px);
-  opacity: 0;
-}
-.slide-fade-leave-to {
-  transform: translateX(-10px);
-  opacity: 0;
-}
-
-.highlight {
-  border-bottom: 2px solid var(--color-pink);
-}
 </style>

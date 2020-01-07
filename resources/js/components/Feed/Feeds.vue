@@ -1,12 +1,12 @@
 <template>
   <main-layout>
     <template v-slot:header>
-      <h1 class="px-4">文章</h1>
+      <h1 class>主页</h1>
     </template>
     <template v-slot:content>
       <div v-scroll="handleScroll">
-        <feed class="p-4" v-for="(post,index) in posts" :key="index" :post="post"></feed>
-        <div v-if="noMore" class="text-center text-sm text-grey my-2">到底了</div>
+        <post-card v-for="(post,index) in posts" :key="index" :post="post"></post-card>
+        <div v-if="isLastPage" class="text-center text-sm text-grey my-2">到底了</div>
       </div>
     </template>
   </main-layout>
@@ -14,13 +14,8 @@
 
 <script>
 import * as api from "../../api/GetPosts";
-import Feed from "./Feed";
 
 export default {
-  components: {
-    Feed
-  },
-
   data() {
     return {
       posts: [],
@@ -30,18 +25,11 @@ export default {
   },
 
   computed: {
-    noMore: function() {
-      return this.meta && this.meta.current_page == this.meta.last_page;
+    isLastPage: function() {
+      return helper.isLastPageByMeta(this.meta);
     },
     currentPage: function() {
-      if (!this.meta) {
-        return 1;
-      }
-
-      if (this.meta.current_page == this.meta.last_page) {
-        return this.meta.last_page;
-      }
-      return this.meta.current_page + 1;
+      return helper.getCurrentByMeta(this.meta);
     }
   },
 
@@ -78,7 +66,7 @@ export default {
     },
 
     prevent() {
-      return this.loading || this.noMore;
+      return this.loading || this.isLastPage;
     },
 
     start() {
@@ -89,29 +77,9 @@ export default {
     },
 
     handleScroll(evt, el) {
-      let scrollBottom = this.getScrollBottom();
-      if (scrollBottom <= 300) {
+      if (helper.hasMoreData() && helper.isHome(this)) {
         this.get();
       }
-    },
-
-    getScrollBottom() {
-      let offsetHeight = Math.max(
-        document.body.scrollHeight,
-        document.body.offsetHeight
-      );
-      let clientHeight =
-        window.innerHeight ||
-        document.documentElement.clientHeight ||
-        document.body.clientHeight ||
-        0;
-      let scrollTop =
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop ||
-        0;
-
-      return offsetHeight - clientHeight - scrollTop;
     }
   }
 };

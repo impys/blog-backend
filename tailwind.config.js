@@ -45,10 +45,13 @@ module.exports = {
             margin: {
                 '2-px': '2px',
                 '34-px': '34px',
+                '40-percent': '40%',
+                '50-percent': '50%',
             },
             inset: {
-                '-3': '-0.75rem',
                 '-1': '-0.25rem',
+                '-3': '-0.75rem',
+                '-5': '-1.25rem',
                 '12': '3rem',
             },
             lineHeight: {
@@ -83,6 +86,12 @@ module.exports = {
                 },
                 '.transition-background-color-03': {
                     transition: '.3s background-color ease-in-out',
+                },
+                '.transition-margin-03': {
+                    transition: '.3s margin ease-in-out',
+                },
+                '.transition-margin-08': {
+                    transition: '.8s margin ease-in-out',
                 },
                 '.input-caret-color-ching': {
                     'caret-color': 'var(--color-ching)',

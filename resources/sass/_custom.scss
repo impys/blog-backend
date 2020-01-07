@@ -1,6 +1,5 @@
 :root {
     --color-ching: #177cb0;
-    // --color-ching: #032b3f;
     --color-pink: #fb7299;
     --color-black: #333333;
     --color-grey: #999999;
@@ -22,4 +21,33 @@
     vertical-align: -0.15em;
     fill: currentColor;
     overflow: hidden;
+}
+
+.router-link-active {
+    color: var(--color-ching);
+}
+
+
+.slide-fade-enter-active {
+    transition: all 0.2s;
+}
+
+.slide-fade-leave-active {
+    transition: all 0.2s;
+}
+
+.slide-fade-enter {
+    transform: translateX(-10px);
+    opacity: 0;
+}
+
+.slide-fade-leave-to {
+    transform: translateX(-10px);
+    opacity: 0;
+}
+
+.highlight {
+    // border-bottom: 2px solid var(--color-pink);
+    // background-color: var(--color-pink);
+    color: red;
 }
