@@ -1,8 +1,9 @@
 <template>
   <div class="flex">
     <header
-      class="w-1/4 max-h-screen overflow-y-scroll hidden lg:block sticky top-0 text-xl text-black font-semibold pt-10 h-screen"
+      class="w-1/4 max-h-screen overflow-y-scroll hidden lg:block sticky top-0 text-xl text-black font-semibold h-screen"
     >
+      <div class="h-12"></div>
       <div class="flex flex-col w-1/2 ml-auto">
         <router-link
           :exact="link.exact"
@@ -12,7 +13,7 @@
           :key="index"
         >
           <div
-            class="flex items-center inline-flex py-2 px-4 hover:text-ching hover:bg-offwhite rounded-full"
+            class="flex items-center inline-flex py-2 px-4 hover:text-blue-500 hover:bg-offwhite rounded-full"
           >
             <svg class="icon mr-4 text-2xl">
               <use :xlink:href="'#icon-'+link.iconfont" />
@@ -37,15 +38,21 @@ export default {
     return {
       links: [
         {
+          content: "搜索",
+          iconfont: "search-outline",
+          to: "/search",
+          exact: false
+        },
+        {
           content: "主页",
           iconfont: "home-outline",
           to: "/",
           exact: true
         },
         {
-          content: "搜索",
-          iconfont: "search-outline",
-          to: "/search",
+          content: "文章",
+          iconfont: "home-outline",
+          to: "/posts",
           exact: false
         }
       ]

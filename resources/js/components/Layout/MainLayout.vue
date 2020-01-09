@@ -7,9 +7,9 @@
       <slot name="content"></slot>
     </div>
     <div class="w-1/3 pl-8 hidden lg:block">
-      <div class="flex items-start py-1 font-semibold h-12 text-xl sticky top-0 bg-white z-20">
+      <div class="flex items-center font-semibold h-12 text-xl sticky top-0 bg-white z-20">
         <slot name="sidebar-header">
-          <simple-search></simple-search>
+          <!-- <simple-search></simple-search> -->
         </slot>
       </div>
       <slot name="sidebar-content"></slot>

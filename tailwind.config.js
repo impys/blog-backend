@@ -25,9 +25,6 @@ module.exports = {
         },
         extend: {
             colors: {
-                'ching': 'var(--color-ching)',
-                'pink': 'var(--color-pink)',
-                'black': 'var(--color-black)',
                 'grey': 'var(--color-grey)',
                 'offwhite': 'var(--color-offwhite)',
             },
@@ -45,10 +42,13 @@ module.exports = {
             margin: {
                 '2-px': '2px',
                 '34-px': '34px',
+                '40-vh': '40vh',
+                '50-vh': '50vh',
                 '40-percent': '40%',
                 '50-percent': '50%',
             },
             inset: {
+                '1': '0.25rem',
                 '-1': '-0.25rem',
                 '-3': '-0.75rem',
                 '-5': '-1.25rem',

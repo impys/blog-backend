@@ -41,7 +41,7 @@
 #searchLoadingIcon {
   svg path,
   svg rect {
-    fill: var(--color-ching);
+    fill: var(--color-blue-500);
   }
 }
 </style>

@@ -1,42 +1,46 @@
 <template>
-  <div class="flex flex-col w-full max-h-vh-45 border border-ching rounded bg-white">
-    <div class="flex flex-row items-center min-h-7">
-      <div class="w-8">
-        <transition name="slide-fade" mode="out-in">
-          <svg class="icon block mx-2 text-ching" v-if="!loading" key="unloading">
-            <use xlink:href="#icon-search-outline" />
-          </svg>
+  <div class="relative w-full h-10">
+    <div
+      class="flex flex-col w-full max-h-vh-45 border border-blue-500 rounded bg-white absolute top-0"
+    >
+      <div class="flex flex-row items-center min-h-7">
+        <div class="w-8">
+          <transition name="slide-fade" mode="out-in">
+            <svg class="icon block mx-2 text-blue-500" v-if="!loading" key="unloading">
+              <use xlink:href="#icon-search-outline" />
+            </svg>
 
-          <loading-icon key="loading" v-if="loading"></loading-icon>
-        </transition>
+            <loading-icon key="loading" v-if="loading"></loading-icon>
+          </transition>
+        </div>
+        <div class="flex items-center w-full">
+          <input
+            type="text"
+            ref="simpleSearchInput"
+            placeholder=" 按下回车全局搜索"
+            @input="handelInputQuery"
+            @focus="handleFocus"
+            @keyup.enter="fullSearch"
+            class="outline-none border-transparent text-base bg-transparent w-full z-10 input-caret-color-blue-500"
+          />
+        </div>
+        <div class="w-8">
+          <svg v-if="query.length" @click="reset()" class="icon text-grey cursor-pointer">
+            <use xlink:href="#icon-close-outline" />
+          </svg>
+        </div>
       </div>
-      <div class="flex items-center w-full">
-        <input
-          type="text"
-          ref="simpleSearchInput"
-          placeholder=" 按下回车全局搜索"
-          @input="handelInputQuery"
-          @focus="handleFocus"
-          @keyup.enter="fullSearch"
-          class="outline-none border-transparent text-base bg-transparent w-full z-10 input-caret-color-ching"
-        />
+      <div v-if="meta && !hidden && !loading" class="overflow-y-auto" v-closable="closeable">
+        <div class="px-3 font-normal text-xs text-grey">
+          <span>搜索到{{meta.nbHits}}个结果</span>
+        </div>
+        <search-results
+          class="py-2 px-3 w-full text-black border-b border-offwhite hover:bg-offwhite cursor-pointer last:border-b-0"
+          v-for="(post,index) in posts"
+          :key="index"
+          :post="post"
+        ></search-results>
       </div>
-      <div class="w-8">
-        <svg v-if="query.length" @click="reset()" class="icon text-grey cursor-pointer">
-          <use xlink:href="#icon-close-outline" />
-        </svg>
-      </div>
-    </div>
-    <div v-if="meta && !hidden && !loading" class="overflow-y-auto" v-closable="closeable">
-      <div class="px-3 font-normal text-xs text-grey">
-        <span>搜索到{{meta.nbHits}}个结果</span>
-      </div>
-      <search-results
-        class="py-2 px-3 w-full text-black border-b border-offwhite hover:bg-offwhite cursor-pointer last:border-b-0"
-        v-for="(post,index) in posts"
-        :key="index"
-        :post="post"
-      ></search-results>
     </div>
   </div>
 </template>

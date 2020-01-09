@@ -1,16 +1,17 @@
 <template>
   <main-layout>
     <template v-slot:header>
-      <svg class="icon text-2xl text-ching cursor-pointer" @click="goBack">
+      <svg class="icon text-2xl text-blue-500 cursor-pointer" @click="goBack">
         <use xlink:href="#icon-arrow-back-outline" />
       </svg>
       <h1 class="text-base lg:text-xl text-black mx-auto">{{ post.title }}</h1>
-      <div class="text-2xl cursor-pointer hover:text-ching">
+      <div class="text-2xl cursor-pointer hover:text-blue-500">
         <svg class="icon">
           <use xlink:href="#icon-more-horizontal-outline" />
         </svg>
       </div>
     </template>
+
     <template v-slot:content>
       <div
         class="text-grey mb-2 text-sm"
@@ -112,7 +113,7 @@ export default {
     },
 
     goBack() {
-      if (this.lastRouteName == "home") {
+      if (this.lastRouteName) {
         this.$router.go(-1);
       } else {
         this.$router.push({ path: "/" });

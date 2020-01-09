@@ -1,7 +1,6 @@
 :root {
-    --color-ching: #177cb0;
-    --color-pink: #fb7299;
-    --color-black: #333333;
+    --color-blue-500: #4299e1;
+    --color-pink-400: #f687b3;
     --color-grey: #999999;
     --color-offwhite: #f6f6f6;
 }
@@ -24,7 +23,7 @@
 }
 
 .router-link-active {
-    color: var(--color-ching);
+    color: var(--color-blue-500);
 }
 
 
@@ -47,7 +46,5 @@
 }
 
 .highlight {
-    // border-bottom: 2px solid var(--color-pink);
-    // background-color: var(--color-pink);
     color: red;
 }

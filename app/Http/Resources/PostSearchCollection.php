@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Tag;
+
 class PostSearchCollection extends BaseSearchCollection
 {
     /**
@@ -15,6 +17,15 @@ class PostSearchCollection extends BaseSearchCollection
         return [
             'data' => $this->getHits(),
             'meta' => $this->getMeta(),
+        ];
+    }
+
+    public function with($request)
+    {
+        return [
+            'meta' => [
+                'tags' => Tag::getAllValidTags(),
+            ],
         ];
     }
 }

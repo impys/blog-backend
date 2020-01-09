@@ -1,12 +1,21 @@
-import Feeds from './components/Feed/Feeds.vue'
+import Home from './components/Home/Home.vue'
+import Posts from './components/Post/Posts.vue'
 import Post from './components/Post/Post.vue'
 import Search from './components/Search/Search.vue'
 
 const routes = [
     {
         path: '/',
-        component: Feeds,
+        component: Home,
         name: 'home',
+        meta: {
+            keepAlive: true
+        }
+    },
+    {
+        path: '/posts',
+        component: Posts,
+        name: 'posts',
         meta: {
             keepAlive: true
         }
@@ -24,7 +33,7 @@ const routes = [
         component: Search,
         name: 'search',
         meta: {
-            keepAlive: false
+            keepAlive: true
         }
     },
 ]

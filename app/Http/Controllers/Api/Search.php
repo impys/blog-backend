@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Post;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostSearchCollection;
 
@@ -16,9 +17,9 @@ class Search extends Controller
      */
     public function __invoke(Request $request)
     {
-        $query = $request->input('query');
+        $keyword = $request->input('keyword');
 
-        $posts = Post::search($query)->paginateRaw();
+        $posts = Post::search($keyword)->paginateRaw();
 
         return new PostSearchCollection($posts);
     }

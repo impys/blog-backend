@@ -1,53 +1,48 @@
 <template>
   <main-layout>
     <template v-slot:header>
-      <div class="w-full relative h-10">
-        <div
-          class="w-full absolute transition-margin-03 top-0"
-          :class="[searchBoxFixedTop?'mt-0':'mt-40-percent']"
-        >
-          <div class="flex items-center w-full bg-white">
-            <div class="flex flex-row items-center w-full h-10 border border-ching rounded-full">
-              <!-- <div class="flex flex-row items-center w-full h-8 bg-offwhite rounded-full"> -->
-              <div class="w-8">
-                <transition name="slide-fade" mode="out-in">
-                  <svg class="icon block mx-2 text-ching" v-if="!loading" key="unloading">
-                    <use xlink:href="#icon-search-outline" />
-                  </svg>
+      <!-- search box -->
+      <div class="flex items-center w-full bg-white">
+        <div class="flex flex-row items-center w-full h-10 border border-blue-500 rounded-full">
+          <div class="w-8">
+            <transition name="slide-fade" mode="out-in">
+              <svg class="icon block mx-2 text-blue-500" v-if="!searchLoading" key="unloading">
+                <use xlink:href="#icon-search-outline" />
+              </svg>
 
-                  <loading-icon key="loading" v-if="loading"></loading-icon>
-                </transition>
-                <!-- <svg class="icon block mx-2 text-ching" key="unloading">
-                  <use xlink:href="#icon-search-outline" />
-                </svg>-->
-              </div>
-              <div class="flex items-center w-full">
-                <input
-                  v-focus
-                  type="text"
-                  ref="searchInput"
-                  v-model="query"
-                  @keyup.enter="search"
-                  class="outline-none w-full border-transparent text-base bg-transparent w-full z-10 input-caret-color-ching"
-                />
-              </div>
-              <div class="w-8">
-                <svg v-if="query" @click="reset()" class="icon text-grey cursor-pointer">
-                  <use xlink:href="#icon-close-outline" />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="w-10 text-base text-ching text-right font-normal cursor-pointer"
-              @click="goBack"
-            >取消</div>
+              <loading-icon key="loading" v-if="searchLoading"></loading-icon>
+            </transition>
           </div>
-          <tab class="sticky top-12" :currentTab="currentTab"></tab>
+          <div class="flex items-center w-full">
+            <input
+              v-focus
+              v-model="keyword"
+              class="outline-none w-full border-transparent text-base bg-transparent w-full z-10 input-caret-color-blue-500"
+            />
+          </div>
+          <div class="w-8">
+            <svg v-if="keyword" @click="reset()" class="icon text-grey cursor-pointer">
+              <use xlink:href="#icon-close-outline" />
+            </svg>
+          </div>
         </div>
+        <div
+          class="w-10 text-base text-blue-500 text-right font-normal cursor-pointer"
+          @click="goBack"
+        >取消</div>
       </div>
+      <!-- search box -->
     </template>
     <template v-slot:content>
-      <component class="mt-12" :is="currentTab.type+'-results'" v-if="data.length" :data="data"></component>
+      <!-- search results -->
+      <div v-scroll="handleScroll" v-if="data.length">
+        <component :is="currentType+'-results'" :data="data" :meta="meta"></component>
+        <div class="flex justify-center items-center text-sm text-grey my-4">
+          <loading-icon key="loading" v-if="!isLastPage && loadMoreLoading"></loading-icon>
+          <div v-if="isLastPage">到底了</div>
+        </div>
+      </div>
+      <!-- search results -->
     </template>
     <template v-slot:sidebar-content>
       <div></div>
@@ -59,16 +54,60 @@
 </template>
 
 <script>
+import _ from "lodash";
+
 import * as api from "../../api/Search";
-import PostResults from "./Result/PostResults";
+import PostResults from "./Result/Post/PostResults";
 import LoadingIcon from "./LoadingIcon";
-import Tab from "./Tab";
 
 export default {
+  name: "search",
   components: {
     PostResults,
-    LoadingIcon,
-    Tab
+    LoadingIcon
+  },
+
+  //   beforeRouteEnter(to, from, next) {
+  //     console.log(to, from);
+  //     // next();
+  //     // next(vm => (vm.query = to.query.query || ""));
+  //     next(vm => {
+  //     //   vm.replaceRouteByCurrentKeyword();
+  //     });
+  //   },
+
+  //   beforeRouteUpdate(to, from, next) {
+  //     console.log(to, from);
+  //     to.meta.keepAlive = true;
+  //     next();
+  //   },
+
+  //   beforeRouteLeave(to, from, next) {
+  //     console.log(to, from);
+  //     if (to.name == "post") {
+  //       from.meta.keepAlive = true;
+  //     }
+  //     next();
+  //   },
+
+  mounted() {
+    EventHub.$on("orderChanged", order => (this.currentOrder = order.value));
+    // EventHub.$on("tagChanged", tag => (this.currentTag = tag));
+  },
+
+  watch: {
+    keyword(newKeyword, oldKeyword) {
+      if (!newKeyword.trim()) {
+        this.reset();
+      }
+      this.replaceRouteByKeyword(newKeyword);
+      this.debounceSearch();
+    },
+
+    currentOrder(newOrder, oldOrder) {
+      this.replaceRouteByOrder(newOrder);
+      this.debounceSearch();
+    }
   },
 
   computed: {
@@ -82,126 +121,116 @@ export default {
 
   data() {
     return {
-      searchBoxFixedTop: false,
-      loading: false,
+      //status flag
+      searchLoading: false,
+      loadMoreLoading: false,
+
+      //search
       data: [],
       meta: null,
-      currentTab: {
-        type: "post",
-        filter: null
-      },
-      query: this.$route.query.query || ""
+      keyword: null,
+
+      //order and filter
+      currentType: "post", // only support search post now
+      currentOrder: null
     };
   },
 
-  async beforeRouteEnter(to, from, next) {
-    next(vm => (vm.query = to.query.query || ""));
-  },
-
-  mounted() {
-    EventHub.$on("changeTab", tab => {
-      this.changeTab(tab);
-    });
-    this.search();
-  },
-
-  watch: {
-    query(newValue, oldValue) {
-      if (!newValue) return;
-
-      let newQuery = {
-        query: newValue
-      };
-
-      this.replaceRouteByNewQuery(newQuery);
-      this.search();
-    },
-
-    currentTab(newValue, oldValue) {
-      let newQuery = {
-        type: newValue.type,
-        filter: newValue.filter
-      };
-
-      this.replaceRouteByNewQuery(newQuery);
-      this.search();
-    }
-  },
-
   methods: {
-    async search() {
-      if (this.prevent()) {
-        return;
-      }
-      this.start();
-
+    async fetch() {
       try {
         const response = await api.search(
-          this.query,
+          this.keyword,
           this.currentPage,
-          this.currentTab.type,
-          this.currentTab.filter
+          this.currentOrder
         );
-
         this.handleResponse(response);
       } catch (error) {
         console.log(error);
       }
-
-      this.finished();
     },
-
     handleResponse(response) {
-      this.searchBoxGoToTop();
-      setTimeout(() => {
-        this.data = response.data;
-        this.meta = response.meta;
-      }, 300);
+      this.data.push(...response.data);
+      this.meta = response.meta;
     },
 
-    prevent() {
-      return this.loading || !this.query.trim();
+    //search
+    debounceSearch: _.debounce(function(e) {
+      this.search();
+    }, 300),
+    async search() {
+      if (this.preventSearch()) {
+        return;
+      }
+      this.searchStart();
+
+      await this.fetch();
+
+      this.searchFinished();
+    },
+    preventSearch() {
+      return !this.keyword.trim();
+    },
+    searchStart() {
+      this.emptySearchResult();
+      this.searchLoading = true;
+    },
+    searchFinished() {
+      this.searchLoading = false;
     },
 
-    changeTab(tab) {
-      this.currentTab = tab;
+    // load more
+    async loadMore() {
+      if (this.preventLoadMore()) {
+        return;
+      }
+      this.loadMoreStart();
+      await this.fetch();
+      this.loadMoreFinished();
     },
-
-    start() {
-      this.loading = true;
-      this.emptyLastResults();
+    preventLoadMore() {
+      return this.loadMoreLoading;
     },
-
-    finished() {
-      this.loading = false;
+    loadMoreStart() {
+      this.loadMoreLoading = true;
     },
-
-    searchBoxGoToTop() {
-      this.searchBoxFixedTop = true;
+    loadMoreFinished() {
+      this.loadMoreLoading = false;
+    },
+    handleScroll() {
+      return helper.handleScroll(this, "loadMore");
     },
 
     reset() {
-      this.query = "";
+      this.keyword = "";
       this.loading = false;
-      this.emptyLastResults();
+      this.emptySearchResult();
     },
-
-    emptyLastResults() {
+    emptySearchResult() {
       this.data = [];
       this.meta = null;
     },
 
-    getConcatedQuery(newQuery) {
-      return _.pickBy(_.assign({}, this.$route.query, newQuery), OoO => OoO);
-    },
-
+    //router query
     replaceRouteByNewQuery(newQuery) {
-      let query = this.getConcatedQuery(newQuery);
+      //   let query = this.getConcatedQuery(newQuery);
+
+      let query = _.assign({}, this.$route.query, newQuery);
 
       if (Object.keys(query).length === 0) {
         return;
       }
       this.$router.replace({ query: query });
+    },
+    // getConcatedQuery(newQuery) {
+    //   console.log(_.assign({}, this.$route.query, newQuery));
+    //   return _.pickBy(_.assign({}, this.$route.query, newQuery), OoO => OoO);
+    // },
+    replaceRouteByKeyword(newKeyword) {
+      this.replaceRouteByNewQuery({ keyword: newKeyword });
+    },
+    replaceRouteByOrder(newOrder) {
+      this.replaceRouteByNewQuery({ order: newOrder });
     },
 
     goBack() {

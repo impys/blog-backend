@@ -15,7 +15,7 @@
       </div>
       <h2
         class="mb-2 font-normal w-full text-lg"
-        :class="[currentHoverPostId == post.id ? 'text-ching' : 'text-black']"
+        :class="[currentHoverPostId == post.id ? 'text-blue-500' : 'text-black']"
       >
         <slot name="title">{{ post.title }}</slot>
       </h2>

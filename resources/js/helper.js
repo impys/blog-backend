@@ -17,7 +17,7 @@ export function getScrollBottom() {
     return offsetHeight - clientHeight - scrollTop;
 }
 
-export function hasMoreData() {
+export function canLoadMore() {
     return getScrollBottom() <= 300
 }
 
@@ -36,6 +36,22 @@ export function isLastPageByMeta(meta) {
     return meta && meta.current_page == meta.last_page;
 }
 
-export function isHome(vm) {
-    return vm.$route.name == 'home';
+export function handleScroll(vm, getDataMethod = 'get') {
+    if (!vm.$options.name) {
+        throw "component name is required";
+    }
+
+    if (vm.$options.name !== vm.$route.name) {
+        return;
+    }
+
+    if (vm.isLastPage) {
+        return
+    }
+
+    if (!canLoadMore()) {
+        return;
+    }
+
+    eval(`vm.${getDataMethod}()`)
 }

@@ -40,6 +40,13 @@ const router = new VueRouter({
     }
 })
 
+router.beforeEach((to, from, next) => {
+    const CancelToken = axios.CancelToken
+    store.source.cancel && store.source.cancel()
+    store.source = CancelToken.source()
+    next()
+})
+
 const app = new Vue({
     el: '#app',
     router

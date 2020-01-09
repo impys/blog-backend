@@ -5,7 +5,7 @@
     <div class="flex flex-row items-center min-h-7">
       <!-- icon -->
       <transition name="slide-fade" mode="out-in">
-        <svg class="icon text-2xl block mx-2 text-ching" v-if="!searchLoading" key="unloading">
+        <svg class="icon text-2xl block mx-2 text-blue-500" v-if="!searchLoading" key="unloading">
           <use xlink:href="#icon-search-outline" />
         </svg>
         <loading-icon key="loading" v-if="searchLoading" style="margin:0 1px;"></loading-icon>
@@ -17,7 +17,7 @@
         ref="searchInput"
         v-model="query"
         @keyup.enter="search()"
-        class="outline-none border-transparent bg-transparent h-4 w-full z-10 input-caret-color-ching"
+        class="outline-none border-transparent bg-transparent h-4 w-full z-10 input-caret-color-blue-500"
       />
       <i
         class="fas fa-times text-lg block mx-2 text-grey cursor-pointer"
@@ -43,7 +43,7 @@
           v-if="!noMoreResult"
           :disabled="loadMoreLoading"
           @click="loadMore()"
-          class="border border-ching text-ching rounded px-2 py-1"
+          class="border border-blue-500 text-blue-500 rounded px-2 py-1"
         >{{loadMoreLoading ? '正在加载' : '加载更多'}}</button>
         <span class="text-xs" v-if="noMoreResult">到底了(゜-゜)つ~</span>
       </div>
@@ -57,7 +57,7 @@
 import LoadingIcon from "./LoadingIcon";
 import SearchResults from "./SearchResults";
 
-import * as api from "../../api/search";
+import * as api from "../../api/Search";
 
 export default {
   components: {
@@ -126,7 +126,7 @@ export default {
     },
 
     /**
-     * initialize search sttatus
+     * initialize search status
      */
     resetSearch() {
       this.emptyLastSearchResult();
@@ -194,6 +194,6 @@ export default {
 }
 
 .highlight {
-  border-bottom: 2px solid var(--color-pink);
+  border-bottom: 2px solid var(--color-pink-400);
 }
 </style>

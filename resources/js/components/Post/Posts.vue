@@ -1,12 +1,12 @@
 <template>
   <main-layout>
     <template v-slot:header>
-      <h1 class>主页</h1>
+      <h1 class>文章</h1>
     </template>
     <template v-slot:content>
       <div v-scroll="handleScroll">
         <post-card v-for="(post,index) in posts" :key="index" :post="post"></post-card>
-        <div v-if="isLastPage" class="text-center text-sm text-grey my-2">到底了</div>
+        <div v-if="isLastPage" class="text-center text-sm text-grey my-4">到底了</div>
       </div>
     </template>
   </main-layout>
@@ -16,6 +16,7 @@
 import * as api from "../../api/GetPosts";
 
 export default {
+  name: "posts",
   data() {
     return {
       posts: [],
@@ -60,26 +61,25 @@ export default {
       this.finished();
     },
 
-    handleResponse(response) {
-      this.posts.push(...response.data);
-      this.meta = response.meta;
-    },
-
     prevent() {
-      return this.loading || this.isLastPage;
+      return this.loading;
     },
 
     start() {
       this.loading = true;
     },
+
+    handleResponse(response) {
+      this.posts.push(...response.data);
+      this.meta = response.meta;
+    },
+
     finished() {
       this.loading = false;
     },
 
-    handleScroll(evt, el) {
-      if (helper.hasMoreData() && helper.isHome(this)) {
-        this.get();
-      }
+    handleScroll() {
+      return helper.handleScroll(this);
     }
   }
 };
