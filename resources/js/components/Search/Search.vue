@@ -112,8 +112,8 @@ export default {
       this.debounceSearch();
     },
 
-    currentRanking(newOrder, oldOrder) {
-      this.replaceRouteByOrder(newOrder);
+    currentRanking(newRanking, oldRanking) {
+      this.replaceRouteByRanking(newRanking);
       this.debounceSearch();
     }
   },
@@ -138,7 +138,7 @@ export default {
       meta: null,
       keyword: null,
 
-      //order and filter
+      //ranking and filter
       currentType: "post", // only support search post now
       currentRanking: null
     };
@@ -237,8 +237,8 @@ export default {
     replaceRouteByKeyword(newKeyword) {
       this.replaceRouteByNewQuery({ keyword: newKeyword });
     },
-    replaceRouteByOrder(newOrder) {
-      this.replaceRouteByNewQuery({ order: newOrder });
+    replaceRouteByRanking(newRanking) {
+      this.replaceRouteByNewQuery({ ranking: newRanking });
     },
 
     goBack() {
