@@ -34,6 +34,9 @@
       <!-- search box -->
     </template>
     <template v-slot:content>
+      <div class="border-b py-2 mb-4 sticky top-12 bg-white z-20" v-if="data.length">
+        <ranking :initialRankingValue="currentRanking"></ranking>
+      </div>
       <!-- search results -->
       <div v-scroll="handleScroll" v-if="data.length">
         <component :is="currentType+'-results'" :data="data" :meta="meta"></component>
@@ -59,12 +62,14 @@ import _ from "lodash";
 import * as api from "../../api/Search";
 import PostResults from "./Result/Post/PostResults";
 import LoadingIcon from "./LoadingIcon";
+import Ranking from "./Ranking";
 
 export default {
   name: "search",
   components: {
     PostResults,
-    LoadingIcon
+    LoadingIcon,
+    Ranking
   },
 
   //   beforeRouteEnter(to, from, next) {
@@ -91,7 +96,10 @@ export default {
   //   },
 
   mounted() {
-    EventHub.$on("orderChanged", order => (this.currentOrder = order.value));
+    EventHub.$on(
+      "rankingChanged",
+      rankingValue => (this.currentRanking = rankingValue)
+    );
     // EventHub.$on("tagChanged", tag => (this.currentTag = tag));
   },
 
@@ -104,7 +112,7 @@ export default {
       this.debounceSearch();
     },
 
-    currentOrder(newOrder, oldOrder) {
+    currentRanking(newOrder, oldOrder) {
       this.replaceRouteByOrder(newOrder);
       this.debounceSearch();
     }
@@ -132,7 +140,7 @@ export default {
 
       //order and filter
       currentType: "post", // only support search post now
-      currentOrder: null
+      currentRanking: null
     };
   },
 
@@ -142,7 +150,7 @@ export default {
         const response = await api.search(
           this.keyword,
           this.currentPage,
-          this.currentOrder
+          this.currentRanking
         );
         this.handleResponse(response);
       } catch (error) {

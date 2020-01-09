@@ -17,9 +17,17 @@ class Search extends Controller
     public function __invoke(Request $request)
     {
         $keyword = $request->input('keyword');
+        $ranking = $request->input('ranking', null);
 
-        $posts = Feeds::search($keyword)->paginateRaw();
+        $query = Feeds::search($keyword);
 
-        return new PostSearchCollection($posts);
+        if ($ranking) {
+            $index = 'dev-feeds-' . $ranking;
+            $query->within($index);
+        }
+
+        $feeds = $query->paginateRaw();
+
+        return new PostSearchCollection($feeds);
     }
 }

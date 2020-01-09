@@ -11,7 +11,7 @@
     <div class="w-full">
       <div class="mb-2">
         <span class="text-xs font-medium text-black">青风百里</span>
-        <span class="text-xs font-light text-grey">· {{ post.updated_at_human }}</span>
+        <span class="text-xs font-light text-grey">· 发布于{{ post.created_at_human }} · 更新于{{ post.updated_at_human }} · {{ post.visited_count }}阅读</span>
       </div>
       <h2
         class="mb-2 font-normal w-full text-lg"

@@ -16,10 +16,7 @@ return [
     |
     */
 
-    'searchableAttributes' => [
-        'title',
-        'body',
-    ],
+    'searchableAttributes' => ['title', 'body'],
 
     /*
     |--------------------------------------------------------------------------
@@ -35,11 +32,7 @@ return [
     |
     */
 
-    'customRanking' => [
-        'desc(created_at)',
-        'desc(updated_at)',
-        'desc(visited_count)',
-    ],
+    'customRanking' => ['desc(created_at)'],
 
     /*
     |--------------------------------------------------------------------------
@@ -162,12 +155,8 @@ return [
     | configuration, just use the command `scout:sync` to get remote settings in this file.
     |
     */
-
+    'replicas' => ['dev-feeds-most-visited', 'dev-feeds-latest-update'],
+    'attributesToSnippet' => ['title', 'body:40'],
     'highlightPreTag' => '<span class="highlight">',
     'highlightPostTag' => '</span>',
-
-    'attributesToSnippet' => [
-        'title',
-        'body:40'
-      ]
 ];
