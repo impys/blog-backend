@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Post;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostSearchCollection;
+use App\Search\Feeds;
 
 class Search extends Controller
 {
@@ -19,7 +18,7 @@ class Search extends Controller
     {
         $keyword = $request->input('keyword');
 
-        $posts = Post::search($keyword)->paginateRaw();
+        $posts = Feeds::search($keyword)->paginateRaw();
 
         return new PostSearchCollection($posts);
     }

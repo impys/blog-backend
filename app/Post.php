@@ -3,20 +3,20 @@
 namespace App;
 
 use App\Traits\HasEnable;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Mail\Markdown;
-use Illuminate\Support\Facades\DB;
-use Laravel\Scout\Searchable;
 use Illuminate\Support\Str;
+use Illuminate\Mail\Markdown;
+use Laravel\Scout\Searchable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Collection;
 
 class Post extends Model
 {
     use HasEnable;
     use Searchable;
 
-    const SIZE = 10;
+    const SIZE = 15;
 
     protected $fillable = [
         'title',
@@ -49,11 +49,6 @@ class Post extends Model
         });
     }
 
-    public function searchableAs()
-    {
-        return config('scout.posts_index');
-    }
-
     public function shouldBeSearchable()
     {
         return $this->is_enable;
@@ -61,11 +56,25 @@ class Post extends Model
 
     public function toSearchableArray()
     {
-        $array = $this->toArray();
+        $array['id'] = $this->id;
+
+        $array['title'] = $this->title;
 
         $array['body'] = strip_tags(Markdown::parse($this->body));
 
         $array['tags'] = $this->buildTagsForSearch();
+
+        $array['visited_count'] = $this->visited_count;
+
+        $array['cover_media'] = $this->cover_media;
+
+        $array['created_at'] = $this->created_at;
+
+        $array['updated_at'] = $this->updated_at;
+
+        $array['created_at_human'] = $this->created_at_human;
+
+        $array['updated_at_human'] = $this->updated_at_human;
 
         return $array;
     }
