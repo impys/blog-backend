@@ -37,6 +37,7 @@
       <div class="border-b py-2 mb-4 sticky top-12 bg-white z-20" v-if="data.length">
         <ranking :initialRankingValue="currentRanking"></ranking>
       </div>
+      <div class="text-sm text-grey my-4" v-if="!data.length && meta">什么也没搜到</div>
       <!-- search results -->
       <div v-scroll="handleScroll" v-if="data.length">
         <component :is="currentType+'-results'" :data="data" :meta="meta"></component>
@@ -105,10 +106,10 @@ export default {
 
   watch: {
     keyword(newKeyword, oldKeyword) {
+      this.replaceRouteByKeyword(newKeyword);
       if (!newKeyword.trim()) {
         this.reset();
       }
-      this.replaceRouteByKeyword(newKeyword);
       this.debounceSearch();
     },
 
@@ -212,6 +213,7 @@ export default {
     reset() {
       this.keyword = "";
       this.loading = false;
+      this.currentRanking = null;
       this.emptySearchResult();
     },
     emptySearchResult() {
@@ -221,19 +223,18 @@ export default {
 
     //router query
     replaceRouteByNewQuery(newQuery) {
-      //   let query = this.getConcatedQuery(newQuery);
+      let query = this.getConcatedQuery(newQuery);
 
-      let query = _.assign({}, this.$route.query, newQuery);
+      //   let query = _.assign({}, this.$route.query, newQuery);
 
-      if (Object.keys(query).length === 0) {
-        return;
-      }
+      //   if (Object.keys(query).length === 0) {
+      //     return;
+      //   }
       this.$router.replace({ query: query });
     },
-    // getConcatedQuery(newQuery) {
-    //   console.log(_.assign({}, this.$route.query, newQuery));
-    //   return _.pickBy(_.assign({}, this.$route.query, newQuery), OoO => OoO);
-    // },
+    getConcatedQuery(newQuery) {
+      return _.pickBy(_.assign({}, this.$route.query, newQuery), OoO => OoO);
+    },
     replaceRouteByKeyword(newKeyword) {
       this.replaceRouteByNewQuery({ keyword: newKeyword });
     },
