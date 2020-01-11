@@ -1,6 +1,6 @@
 <template>
   <div
-    class="py-4 px-4 -mx-4 border-b last:border-b-0 hover:bg-offwhite transition-background-color-03"
+    class="py-4 px-4 -mx-4 border-b border-offwhite last:border-b-0"
     @mouseenter="handleMouseEnter()"
     @mouseleave="handleMouseLeave()"
   >
