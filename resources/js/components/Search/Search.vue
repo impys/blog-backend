@@ -3,7 +3,7 @@
     <template v-slot:header>
       <!-- search box -->
       <div class="flex items-center w-full bg-white">
-        <div class="flex flex-row items-center w-full h-10 border border-blue-500 rounded-full">
+        <div class="flex flex-row items-center w-full h-8 bg-offwhite rounded-full">
           <div class="w-8">
             <transition name="slide-fade" mode="out-in">
               <svg class="icon block mx-2 text-blue-500" v-if="!searchLoading" key="unloading">
@@ -27,14 +27,14 @@
           </div>
         </div>
         <div
-          class="w-10 text-base text-blue-500 text-right font-normal cursor-pointer"
-          @click="goBack"
+          class="w-10 text-sm text-blue-500 text-right font-normal cursor-pointer"
+          @click="cancel"
         >取消</div>
       </div>
       <!-- search box -->
     </template>
     <template v-slot:content>
-      <div class="border-b py-2 mb-4 sticky top-12 bg-white z-20" v-if="data.length">
+      <div class="py-1 sticky top-12 bg-white z-20" v-if="data.length">
         <ranking :initialRankingValue="currentRanking"></ranking>
       </div>
       <div class="text-sm text-grey my-4" v-if="!data.length && meta">什么也没搜到</div>
@@ -240,6 +240,11 @@ export default {
     },
     replaceRouteByRanking(newRanking) {
       this.replaceRouteByNewQuery({ ranking: newRanking });
+    },
+
+    cancel() {
+      this.reset();
+      this.goBack();
     },
 
     goBack() {

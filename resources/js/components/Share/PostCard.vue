@@ -1,26 +1,19 @@
 <template>
   <div
-    class="flex flex-row rounded p-4 cursor-pointer hover:bg-offwhite transition-background-color-03"
+    class="flex flex-row p-4 border-b last:border-b-0 cursor-pointer hover:bg-offwhite transition-background-color-03"
     @click="handleClick()"
     @mouseenter="handleMouseEnter()"
     @mouseleave="handleMouseLeave()"
   >
-    <div class="mr-2">
-      <img src="img/logo.png" width="40px" height="40px" class="rounded-full bg-white border border-gray-200" />
-    </div>
     <div class="w-full">
-      <div class="mb-2">
-        <span class="text-xs font-medium text-black">青风百里</span>
-        <span class="text-xs font-light text-grey">· 发布于{{ post.created_at_human }} · 更新于{{ post.updated_at_human }} · {{ post.visited_count }}阅读</span>
-      </div>
       <h2
-        class="mb-2 font-normal w-full text-lg"
+        class="mb-2 font-medium w-full text-lg"
         :class="[currentHoverPostId == post.id ? 'text-blue-500' : 'text-black']"
       >
         <slot name="title">{{ post.title }}</slot>
       </h2>
 
-      <div class="mb-2 w-full text-sm text-grey text-justify break-all">
+      <div class="mb-2 w-full text-sm font-light text-justify break-all">
         <slot name="body">{{ post.summary }}</slot>
       </div>
       <component
@@ -31,6 +24,13 @@
       ></component>
 
       <tags :tags="post.tags"></tags>
+      <div class="text-xs font-light text-grey mt-1">
+        <span>发布于{{ post.created_at_human }}</span>
+        <span>·</span>
+        <span>更新于{{ post.updated_at_human }}</span>
+        <span>·</span>
+        <span>{{ post.visited_count }}阅读</span>
+      </div>
     </div>
   </div>
 </template>

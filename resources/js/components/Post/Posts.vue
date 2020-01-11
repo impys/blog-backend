@@ -1,13 +1,13 @@
 <template>
   <main-layout>
     <template v-slot:header>
-      <h1 class>文章</h1>
+      <h1>文章</h1>
     </template>
     <template v-slot:content>
-      <div v-scroll="handleScroll">
+      <div class="-mx-4 lg:mx-0" v-scroll="handleScroll">
         <post-card v-for="(post,index) in posts" :key="index" :post="post"></post-card>
-        <div v-if="isLastPage" class="text-center text-sm text-grey my-4">到底了</div>
       </div>
+      <div v-if="isLastPage" class="text-center text-sm text-grey my-4">到底了</div>
     </template>
   </main-layout>
 </template>

@@ -4,7 +4,7 @@
       <svg class="icon text-2xl text-blue-500 cursor-pointer" @click="goBack">
         <use xlink:href="#icon-arrow-back-outline" />
       </svg>
-      <h1 class="text-base lg:text-xl text-black mx-auto">{{ post.title }}</h1>
+      <h1 class="mx-auto">{{ post.title }}</h1>
       <div class="text-2xl cursor-pointer hover:text-blue-500">
         <svg class="icon">
           <use xlink:href="#icon-more-horizontal-outline" />

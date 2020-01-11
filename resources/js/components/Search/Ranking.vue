@@ -1,5 +1,5 @@
 <template>
-  <div class="flex py-2">
+  <div class="flex">
     <div
       class="text-xs rounded p-1 mr-2 cursor-pointer hover:bg-blue-500 hover:text-white"
       :class="[!initialRankingValue ? 'bg-blue-500 text-white' : 'bg-white text-grey']"

@@ -17,7 +17,7 @@
 </head>
 
 <body class="text-black antialiased leading-tight bg-white">
-    <div id="app" class="container mx-auto px-3 lg:px-0">
+    <div id="app" class="container mx-auto">
         <app></app>
     </div>
 </body>
