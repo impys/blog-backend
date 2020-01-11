@@ -22,7 +22,7 @@ class Search extends Controller
         $query = Feeds::search($keyword);
 
         if ($ranking) {
-            $index = 'dev-feeds-' . $ranking;
+            $index = config('scout.prefix') . 'feeds-' . $ranking;
             $query->within($index);
         }
 
