@@ -2,7 +2,7 @@
   <main-layout>
     <template v-slot:header>
       <!-- search box -->
-      <div class="flex items-center w-full bg-white">
+      <div class="flex items-center w-full bg-white px-4">
         <div class="flex flex-row items-center w-full h-8 bg-offwhite rounded-full">
           <div class="w-8">
             <transition name="slide-fade" mode="out-in">
