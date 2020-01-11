@@ -68,7 +68,7 @@ export default {
         },
         {
           content: "文章",
-          iconfont: "home-outline",
+          iconfont: "post-outline",
           to: "/posts",
           exact: false
         }
