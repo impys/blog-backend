@@ -6,6 +6,7 @@ import Search from './components/Search/Search.vue'
 const routes = [
     {
         path: '/',
+        redirect: '/posts',
         component: Home,
         name: 'home',
         meta: {

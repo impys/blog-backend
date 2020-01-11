@@ -4,8 +4,8 @@
       <h1>主页</h1>
     </template>
     <template v-slot:content>
-      <div class="flex justify-center mt-32">
-        <div class="text-xl text-grey">主页</div>
+      <div class="flex justify-center mt-48">
+        <div class="text-xl text-grey"></div>
       </div>
     </template>
   </main-layout>
