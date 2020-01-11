@@ -44,6 +44,7 @@ return [
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
+            'permission' => 0777,
             'level' => 'debug',
         ],
 
@@ -51,6 +52,7 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
+            'permission' => 0777,
             'days' => 14,
         ],
 
