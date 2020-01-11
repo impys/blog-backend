@@ -155,10 +155,7 @@ return [
     | configuration, just use the command `scout:sync` to get remote settings in this file.
     |
     */
-    'replicas' => [
-        env('SCOUT_PREFIX', 'dev-') . 'feeds-most-visited',
-        env('SCOUT_PREFIX', 'dev-') . 'feeds-latest-update'
-    ],
+    'replicas' => ['pro-feeds-most-visited', 'pro-feeds-latest-update'],
     'attributesToSnippet' => ['title', 'body:40'],
     'highlightPreTag' => '<span class="highlight">',
     'highlightPostTag' => '</span>',
