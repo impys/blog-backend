@@ -155,7 +155,6 @@ return [
     | configuration, just use the command `scout:sync` to get remote settings in this file.
     |
     */
-    'replicas' => ['dev-feeds-most-visited', 'dev-feeds-latest-update'],
     'attributesToSnippet' => ['title', 'body:40'],
     'highlightPreTag' => '<span class="highlight">',
     'highlightPostTag' => '</span>',
