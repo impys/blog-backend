@@ -4,7 +4,7 @@
       <h1>文章</h1>
     </template>
     <template v-slot:content>
-      <div class="-mx-4 lg:mx-0" v-scroll="handleScroll">
+      <div v-scroll="handleScroll">
         <post-card v-for="(post,index) in posts" :key="index" :post="post"></post-card>
       </div>
       <div v-if="isLastPage" class="text-center text-sm text-grey my-4">到底了</div>

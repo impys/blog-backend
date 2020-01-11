@@ -17,6 +17,7 @@
             <input
               v-focus
               v-model="keyword"
+              @keyup.enter="debounceSearch"
               class="outline-none w-full border-transparent text-base bg-transparent w-full z-10 input-caret-color-blue-500"
             />
           </div>
@@ -34,7 +35,7 @@
       <!-- search box -->
     </template>
     <template v-slot:content>
-      <div class="py-1 sticky top-12 bg-white z-20" v-if="data.length">
+      <div class="py-1 px-4 -mx-4 sticky top-12 bg-white z-20" v-if="data.length">
         <ranking :initialRankingValue="currentRanking"></ranking>
       </div>
       <div class="text-sm text-grey my-4" v-if="!data.length && meta">什么也没搜到</div>
@@ -73,28 +74,10 @@ export default {
     Ranking
   },
 
-  //   beforeRouteEnter(to, from, next) {
-  //     console.log(to, from);
-  //     // next();
-  //     // next(vm => (vm.query = to.query.query || ""));
-  //     next(vm => {
-  //     //   vm.replaceRouteByCurrentKeyword();
-  //     });
-  //   },
-
-  //   beforeRouteUpdate(to, from, next) {
-  //     console.log(to, from);
-  //     to.meta.keepAlive = true;
-  //     next();
-  //   },
-
-  //   beforeRouteLeave(to, from, next) {
-  //     console.log(to, from);
-  //     if (to.name == "post") {
-  //       from.meta.keepAlive = true;
-  //     }
-  //     next();
-  //   },
+  beforeRouteEnter(to, from, next) {
+    //刷新搜索页面的时候，如果地址栏中有关键词，应该拿下来，放到keyword中，触发搜索
+    next(vm => (vm.keyword = to.query.keyword || ""));
+  },
 
   mounted() {
     EventHub.$on(
@@ -222,7 +205,7 @@ export default {
     },
 
     //router query
-    replaceRouteByNewQuery(newQuery) {
+    replaceRouteByNewQueryIfNeeded(newQuery) {
       let query = this.getConcatedQuery(newQuery);
 
       //   let query = _.assign({}, this.$route.query, newQuery);
@@ -230,16 +213,18 @@ export default {
       //   if (Object.keys(query).length === 0) {
       //     return;
       //   }
-      this.$router.replace({ query: query });
+      if (!_.isEqual(this.$route.query, query)) {
+        this.$router.replace({ query: query });
+      }
     },
     getConcatedQuery(newQuery) {
       return _.pickBy(_.assign({}, this.$route.query, newQuery), OoO => OoO);
     },
     replaceRouteByKeyword(newKeyword) {
-      this.replaceRouteByNewQuery({ keyword: newKeyword });
+      this.replaceRouteByNewQueryIfNeeded({ keyword: newKeyword });
     },
     replaceRouteByRanking(newRanking) {
-      this.replaceRouteByNewQuery({ ranking: newRanking });
+      this.replaceRouteByNewQueryIfNeeded({ ranking: newRanking });
     },
 
     cancel() {
