@@ -54,12 +54,12 @@ export default {
   data() {
     return {
       links: [
-        // {
-        //   content: "主页",
-        //   iconfont: "home-outline",
-        //   to: "/",
-        //   exact: true
-        // },
+        {
+          content: "主页",
+          iconfont: "home-outline",
+          to: "/",
+          exact: true
+        },
         {
           content: "搜索",
           iconfont: "search-outline",
