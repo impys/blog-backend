@@ -1,38 +1,39 @@
 <template>
-  <router-link
-    :to="{ name: 'post', params: { id: this.post.id } }"
-    class="flex flex-row p-4 border-b last:border-b-0 cursor-pointer hover:bg-offwhite transition-background-color-03"
+  <div
+    class="p-4 border-b last:border-b-0 hover:bg-offwhite transition-background-color-03"
     @mouseenter="handleMouseEnter()"
     @mouseleave="handleMouseLeave()"
   >
-    <div class="w-full">
-      <h2
-        class="mb-2 font-medium w-full text-lg"
-        :class="[currentHoverPostId == post.id ? 'text-blue-500' : 'text-black']"
-      >
-        <slot name="title">{{ post.title }}</slot>
-      </h2>
+    <router-link :to="{ name: 'post', params: { id: this.post.id } }" class="flex flex-row">
+      <div class="w-full">
+        <h2
+          class="mb-2 font-medium w-full text-lg"
+          :class="[currentHoverPostId == post.id ? 'text-blue-500' : 'text-black']"
+        >
+          <slot name="title">{{ post.title }}</slot>
+        </h2>
 
-      <div class="mb-2 w-full text-sm font-light text-justify break-all">
-        <slot name="body">{{ post.summary }}</slot>
-      </div>
-      <component
-        class="mb-2"
-        v-if="post.cover_media"
-        :is="post.cover_media.type+'-media'"
-        :media="post.cover_media"
-      ></component>
+        <div class="mb-2 w-full text-sm font-light text-justify break-all">
+          <slot name="body">{{ post.summary }}</slot>
+        </div>
+        <component
+          class="mb-2"
+          v-if="post.cover_media"
+          :is="post.cover_media.type+'-media'"
+          :media="post.cover_media"
+        ></component>
 
-      <tags :tags="post.tags"></tags>
-      <div class="text-xs font-light text-grey mt-1">
-        <span>发布于{{ post.created_at_human }}</span>
-        <span>·</span>
-        <span>更新于{{ post.updated_at_human }}</span>
-        <span>·</span>
-        <span>{{ post.visited_count }}阅读</span>
+        <tags :tags="post.tags"></tags>
+        <div class="text-xs font-light text-grey mt-1">
+          <span>发布于{{ post.created_at_human }}</span>
+          <span>·</span>
+          <span>更新于{{ post.updated_at_human }}</span>
+          <span>·</span>
+          <span>{{ post.visited_count }}阅读</span>
+        </div>
       </div>
-    </div>
-  </router-link>
+    </router-link>
+  </div>
 </template>
 
 <script>
