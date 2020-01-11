@@ -1,7 +1,7 @@
 <template>
-  <div
+  <router-link
+    :to="{ name: 'post', params: { id: this.post.id } }"
     class="flex flex-row p-4 border-b last:border-b-0 cursor-pointer hover:bg-offwhite transition-background-color-03"
-    @click="handleClick()"
     @mouseenter="handleMouseEnter()"
     @mouseleave="handleMouseLeave()"
   >
@@ -32,7 +32,7 @@
         <span>{{ post.visited_count }}阅读</span>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -59,9 +59,6 @@ export default {
     },
     handleMouseLeave() {
       this.currentHoverPostId = null;
-    },
-    handleClick() {
-      this.$router.push({ name: "post", params: { id: this.post.id } });
     }
   }
 };
