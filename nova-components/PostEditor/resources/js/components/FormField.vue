@@ -20,7 +20,7 @@
           <div class="sticky" style="top:10px">
             <div class="flex flex-col">
               <div class="custom__upload-icon form-input-bordered">
-                <label for="file-input">
+                <label for="file-input" id="file-upload-label">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -140,7 +140,7 @@ export default {
      */
     setLink(typePrefix, url) {
       if (typePrefix == "audio") {
-        this.link = `<audio controls controlslist="nodownload"><source src="${url}"></audio>`;
+        this.link = `<audio controls><source src="${url}"></audio>`;
       }
       if (typePrefix == "image") {
         let link = `![](${url})\n`;
@@ -283,8 +283,10 @@ progress::-webkit-progress-value {
 }
 </style>
 <style lang="scss">
-svg path,
-svg rect {
-  fill: #e3e7eb;
+#file-upload-label {
+  svg path,
+  svg rect {
+    fill: #e3e7eb;
+  }
 }
 </style>

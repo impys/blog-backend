@@ -1,197 +1,255 @@
 <template>
-  <div
-    class="flex flex-col max-h-vh-45 bg-offwhite rounded-16 lg:rounded-20 hover:shadow-focus transition-box-shadow-05"
-  >
-    <div class="flex flex-row items-center min-h-8 lg:min-h-10">
-      <!-- icon -->
-      <transition name="slide-fade" mode="out-in">
-        <i class="fa fa-search text-lg block mx-2 text-ching" v-if="!searchLoading" key="unloading"></i>
-        <loading-icon key="loading" v-if="searchLoading" style="margin:0 1px;"></loading-icon>
-      </transition>
-      <!-- icon -->
+  <main-layout>
+    <template v-slot:header>
+      <!-- search box -->
+      <div class="flex items-center w-full bg-white">
+        <div class="flex flex-row items-center w-full h-8 bg-offwhite rounded-full">
+          <div class="w-8">
+            <transition name="slide-fade" mode="out-in">
+              <svg class="icon block mx-2 text-blue-500" v-if="!searchLoading" key="unloading">
+                <use xlink:href="#icon-search-outline" />
+              </svg>
 
-      <input
-        type="text"
-        ref="searchInput"
-        v-model="query"
-        @keyup.enter="search()"
-        class="outline-none border-transparent bg-transparent h-6 w-full z-10 input-caret-color-ching"
-      />
-      <i
-        class="fas fa-times text-lg block mx-2 text-grey cursor-pointer"
-        v-if="query.length"
-        @click="resetSearch()"
-      ></i>
-    </div>
-
-    <div v-if="meta && !searchLoading" class="overflow-y-auto" style="padding:0 34px 8px 34px">
-      <!-- tips -->
-      <div class="text-xs text-grey test">
-        <span>搜索到{{meta.total}}个结果</span>
+              <loading-icon key="loading" v-if="searchLoading"></loading-icon>
+            </transition>
+          </div>
+          <div class="flex items-center w-full">
+            <input
+              v-focus
+              v-model="keyword"
+              class="outline-none w-full border-transparent text-base bg-transparent w-full z-10 input-caret-color-blue-500"
+            />
+          </div>
+          <div class="w-8">
+            <svg v-if="keyword" @click="reset()" class="icon text-grey cursor-pointer">
+              <use xlink:href="#icon-close-outline" />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="w-10 text-sm text-blue-500 text-right font-normal cursor-pointer"
+          @click="cancel"
+        >取消</div>
       </div>
-      <!-- tips -->
-
-      <!-- posts listing -->
-      <post-search-results v-for="(post,index) in posts" :key="index" :post="post"></post-search-results>
-      <!-- posts listing -->
-
-      <!-- footer -->
-      <div v-if="meta.total" class="text-sm text-grey w-full text-center mt-2">
-        <button
-          v-if="!noMoreResult"
-          :disabled="loadMoreLoading"
-          @click="loadMore()"
-          class="border border-ching text-ching rounded px-2 py-1"
-        >{{loadMoreLoading ? '正在加载' : '加载更多'}}</button>
-        <span class="text-xs" v-if="noMoreResult">到底了(゜-゜)つ~</span>
+      <!-- search box -->
+    </template>
+    <template v-slot:content>
+      <div class="py-1 sticky top-12 bg-white z-20" v-if="data.length">
+        <ranking :initialRankingValue="currentRanking"></ranking>
       </div>
-      <!-- footer -->
-    </div>
-  </div>
+      <div class="text-sm text-grey my-4" v-if="!data.length && meta">什么也没搜到</div>
+      <!-- search results -->
+      <div v-scroll="handleScroll" v-if="data.length">
+        <component :is="currentType+'-results'" :data="data" :meta="meta"></component>
+        <div class="flex justify-center items-center text-sm text-grey my-4">
+          <loading-icon key="loading" v-if="!isLastPage && loadMoreLoading"></loading-icon>
+          <div v-if="isLastPage">到底了</div>
+        </div>
+      </div>
+      <!-- search results -->
+    </template>
+    <template v-slot:sidebar-content>
+      <div></div>
+    </template>
+    <template v-slot:sidebar-header>
+      <div></div>
+    </template>
+  </main-layout>
 </template>
 
-
 <script>
-import LoadingIcon from "./LoadingIcon";
-import PostSearchResults from "./PostSearchResults";
+import _ from "lodash";
 
-import * as api from "../../api/search";
+import * as api from "../../api/Search";
+import PostResults from "./Result/Post/PostResults";
+import LoadingIcon from "./LoadingIcon";
+import Ranking from "./Ranking";
 
 export default {
+  name: "search",
   components: {
+    PostResults,
     LoadingIcon,
-    PostSearchResults
+    Ranking
+  },
+
+  //   beforeRouteEnter(to, from, next) {
+  //     console.log(to, from);
+  //     // next();
+  //     // next(vm => (vm.query = to.query.query || ""));
+  //     next(vm => {
+  //     //   vm.replaceRouteByCurrentKeyword();
+  //     });
+  //   },
+
+  //   beforeRouteUpdate(to, from, next) {
+  //     console.log(to, from);
+  //     to.meta.keepAlive = true;
+  //     next();
+  //   },
+
+  //   beforeRouteLeave(to, from, next) {
+  //     console.log(to, from);
+  //     if (to.name == "post") {
+  //       from.meta.keepAlive = true;
+  //     }
+  //     next();
+  //   },
+
+  mounted() {
+    EventHub.$on(
+      "rankingChanged",
+      rankingValue => (this.currentRanking = rankingValue)
+    );
+    // EventHub.$on("tagChanged", tag => (this.currentTag = tag));
   },
 
   watch: {
-    query: function(newQuery, oldQuery) {
-      if (!newQuery) {
-        this.resetSearch();
+    keyword(newKeyword, oldKeyword) {
+      this.replaceRouteByKeyword(newKeyword);
+      if (!newKeyword.trim()) {
+        this.reset();
       }
+      this.debounceSearch();
+    },
+
+    currentRanking(newRanking, oldRanking) {
+      this.replaceRouteByRanking(newRanking);
+      this.debounceSearch();
     }
   },
 
   computed: {
-    noMoreResult: function() {
-      return this.meta && this.meta.current_page == this.meta.last_page;
+    isLastPage: function() {
+      return helper.isLastPageByMeta(this.meta);
     },
     currentPage: function() {
-      if (!this.meta) {
-        return 1;
-      }
-
-      if (this.meta.current_page == this.meta.last_page) {
-        return this.meta.last_page;
-      }
-      return this.meta.current_page + 1;
+      return helper.getCurrentByMeta(this.meta);
     }
   },
 
   data() {
     return {
-      loadMoreLoading: false,
+      //status flag
       searchLoading: false,
-      query: "",
-      posts: [],
-      meta: null
+      loadMoreLoading: false,
+
+      //search
+      data: [],
+      meta: null,
+      keyword: null,
+
+      //ranking and filter
+      currentType: "post", // only support search post now
+      currentRanking: null
     };
   },
 
   methods: {
-    async search() {
-      if (!this.query.trim()) {
-        return;
-      }
-      this.searchStart();
-      await this.fetch();
-      this.searchFinished();
-    },
-
-    async loadMore() {
-      this.loadMoreStart();
-      await this.fetch();
-      this.loadMoreFinished();
-    },
-
     async fetch() {
       try {
-        const response = await api.search(this.query, this.currentPage);
-        this.posts.push(...response.data);
-        this.meta = response.meta;
+        const response = await api.search(
+          this.keyword,
+          this.currentPage,
+          this.currentRanking
+        );
+        this.handleResponse(response);
       } catch (error) {
         console.log(error);
       }
     },
-
-    /**
-     * initialize search sttatus
-     */
-    resetSearch() {
-      this.emptyLastSearchResult();
-      this.query = "";
-      this.searchLoading = false;
+    handleResponse(response) {
+      this.data.push(...response.data);
+      this.meta = response.meta;
     },
 
-    /**
-     * search start
-     */
+    //search
+    debounceSearch: _.debounce(function(e) {
+      this.search();
+    }, 300),
+    async search() {
+      if (this.preventSearch()) {
+        return;
+      }
+      this.searchStart();
+
+      await this.fetch();
+
+      this.searchFinished();
+    },
+    preventSearch() {
+      return !this.keyword.trim();
+    },
     searchStart() {
+      this.emptySearchResult();
       this.searchLoading = true;
-      this.emptyLastSearchResult();
     },
-
-    /**
-     * search finished
-     * only set search loading status to false now
-     */
     searchFinished() {
       this.searchLoading = false;
     },
 
-    /**
-     * load more start
-     */
+    // load more
+    async loadMore() {
+      if (this.preventLoadMore()) {
+        return;
+      }
+      this.loadMoreStart();
+      await this.fetch();
+      this.loadMoreFinished();
+    },
+    preventLoadMore() {
+      return this.loadMoreLoading;
+    },
     loadMoreStart() {
       this.loadMoreLoading = true;
     },
-
-    /**
-     * load more finished
-     * only set load morre loading status to false now
-     */
     loadMoreFinished() {
       this.loadMoreLoading = false;
     },
+    handleScroll() {
+      return helper.handleScroll(this, "loadMore");
+    },
 
-    /**
-     * empty the last search result
-     * prepare for the next search action
-     */
-    emptyLastSearchResult() {
-      this.posts = [];
+    reset() {
+      this.keyword = "";
+      this.loading = false;
+      this.currentRanking = null;
+      this.emptySearchResult();
+    },
+    emptySearchResult() {
+      this.data = [];
       this.meta = null;
+    },
+
+    //router query
+    replaceRouteByNewQuery(newQuery) {
+      let query = this.getConcatedQuery(newQuery);
+
+      //   let query = _.assign({}, this.$route.query, newQuery);
+
+      //   if (Object.keys(query).length === 0) {
+      //     return;
+      //   }
+      this.$router.replace({ query: query });
+    },
+    getConcatedQuery(newQuery) {
+      return _.pickBy(_.assign({}, this.$route.query, newQuery), OoO => OoO);
+    },
+    replaceRouteByKeyword(newKeyword) {
+      this.replaceRouteByNewQuery({ keyword: newKeyword });
+    },
+    replaceRouteByRanking(newRanking) {
+      this.replaceRouteByNewQuery({ ranking: newRanking });
+    },
+
+    cancel() {
+      this.reset();
+      this.goBack();
+    },
+
+    goBack() {
+      this.$router.go(-1);
     }
   }
 };
 </script>
-
-<style lang="scss">
-.slide-fade-enter-active {
-  transition: all 0.2s;
-}
-.slide-fade-leave-active {
-  transition: all 0.2s;
-}
-.slide-fade-enter {
-  transform: translateX(-10px);
-  opacity: 0;
-}
-.slide-fade-leave-to {
-  transform: translateX(-10px);
-  opacity: 0;
-}
-
-.highlight {
-  border-bottom: 2px solid var(--color-pink);
-}
-</style>

@@ -1,4 +1,4 @@
-// window._ = require('lodash');
+window._ = require('lodash');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -19,6 +19,26 @@
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+window.axios.interceptors.request.use((request) => {
+    request.cancelToken = store.source.token
+    return request;
+}, function (error) {
+    return Promise.reject(error);
+});
+
+window.axios.interceptors.response.use((response) => {
+    return response;
+}, function (error) {
+    return Promise.reject(error);
+});
+
+store = {
+    source: {
+        token: null,
+        cancel: null
+    }
+}
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

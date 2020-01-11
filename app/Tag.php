@@ -48,4 +48,17 @@ class Tag extends Model
             ->inNames($names)
             ->get();
     }
+
+    public static function getAllValidTags()
+    {
+        return self::query()
+            ->hasPosts()
+            ->get()
+            ->map(function ($tag) {
+                return [
+                    'value' => $tag->id,
+                    'label' => $tag->name,
+                ];
+            });
+    }
 }

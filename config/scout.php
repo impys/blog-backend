@@ -87,7 +87,4 @@ return [
         'id' => env('ALGOLIA_APP_ID', ''),
         'secret' => env('ALGOLIA_SECRET', ''),
     ],
-
-    'posts_index' => env('POSTS_INDEX', ''),
-
 ];

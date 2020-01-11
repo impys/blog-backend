@@ -190,6 +190,7 @@
 
 .markdown-body a {
     background-color: transparent;
+    word-break: break-all;
 }
 
 .markdown-body a:active,
@@ -294,69 +295,54 @@
     cursor: pointer;
 }
 
-.markdown-body h1,
-.markdown-body h2,
-.markdown-body h3,
-.markdown-body h4,
-.markdown-body h5,
-.markdown-body h6 {
-    margin-bottom: 0;
-    margin-top: 0;
-}
+// .markdown-body h1,
+// .markdown-body h2,
+// .markdown-body h3,
+// .markdown-body h4,
+// .markdown-body h5,
+// .markdown-body h6 {
+//     margin-bottom: 0;
+//     margin-top: 0;
+// }
 
-.markdown-body h1 {
-    font-size: 32px;
-}
+// .markdown-body h1 {
+//     font-size: 32px;
+// }
 
-.markdown-body h1,
-.markdown-body h2 {
-    font-weight: 600;
-}
+// .markdown-body h1,
+// .markdown-body h2 {
+//     font-weight: 600;
+// }
 
-.markdown-body h2 {
-    font-size: 24px;
-    padding-top: 70px !important;
-    margin-top: -70px !important;
-    counter-reset: section;
-}
+// .markdown-body h2 {
+//     font-size: 24px;
+// }
 
-.markdown-body h2:before {
-    counter-increment: chapter;
-    content: counter(chapter) " ";
-}
+// .markdown-body h3 {
+//     font-size: 20px;
+// }
 
-.markdown-body h3 {
-    font-size: 20px;
-    padding-top: 70px !important;
-    margin-top: -70px !important;
-}
+// .markdown-body h3,
+// .markdown-body h4 {
+//     font-weight: 600;
+// }
 
-.markdown-body h3:before {
-    counter-increment: section;
-    content: counter(chapter) "."counter(section) " ";
-}
+// .markdown-body h4 {
+//     font-size: 16px;
+// }
 
-.markdown-body h3,
-.markdown-body h4 {
-    font-weight: 600;
-}
+// .markdown-body h5 {
+//     font-size: 14px;
+// }
 
-.markdown-body h4 {
-    font-size: 16px;
-}
+// .markdown-body h5,
+// .markdown-body h6 {
+//     font-weight: 600;
+// }
 
-.markdown-body h5 {
-    font-size: 14px;
-}
-
-.markdown-body h5,
-.markdown-body h6 {
-    font-weight: 600;
-}
-
-.markdown-body h6 {
-    font-size: 12px;
-}
+// .markdown-body h6 {
+//     font-size: 12px;
+// }
 
 .markdown-body p {
     margin-bottom: 10px;
@@ -579,7 +565,7 @@
 }
 
 .markdown-body h1 {
-    font-size: 2em;
+    font-size: 1.25em;
 }
 
 .markdown-body h1,
@@ -589,15 +575,30 @@
 }
 
 .markdown-body h2 {
-    font-size: 1.5em;
+    font-size: 1.25em;
+    padding-top: 50px !important;
+    margin-top: -50px !important;
+    counter-reset: section;
+}
+
+.markdown-body h2:before {
+    counter-increment: chapter;
+    content: counter(chapter) " ";
 }
 
 .markdown-body h3 {
-    font-size: 1.25em;
+    font-size: 1.125em;
+    padding-top: 50px !important;
+    margin-top: -50px !important;
+}
+
+.markdown-body h3:before {
+    counter-increment: section;
+    content: counter(chapter) "."counter(section) " ";
 }
 
 .markdown-body h4 {
-    font-size: 1em;
+    font-size: .1em;
 }
 
 .markdown-body h5 {
@@ -918,8 +919,4 @@
 
 .markdown-body .pl-12 {
     padding-left: 128px !important;
-}
-
-.markdown-body audio {
-    margin-bottom: 10px;
 }

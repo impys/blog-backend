@@ -11,15 +11,13 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('Welcome');
-// });
-
-Route::get('/', 'Welcome');
-
-Route::group(['middleware' => 'throttle'], function () {
-    Route::get('/posts/{post}', 'ShowPost');
-    Route::get('/search', 'Search');
+Route::combine([
+    '/',
+    '/search',
+    '/posts',
+    '/posts/{post}'
+], function () {
+    return view('app');
 });
 
 Route::middleware('auth')->group(function () {

@@ -1,10 +1,11 @@
-const endpoint = `/search`;
+const endpoint = '/api/search';
 
-export async function search(query, currentPage) {
+export async function search(keyword, currentPage, currentRanking) {
     const response = await axios.get(endpoint, {
         params: {
-            query: query.trim(),
+            keyword: keyword.trim(),
             page: currentPage,
+            ranking: currentRanking,
         }
     });
     return response.data;
