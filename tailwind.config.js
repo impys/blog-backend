@@ -57,6 +57,11 @@ module.exports = {
             lineHeight: {
                 '7': '1.75rem',
                 '12': '3rem',
+            },
+            height: {
+                '80': '20rem',
+                '100': '25rem',
+                '120': '30rem',
             }
         },
     },
@@ -92,6 +97,12 @@ module.exports = {
                 },
                 '.transition-margin-08': {
                     transition: '.8s margin ease-in-out',
+                },
+                '.transition-height-05': {
+                    transition: '.5s height ease-in-out',
+                },
+                '.transition-background-position-03': {
+                    transition: '.3s background-position linear',
                 },
                 '.input-caret-color-ching': {
                     'caret-color': 'var(--color-ching)',

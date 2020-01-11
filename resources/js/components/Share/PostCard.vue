@@ -8,7 +8,7 @@
       <div class="w-full">
         <h2
           class="mb-2 font-medium w-full text-lg"
-          :class="[currentHoverPostId == post.id ? 'text-blue-500' : 'text-black']"
+          :class="[hovering ? 'text-blue-500' : 'text-black']"
         >
           <slot name="title">{{ post.title }}</slot>
         </h2>
@@ -52,6 +52,12 @@ export default {
   components: {
     ImageMedia,
     AudioMedia
+  },
+
+  computed: {
+    hovering() {
+      return this.currentHoverPostId == this.post.id;
+    }
   },
 
   methods: {
