@@ -11,7 +11,7 @@
 
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-    <script src="//at.alicdn.com/t/font_1597329_d0kvxz38tiu.js" defer></script>
+    <script src="//at.alicdn.com/t/font_1597329_l6r3cr8pkws.js" defer></script>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>

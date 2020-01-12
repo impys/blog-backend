@@ -103,6 +103,11 @@ class Post extends Model
         });
     }
 
+    public function scopeOfTagId($query, $tagId)
+    {
+        return $query->inTagIds([$tagId]);
+    }
+
     public function scopeMostVisit($query)
     {
         return $query->orderBy('visited_count', 'desc');

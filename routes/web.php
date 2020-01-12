@@ -15,7 +15,8 @@ Route::combine([
     '/',
     '/search',
     '/posts',
-    '/posts/{post}'
+    '/posts/{post}',
+    '/tags'
 ], function () {
     return view('app');
 });

@@ -16,7 +16,11 @@ class GetPosts extends Controller
      */
     public function __invoke(Request $request)
     {
+        $tagId = $request->input('tag_id', null);
         $posts = Post::query()
+            ->when($tagId, function ($query) use ($tagId) {
+                return $query->ofTagId($tagId);
+            })
             ->enable()
             ->with(['tags', 'files'])
             ->top()

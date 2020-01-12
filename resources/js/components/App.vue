@@ -54,11 +54,17 @@ export default {
   data() {
     return {
       links: [
+        // {
+        //   content: "主页",
+        //   iconfont: "home-outline",
+        //   to: "/",
+        //   exact: true
+        // },
         {
-          content: "主页",
-          iconfont: "home-outline",
-          to: "/",
-          exact: true
+          content: "文章",
+          iconfont: "post-outline",
+          to: "/posts",
+          exact: false
         },
         {
           content: "搜索",
@@ -67,10 +73,10 @@ export default {
           exact: false
         },
         {
-          content: "文章",
-          iconfont: "post-outline",
-          to: "/posts",
-          exact: false
+          content: "标签",
+          iconfont: "tag-outline",
+          to: "/tags",
+          exact: true
         }
       ]
     };

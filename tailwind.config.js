@@ -20,9 +20,7 @@ module.exports = {
             'vh-60': '60vh',
             'vh-45': '45vh',
         },
-        boxShadow: {
-            'focus': '0 4px 6px 0 rgba(32,33,36,0.28);'
-        },
+
         extend: {
             colors: {
                 'grey': 'var(--color-grey)',
@@ -62,7 +60,10 @@ module.exports = {
                 '80': '20rem',
                 '100': '25rem',
                 '120': '30rem',
-            }
+            },
+            boxShadow: {
+                'focus': '0 4px 6px 0 rgba(32,33,36,0.28);'
+            },
         },
     },
     variants: {

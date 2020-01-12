@@ -22,4 +22,5 @@ Route::group(['middleware' => ['api', 'throttle']], function () {
     Route::get('/posts/{post}', 'GetPost');
     Route::get('/simple-search', 'SimpleSearch');
     Route::get('/search', 'Search');
+    Route::get('/tags', 'GetTags');
 });

@@ -47,16 +47,24 @@ export default {
 
     //背景图所在dom的宽
     setCoverClientWidth() {
-      this.coverClientWidth = document.querySelector(
-        ".cover-image"
-      ).clientWidth;
+      let dom = this.getCoverImageDom();
+
+      if (dom) {
+        this.coverClientWidth = dom.clientWidth;
+      }
     },
 
     //背景图所在dom的高
     setCoverClientHeight() {
-      this.coverClientHeight = document.querySelector(
-        ".cover-image"
-      ).clientHeight;
+      let dom = this.getCoverImageDom();
+
+      if (dom) {
+        this.coverClientHeight = dom.clientHeight;
+      }
+    },
+
+    getCoverImageDom() {
+      return document.querySelector(".cover-image") || null;
     },
 
     //背景图按比例缩放之后的高
