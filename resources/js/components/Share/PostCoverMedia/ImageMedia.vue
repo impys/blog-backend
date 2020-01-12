@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-64 w-full bg-cover bg-top rounded cover-image"
+    class="h-48 lg:h-64 w-full bg-cover bg-top rounded cover-image"
     :style="style"
     @mousemove="handleMouseMove"
   ></div>
