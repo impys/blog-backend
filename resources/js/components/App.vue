@@ -30,7 +30,7 @@
     <router-view v-if="!$route.meta.keepAlive"></router-view>
 
     <header
-      class="flex flex-row block lg:hidden py-1 px-4 justify-between fixed w-full bg-offwhite bottom-0 text-xl text-grey"
+      class="flex flex-row block lg:hidden border-t-.5 border-grey py-1 px-4 justify-between fixed w-full bg-offwhite bottom-0 text-xl text-grey test"
     >
       <router-link
         :exact="link.exact"

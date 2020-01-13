@@ -64,53 +64,12 @@ module.exports = {
             boxShadow: {
                 'focus': '0 4px 6px 0 rgba(32,33,36,0.28);'
             },
+            borderWidth: {
+                '.5': '0.5px',
+            }
         },
     },
     variants: {
         borderWidth: ['responsive', 'first', 'last', 'hover', 'focus'],
-    },
-    plugins: [
-        function ({ addUtilities }) {
-            const newUtilities = {
-                '.rotate-0': {
-                    transform: 'rotate(0deg)',
-                },
-                '.rotate-45': {
-                    transform: 'rotate(45deg)',
-                },
-                '.rotate-90': {
-                    transform: 'rotate(90deg)',
-                },
-                '.rotate-180': {
-                    transform: 'rotate(180deg)',
-                },
-                '.rotate-270': {
-                    transform: 'rotate(270deg)',
-                },
-                '.transition-box-shadow-05': {
-                    transition: '.5s box-shadow ease-in-out',
-                },
-                '.transition-background-color-03': {
-                    transition: '.3s background-color ease-in-out',
-                },
-                '.transition-margin-03': {
-                    transition: '.3s margin ease-in-out',
-                },
-                '.transition-margin-08': {
-                    transition: '.8s margin ease-in-out',
-                },
-                '.transition-height-05': {
-                    transition: '.5s height ease-in-out',
-                },
-                '.transition-background-position-03': {
-                    transition: '.3s background-position linear',
-                },
-                '.input-caret-color-ching': {
-                    'caret-color': 'var(--color-ching)',
-                },
-            }
-
-            addUtilities(newUtilities, ['responsive', 'hover'])
-        }
-    ]
+    }
 }
