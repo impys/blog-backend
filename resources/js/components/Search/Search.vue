@@ -29,19 +29,19 @@
         </div>
         <div
           class="w-10 text-sm text-blue-500 text-right font-normal cursor-pointer"
-          @click="cancel"
+          @click="goBack()"
         >取消</div>
       </div>
       <!-- search box -->
     </template>
     <template v-slot:content>
       <div class="py-1 px-4 -mx-4 sticky top-12 bg-white z-20" v-if="data.length">
-        <ranking :initialRankingValue="currentRanking"></ranking>
+        <ranking :rankingValue="ranking"></ranking>
       </div>
       <div class="text-sm text-grey my-4" v-if="!data.length && meta">什么也没搜到</div>
       <!-- search results -->
       <div v-scroll="handleScroll" v-if="data.length">
-        <component :is="currentType+'-results'" :data="data" :meta="meta"></component>
+        <results :data="data" :meta="meta"></results>
         <div class="flex justify-center items-center text-sm text-grey my-4">
           <loading-icon key="loading" v-if="!isLastPage && loadMoreLoading"></loading-icon>
           <div v-if="isLastPage">到底了</div>
@@ -62,53 +62,48 @@
 import _ from "lodash";
 
 import * as api from "../../api/Search";
-import PostResults from "./Result/Post/PostResults";
+import Results from "./Results";
 import LoadingIcon from "./LoadingIcon";
 import Ranking from "./Ranking";
 
 export default {
   name: "search",
+
+  props: ["ranking", "initialKeyword"],
+
   components: {
-    PostResults,
+    Results,
     LoadingIcon,
     Ranking
   },
 
-  beforeRouteEnter(to, from, next) {
-    //刷新搜索页面的时候，如果地址栏中有关键词，应该拿下来，放到keyword中，触发搜索
-    next(vm => (vm.keyword = to.query.keyword || ""));
-  },
-
-  mounted() {
-    EventHub.$on(
-      "rankingChanged",
-      rankingValue => (this.currentRanking = rankingValue)
-    );
-    // EventHub.$on("tagChanged", tag => (this.currentTag = tag));
-  },
-
   watch: {
-    keyword(newKeyword, oldKeyword) {
-      this.replaceRouteByKeyword(newKeyword);
-      if (!newKeyword.trim()) {
-        this.reset();
-      }
-      this.debounceSearch();
-    },
-
-    currentRanking(newRanking, oldRanking) {
-      this.replaceRouteByRanking(newRanking);
-      this.debounceSearch();
+    ranking(newRanking, oldRanking) {
+      this.search();
     }
   },
 
   computed: {
-    isLastPage: function() {
+    isLastPage() {
       return helper.isLastPageByMeta(this.meta);
     },
-    currentPage: function() {
+    currentPage() {
       return helper.getCurrentByMeta(this.meta);
+    },
+    keyword: {
+      get() {
+        !this.initialKeyword && this.reset();
+        return this.initialKeyword || "";
+      },
+      set(newKeyword) {
+        this.$router.replace({ query: _.pickBy({ keyword: newKeyword }) });
+        this.debounceSearch();
+      }
     }
+  },
+
+  mounted() {
+    this.search();
   },
 
   data() {
@@ -119,23 +114,14 @@ export default {
 
       //search
       data: [],
-      meta: null,
-      keyword: null,
-
-      //ranking and filter
-      currentType: "post", // only support search post now
-      currentRanking: null
+      meta: null
     };
   },
 
   methods: {
     async fetch() {
       try {
-        const response = await api.search(
-          this.keyword,
-          this.currentPage,
-          this.currentRanking
-        );
+        const response = await api.search(this.keyword, this.currentPage);
         this.handleResponse(response);
       } catch (error) {
         console.log(error);
@@ -150,86 +136,48 @@ export default {
     debounceSearch: _.debounce(function(e) {
       this.search();
     }, 300),
+
     async search() {
-      if (this.preventSearch()) {
+      if (!this.keyword.trim()) {
         return;
       }
-      this.searchStart();
+
+      this.emptySearchResult();
+
+      this.searchLoading = true;
 
       await this.fetch();
 
-      this.searchFinished();
-    },
-    preventSearch() {
-      return !this.keyword.trim();
-    },
-    searchStart() {
-      this.emptySearchResult();
-      this.searchLoading = true;
-    },
-    searchFinished() {
       this.searchLoading = false;
     },
 
     // load more
     async loadMore() {
-      if (this.preventLoadMore()) {
+      if (this.loadMoreLoading) {
         return;
       }
-      this.loadMoreStart();
-      await this.fetch();
-      this.loadMoreFinished();
-    },
-    preventLoadMore() {
-      return this.loadMoreLoading;
-    },
-    loadMoreStart() {
+
       this.loadMoreLoading = true;
-    },
-    loadMoreFinished() {
+
+      await this.fetch();
+
       this.loadMoreLoading = false;
     },
+
     handleScroll() {
       return helper.handleScroll(this, "loadMore");
     },
 
     reset() {
-      this.keyword = "";
-      this.loading = false;
-      this.currentRanking = null;
+      this.searchLoading = false;
+      this.loadMoreLoading = false;
       this.emptySearchResult();
+      this.$router.push({ name: "search" });
     },
+
     emptySearchResult() {
       this.data = [];
       this.meta = null;
-    },
-
-    //router query
-    replaceRouteByNewQueryIfNeeded(newQuery) {
-      let query = this.getConcatedQuery(newQuery);
-
-      //   let query = _.assign({}, this.$route.query, newQuery);
-
-      //   if (Object.keys(query).length === 0) {
-      //     return;
-      //   }
-      if (!_.isEqual(this.$route.query, query)) {
-        this.$router.replace({ query: query });
-      }
-    },
-    getConcatedQuery(newQuery) {
-      return _.pickBy(_.assign({}, this.$route.query, newQuery), OoO => OoO);
-    },
-    replaceRouteByKeyword(newKeyword) {
-      this.replaceRouteByNewQueryIfNeeded({ keyword: newKeyword });
-    },
-    replaceRouteByRanking(newRanking) {
-      this.replaceRouteByNewQueryIfNeeded({ ranking: newRanking });
-    },
-
-    cancel() {
-      this.reset();
-      this.goBack();
     },
 
     goBack() {

@@ -35,6 +35,7 @@ const routes = [
     {
         path: '/search',
         component: Search,
+        props: (route) => ({ initialKeyword: route.query.keyword, ranking: route.query.ranking }),
         name: 'search',
         meta: {
             keepAlive: true

@@ -2,21 +2,21 @@
   <div class="flex">
     <div
       class="text-xs rounded p-1 mr-2 cursor-pointer hover:bg-blue-500 hover:text-white"
-      :class="[!initialRankingValue ? 'bg-blue-500 text-white' : 'bg-white text-grey']"
+      :class="[!rankingValue ? 'bg-blue-500 text-white' : 'bg-white text-grey']"
       @click="handleClick(null)"
     >最新发布</div>
     <div
       v-for="(ranking,index) in rankings"
       :key="index"
       class="text-xs rounded p-1 mr-2 cursor-pointer hover:bg-blue-500 hover:text-white"
-      :class="[initialRankingValue && initialRankingValue == ranking.value ? 'bg-blue-500 text-white' : 'bg-white text-grey']"
+      :class="[rankingValue && rankingValue == ranking.value ? 'bg-blue-500 text-white' : 'bg-white text-grey']"
       @click="handleClick(ranking.value)"
     >{{ ranking.label }}</div>
   </div>
 </template>
 <script>
 export default {
-  props: ["initialRankingValue"],
+  props: ["rankingValue"],
 
   data() {
     return {
@@ -35,7 +35,9 @@ export default {
 
   methods: {
     handleClick(rankingValue) {
-      EventHub.$emit("rankingChanged", rankingValue);
+      this.$router.replace({
+        query: _.pickBy({ ...this.$route.query, ranking: rankingValue })
+      });
     }
   }
 };
