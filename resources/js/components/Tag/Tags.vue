@@ -7,7 +7,7 @@
       <router-link
         v-for="(tag,index) in TagsWithPost"
         :key="index"
-        :to="{ name: 'posts', query : { tag_id: tag.id, tag_name:tag.name} }"
+        :to="{ name: 'posts', query : { tag_id: tag.id, tag_name:tag.name } }"
         class="flex mt-4 w-full lg:w-1/2 items-center hover:text-blue-500 text-lg mb-2"
       >
         <div>
@@ -30,21 +30,14 @@ import * as api from "../../api/GetTags";
 export default {
   name: "tags",
 
-  async beforeRouteEnter(to, from, next) {
-    try {
-      const response = await api.get();
-      next(vm => {
-        vm.handleResponse(response);
-      });
-    } catch (error) {
-      return next(false);
-    }
-  },
-
   computed: {
     TagsWithPost() {
       return this.tags.filter(tag => tag.posts_count);
     }
+  },
+
+  mounted() {
+    this.get();
   },
 
   data() {
@@ -54,6 +47,14 @@ export default {
   },
 
   methods: {
+    async get() {
+      try {
+        const response = await api.get();
+        this.handleResponse(response);
+      } catch (error) {
+        return next(false);
+      }
+    },
     handleResponse(response) {
       this.tags = response.data;
     }

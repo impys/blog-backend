@@ -17,6 +17,7 @@ const routes = [
     {
         path: '/posts',
         component: Posts,
+        props: (route) => ({ tag_id: route.query.tag_id, tag_name: route.query.tag_name }),
         name: 'posts',
         meta: {
             keepAlive: true

@@ -3,7 +3,7 @@
     <template v-slot:header>
       <h1>
         文章
-        <span class="font-normal text-blue-500" v-if="tagName">#{{tagName}}</span>
+        <span class="font-normal text-blue-500" v-if="tag_name">#{{tag_name}}</span>
       </h1>
     </template>
     <template v-slot:content>
@@ -20,13 +20,14 @@ import * as api from "../../api/GetPosts";
 
 export default {
   name: "posts",
+
+  props: ["tag_id", "tag_name"],
+
   data() {
     return {
       posts: [],
       meta: null,
-      loading: false,
-      tagId: null,
-      tagName: null
+      loading: false
     };
   },
 
@@ -39,24 +40,14 @@ export default {
     }
   },
 
-  beforeRouteEnter(to, from, next) {
-    //刷新搜索页面的时候，如果地址栏中有关键词，应该拿下来，放到keyword中，触发搜索
-    next(vm => {
-      vm.setTagIdAndName(to.query.tag_id || null, to.query.tag_name || null);
-      vm.reGet();
-    });
-  },
-
   watch: {
-    tagId(newTagId, oldTagId) {
-      this.replaceRouteByTagId(newTagId);
-      this.get();
-    },
-    //TODO:重构通过监听路由实现重新加载
-    $route(to, from) {
-      this.setTagIdAndName(to.query.tag_id || null, to.query.tag_name || null);
+    tag_id(newTagId, oldTagId) {
       this.reGet();
     }
+  },
+
+  mounted() {
+    this.get();
   },
 
   methods: {
@@ -72,7 +63,7 @@ export default {
       this.start();
 
       try {
-        const response = await api.get(this.currentPage, this.tagId);
+        const response = await api.get(this.currentPage, this.tag_id);
         this.handleResponse(response);
       } catch (error) {
         console.log(error);
@@ -103,9 +94,10 @@ export default {
       this.meta = null;
     },
 
-    setTagIdAndName(tagId, tagName) {
-      this.tagId = tagId;
-      this.tagName = tagName;
+    emptyPostsIfNeeded() {
+      if (this.tag_id) {
+        this.emptyPosts();
+      }
     },
 
     handleScroll() {
