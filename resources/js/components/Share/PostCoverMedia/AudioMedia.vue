@@ -1,6 +1,6 @@
 <template>
   <div class="rounded-t relative hidden lg:block h-16">
-    <div class="flex items-center absolute h-16 w-full h-10 top-0 left-0 z-30">
+    <div class="flex items-center absolute h-16 w-full h-10 top-0 left-0 z-10">
       <div
         class="text-3xl text-grey hover:text-pink-400 cursor-default"
         @click.prevent="playOrPause()"
