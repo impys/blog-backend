@@ -25,6 +25,7 @@ const routes = [
     {
         path: '/posts/:id',
         component: Post,
+        props: true,
         name: 'post',
         meta: {
             keepAlive: false

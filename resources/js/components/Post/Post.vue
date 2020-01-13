@@ -33,25 +33,21 @@ import marked from "marked";
 import Toc from "./Toc";
 
 export default {
+  props: ["id"],
+
   components: {
     Toc
   },
 
   async beforeRouteEnter(to, from, next) {
     try {
-      const response = await api.get(to.params.id);
       next(vm => {
-        vm.handleResponse(response);
+        vm.get();
         vm.lastRouteName = from.name;
       });
     } catch (error) {
       return next(false);
     }
-  },
-
-  async beforeRouteUpdate(to, from, next) {
-    this.get(to.params.id);
-    next();
   },
 
   mounted() {
@@ -66,9 +62,7 @@ export default {
 
   computed: {
     markedBody: function() {
-      if (this.post.body) {
-        return marked(this.post.body, { renderer: this.markedRenderer });
-      }
+      return marked(this.post.body, { renderer: this.markedRenderer });
     }
   },
 
@@ -82,9 +76,9 @@ export default {
   },
 
   methods: {
-    async get(postId) {
+    async get() {
       try {
-        const response = await api.get(postId);
+        const response = await api.get(this.id);
         this.handleResponse(response);
       } catch (error) {
         console.log(error);
