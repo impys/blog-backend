@@ -15,7 +15,7 @@
           </div>
           <div class="flex items-center w-full">
             <input
-              v-focus
+              ref="keywordInput"
               v-model="keyword"
               @keyup.enter="debounceSearch"
               class="outline-none w-full border-transparent text-base bg-transparent w-full z-10 input-caret-color-blue-500"
@@ -75,6 +75,10 @@ export default {
     Results,
     LoadingIcon,
     Ranking
+  },
+
+  beforeRouteEnter(to, from, next) {
+    next(vm => vm.keywordInputFocus());
   },
 
   watch: {
@@ -178,6 +182,10 @@ export default {
     emptySearchResult() {
       this.data = [];
       this.meta = null;
+    },
+
+    keywordInputFocus() {
+      this.$refs.keywordInput.focus();
     },
 
     goBack() {
