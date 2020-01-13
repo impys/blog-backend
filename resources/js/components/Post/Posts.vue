@@ -56,11 +56,11 @@ export default {
       this.get();
     },
     async get() {
-      if (this.prevent()) {
+      if (this.loading) {
         return;
       }
 
-      this.start();
+      this.loading = true;
 
       try {
         const response = await api.get(this.currentPage, this.tag_id);
@@ -69,15 +69,7 @@ export default {
         console.log(error);
       }
 
-      this.finished();
-    },
-
-    prevent() {
-      return this.loading;
-    },
-
-    start() {
-      this.loading = true;
+      this.loading = false;
     },
 
     handleResponse(response) {
@@ -85,36 +77,13 @@ export default {
       this.meta = response.meta;
     },
 
-    finished() {
-      this.loading = false;
-    },
-
     emptyPosts() {
       this.posts = [];
       this.meta = null;
     },
 
-    emptyPostsIfNeeded() {
-      if (this.tag_id) {
-        this.emptyPosts();
-      }
-    },
-
     handleScroll() {
       return helper.handleScroll(this);
-    },
-
-    replaceRouteByNewQueryIfNeeded(newQuery) {
-      let query = this.getConcatedQuery(newQuery);
-      if (!_.isEqual(this.$route.query, query)) {
-        this.$router.replace({ query: query });
-      }
-    },
-    getConcatedQuery(newQuery) {
-      return _.pickBy(_.assign({}, this.$route.query, newQuery), OoO => OoO);
-    },
-    replaceRouteByTagId(newTagId) {
-      this.replaceRouteByNewQueryIfNeeded({ tag_id: newTagId });
     }
   }
 };
