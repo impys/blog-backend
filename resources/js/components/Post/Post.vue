@@ -62,7 +62,9 @@ export default {
 
   computed: {
     markedBody: function() {
-      return marked(this.post.body, { renderer: this.markedRenderer });
+      if (this.post.body) {
+        return marked(this.post.body, { renderer: this.markedRenderer });
+      }
     }
   },
 
@@ -129,8 +131,9 @@ export default {
     display: none;
   }
   audio::-webkit-media-controls-enclosure {
-    background-color: var(--color-offwhite);
+    background-color: transparent;
     border-radius: 4px !important;
+    border: 1px solid black;
   }
 }
 </style>

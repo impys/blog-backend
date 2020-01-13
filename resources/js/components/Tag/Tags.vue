@@ -4,20 +4,16 @@
       <h1>标签</h1>
     </template>
     <template v-slot:content>
-      <router-link
-        v-for="(tag,index) in TagsWithPost"
-        :key="index"
-        :to="{ name: 'posts', query : { tag_id: tag.id, tag_name:tag.name } }"
-        class="flex mt-4 w-full lg:w-1/2 items-center hover:text-blue-500 text-lg mb-2"
-      >
-        <div>
-          <span>{{tag.name}}</span>
-          <span class="bg-blue-500 px-1 rounded-full text-sm text-white">{{tag.posts_count}}</span>
-        </div>
-        <svg class="icon">
-          <use xlink:href="#icon-arrow-ios-forward-outline" />
-        </svg>
-      </router-link>
+      <div class="mt-4">
+        <router-link
+          class="block text-blue-500 text-lg mb-2"
+          v-for="(tag,index) in TagsWithPost"
+          :key="index"
+          :to="{ name: 'posts', query : { tag_id: tag.id, tag_name:tag.name } }"
+        >
+          <span>#{{tag.name}}({{tag.posts_count}})</span>
+        </router-link>
+      </div>
     </template>
   </main-layout>
 </template>
