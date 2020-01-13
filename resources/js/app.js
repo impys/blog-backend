@@ -14,7 +14,6 @@ window.EventHub = new Vue();
 Vue.component('App', require('./components/App.vue').default);
 Vue.component('MainLayout', require('./components/Layout/MainLayout.vue').default);
 Vue.component('Tags', require('./components/Share/Tags.vue').default);
-Vue.component('SimpleSearch', require('./components/SimpleSearch/SimpleSearch.vue').default);
 Vue.component('PostCard', require('./components/Share/PostCard.vue').default);
 
 import VueRouter from 'vue-router'
