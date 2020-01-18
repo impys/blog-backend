@@ -22,6 +22,7 @@ class File extends Model
 
     protected $appends = [
         'url',
+        'markdown_dom',
     ];
 
     public function post()
@@ -32,6 +33,17 @@ class File extends Model
     public function getUrlAttribute(): string
     {
         return Storage::disk('public')->url("assets/{$this->name}");
+    }
+
+    public function getMarkdownDomAttribute(): ?string
+    {
+        if ($this->type === self::TYPE_AUDIO) {
+            return "<audio controls><source src=\"{$this->url}\"></audio>\n";
+        }
+        if ($this->type === self::TYPE_IMAGE) {
+            return "![]({$this->url})\n";
+        }
+        return null;
     }
 
     public function scopeOfName($query, string $name)

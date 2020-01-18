@@ -1,21 +1,22 @@
 <template>
-  <div class="flex p-2">
-    <div class="flex custom__markdown-editor p-0 form-input-bordered w-11/12 rounded">
+  <div class="flex p-2 w-full" id="editor-box">
+    <div id="editor" class="flex p-0 form-input-bordered rounded" style="width:92%">
       <textarea
         id="markdown-textarea"
-        class="p-2 rounded"
+        class="p-3 rounded"
         @keydown.tab="tabIndent"
-        @paste="onPaste"
+        @paste="uploadFileByPaste"
         v-model="value"
+        @click="handelClickMarkdownTextarea"
       ></textarea>
-      <div class="w-1/2 p-2 markdown-body" v-html="markedBody"></div>
+      <div id="marked-body" class="w-1/2 p-3 border-l border-60" v-html="markedBody"></div>
     </div>
 
-    <div class="w-1/12 relative ml-2">
+    <div class="relative ml-2" style="width:8%">
       <div class="sticky" style="top:10px">
         <div class="flex flex-col">
-          <div class="custom__upload-icon form-input-bordered">
-            <label for="file-input" id="file-upload-label">
+          <div id="upload-icon" class="form-input-bordered">
+            <label for="file-input">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="60" height="60">
                 <path
                   class="heroicon-ui"
@@ -23,15 +24,17 @@
                 />
               </svg>
             </label>
-            <input type="file" class="hidden" id="file-input" ref="fileInput" @change="uploadFile" />
+            <input
+              type="file"
+              class="hidden"
+              id="file-input"
+              ref="fileInput"
+              @change="uploadFileByClickButton"
+            />
           </div>
           <div class="relative my-2" v-if="showProgress">
-            <progress id="progressBar" class="w-full" value="0" max="100"></progress>
-            <div id="progressLabel" class="absolute" style="top:0;left:4px">0%</div>
-          </div>
-          <div class="custom__upload-msg" v-if="showCopyLinkButton">
-            <button @click.prevent="copyLink" class="py-2 text-xs">点击复制链接</button>
-            <input type="text" id="custom__copy" :value="link" />
+            <progress id="progress-bar" class="w-full" value="0" max="100"></progress>
+            <div id="progress-label" class="absolute" style="top:0;left:4px">0%</div>
           </div>
         </div>
       </div>
@@ -52,10 +55,7 @@ export default {
 
   data() {
     return {
-      file: "",
-      showCopyLinkButton: false,
-      showProgress: false,
-      link: ""
+      showProgress: false
     };
   },
 
@@ -95,20 +95,23 @@ export default {
       this.value = value;
     },
 
-    copyLink() {
-      var copyText = document.getElementById("custom__copy");
-      copyText.select();
-      if (document.execCommand("copy")) {
-        this.$toasted.show("复制成功", { type: "success" });
-      } else {
-        this.$toasted.show("复制失败", { type: "error" });
+    uploadFileByClickButton() {
+      let self = this;
+      let file = this.$refs.fileInput.files[0];
+      if (file) {
+        this.uploadFile(file);
       }
     },
 
-    uploadFile() {
+    uploadFileByPaste(e) {
+      let file = e.clipboardData.items[0].getAsFile();
+      if (file) {
+        this.uploadFile(file);
+      }
+    },
+
+    uploadFile(file) {
       let self = this;
-      let file = this.$refs.fileInput.files[0];
-      let typePrefix = file.type.slice(0, 5);
       let formData = new FormData();
       formData.append("file", file);
       let config = {
@@ -122,52 +125,13 @@ export default {
       axios
         .post(UPLOAD_API, formData, config)
         .then(res => {
-          this.showCopyLinkButton = true;
           this.$toasted.clear();
           this.$toasted.success("上传成功");
-          this.setLink(typePrefix, res.data.data.url);
+          this.insertStringToTextarea(res.data.data.markdown_dom);
         })
         .catch(e => {
           this.$toasted.error("上传失败");
         });
-    },
-
-    /**
-     * set the link by file type
-     */
-    setLink(typePrefix, url) {
-      if (typePrefix == "audio") {
-        this.link = `<audio controls><source src="${url}"></audio>`;
-      }
-      if (typePrefix == "image") {
-        let link = `![](${url})\n`;
-        this.link = link;
-      }
-    },
-
-    onPaste(e) {
-      let file = e.clipboardData.items[0].getAsFile();
-      if (file) {
-        let formData = new FormData();
-        formData.append("file", file);
-        let config = {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        };
-        this.$toasted.info("正在上传", { duration: 0 });
-        axios
-          .post(UPLOAD_API, formData, config)
-          .then(res => {
-            this.$toasted.clear();
-            this.$toasted.success("上传成功");
-            this.insertStringToTextarea("![](" + res.data.data.url + ")\n");
-            this.value = document.getElementById("markdown-textarea").value;
-          })
-          .catch(e => {
-            this.$toasted.error("上传失败");
-          });
-      }
     },
 
     tabIndent(event) {
@@ -188,19 +152,28 @@ export default {
       textarea.selectionStart = textarea.selectionEnd =
         pos + insertValue.length;
       textarea.focus();
+      this.value = textarea.value;
     },
 
     handleProgress(e) {
-      let progressBar = document.getElementById("progressBar");
+      let progressBar = document.getElementById("progress-bar");
+      progressBar.value = 0;
       if (e.lengthComputable) {
         let percent = Math.round((e.loaded * 100) / e.total);
 
-        document.getElementById("progressLabel").innerHTML =
-          percent.toFixed(2) + "%"; //
+        document.getElementById("progress-label").innerHTML =
+          percent.toFixed(2) + "%";
 
         progressBar.max = e.total;
         progressBar.value = e.loaded;
       }
+    },
+
+    handelClickMarkdownTextarea() {
+      document.querySelector("#editor-box").scrollIntoView({
+        block: "start",
+        behavior: "smooth"
+      });
     }
   }
 };
@@ -208,7 +181,7 @@ export default {
 
 
 <style lang="scss">
-.custom__markdown-editor {
+#editor {
   height: 600px;
   textarea {
     line-height: normal;
@@ -219,7 +192,7 @@ export default {
     resize: none;
     width: 50%;
   }
-  .markdown-body {
+  #marked-body {
     overflow: scroll;
     audio {
       margin-bottom: 10px;
@@ -236,11 +209,17 @@ export default {
   }
 }
 
-.custom__upload-icon {
+#upload-icon {
   height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  svg path,
+  svg rect {
+    fill: #e3e7eb;
+  }
+
   label {
     height: 100px;
     width: 100%;
@@ -248,22 +227,6 @@ export default {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-  }
-}
-.custom__upload-msg {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  button {
-    background-color: var(--success);
-    color: #fff;
-    width: 100%;
-    outline: none;
-  }
-
-  input {
-    opacity: 0;
-    width: 10px;
   }
 }
 
@@ -276,12 +239,5 @@ progress::-webkit-progress-bar {
 progress::-webkit-progress-value {
   border-radius: 10px;
   background-color: var(--success);
-}
-
-#file-upload-label {
-  svg path,
-  svg rect {
-    fill: #e3e7eb;
-  }
 }
 </style>
