@@ -122,20 +122,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.markdown-body {
-  audio {
-    margin-bottom: 10px;
-  }
-
-  audio::-webkit-media-controls-volume-control-container {
-    display: none;
-  }
-  audio::-webkit-media-controls-enclosure {
-    background-color: transparent;
-    border-radius: 4px !important;
-    border: 1px solid black;
-  }
-}
-</style>

@@ -9,7 +9,7 @@
         v-model="value"
         @click="handelClickMarkdownTextarea"
       ></textarea>
-      <div id="marked-body" class="w-1/2 p-3 border-l border-60 markdown" v-html="markedBody"></div>
+      <div id="markdown-preview" class="w-1/2 p-3 border-l border-60 markdown" v-html="markedBody"></div>
     </div>
 
     <div class="relative ml-2" style="width:8%">
@@ -192,20 +192,8 @@ export default {
     resize: none;
     width: 50%;
   }
-  #marked-body {
+  #markdown-preview {
     overflow: scroll;
-    audio {
-      margin-bottom: 10px;
-    }
-
-    audio::-webkit-media-controls-volume-control-container {
-      display: none;
-    }
-    audio::-webkit-media-controls-enclosure {
-      background-color: transparent;
-      border-radius: 4px !important;
-      border: 1px solid black;
-    }
   }
 }
 

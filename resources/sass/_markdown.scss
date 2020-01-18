@@ -295,55 +295,6 @@
     cursor: pointer;
 }
 
-// .markdown h1,
-// .markdown h2,
-// .markdown h3,
-// .markdown h4,
-// .markdown h5,
-// .markdown h6 {
-//     margin-bottom: 0;
-//     margin-top: 0;
-// }
-
-// .markdown h1 {
-//     font-size: 32px;
-// }
-
-// .markdown h1,
-// .markdown h2 {
-//     font-weight: 600;
-// }
-
-// .markdown h2 {
-//     font-size: 24px;
-// }
-
-// .markdown h3 {
-//     font-size: 20px;
-// }
-
-// .markdown h3,
-// .markdown h4 {
-//     font-weight: 600;
-// }
-
-// .markdown h4 {
-//     font-size: 16px;
-// }
-
-// .markdown h5 {
-//     font-size: 14px;
-// }
-
-// .markdown h5,
-// .markdown h6 {
-//     font-weight: 600;
-// }
-
-// .markdown h6 {
-//     font-size: 12px;
-// }
-
 .markdown p {
     margin-bottom: 10px;
     margin-top: 0;
@@ -376,12 +327,6 @@
 .markdown dd {
     margin-left: 0;
 }
-
-.markdown code {
-    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
-    font-size: 12px;
-}
-
 
 .markdown input::-webkit-inner-spin-button,
 .markdown input::-webkit-outer-spin-button {
@@ -692,10 +637,13 @@
 }
 
 .markdown code {
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
+    font-size: 12px;
     background-color: rgba(27, 31, 35, .05);
     border-radius: 3px;
     font-size: 85%;
     margin: 0;
+    padding: 0 !important;
 }
 
 .markdown p code {
@@ -922,4 +870,18 @@
 
 .markdown .pl-12 {
     padding-left: 128px !important;
+}
+
+.markdown audio {
+    margin-bottom: 10px;
+}
+
+.markdown audio::-webkit-media-controls-volume-control-container {
+    display: none;
+}
+
+.markdown audio::-webkit-media-controls-enclosure {
+    background-color: transparent;
+    border-radius: 4px !important;
+    border: 1px solid black;
 }
