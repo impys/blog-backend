@@ -9,7 +9,7 @@
         v-model="value"
         @click="handelClickMarkdownTextarea"
       ></textarea>
-      <div id="marked-body" class="w-1/2 p-3 border-l border-60" v-html="markedBody"></div>
+      <div id="marked-body" class="w-1/2 p-3 border-l border-60 markdown" v-html="markedBody"></div>
     </div>
 
     <div class="relative ml-2" style="width:8%">
