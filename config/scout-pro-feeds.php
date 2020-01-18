@@ -143,7 +143,7 @@ return [
     */
 
     'distinct' => null,
-    'attributeForDistinct' => null,
+    'attributeForDistinct' => 'title',
 
     /*
     |--------------------------------------------------------------------------

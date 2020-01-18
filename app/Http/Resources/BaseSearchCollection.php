@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Arr;
 
@@ -16,8 +17,12 @@ class BaseSearchCollection extends ResourceCollection
                     $hit[$attr] = $snippet['value'];
                 }
 
+                $hit['created_at_human'] = Carbon::parse($hit['created_at'])->diffForHumans();
+                $hit['updated_at_human'] = Carbon::parse($hit['updated_at'])->diffForHumans();
+
                 Arr::forget($hit, '_highlightResult');
                 Arr::forget($hit, '_snippetResult');
+                Arr::forget($hit, '_tags');
 
                 return $hit;
             })

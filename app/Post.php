@@ -54,13 +54,18 @@ class Post extends Model
         return $this->is_enable;
     }
 
+    public function splitBody()
+    {
+        return array_filter(explode('<split>', $this->getCleanBody()));
+    }
+
     public function toSearchableArray()
     {
         $array['id'] = $this->id;
 
         $array['title'] = $this->title;
 
-        $array['body'] = strip_tags(Markdown::parse($this->body));
+        $array['body'] = $this->body;
 
         $array['tags'] = $this->buildTagsForSearch();
 
@@ -72,11 +77,24 @@ class Post extends Model
 
         $array['updated_at'] = $this->updated_at;
 
-        $array['created_at_human'] = $this->created_at_human;
-
-        $array['updated_at_human'] = $this->updated_at_human;
-
         return $array;
+    }
+
+    public function getCleanBody(): string
+    {
+        return collect(
+            explode(PHP_EOL, Markdown::parse($this->body)
+                ->toHtml())
+        )
+            ->map(function ($dom) {
+                $value = strip_tags($dom);
+                if (Str::startsWith($dom, '<h2>')) {
+                    $value = '<split>' . strip_tags($dom);
+                }
+                return $value;
+            })->reduce(function ($carry, $item) {
+                return $carry . $item;
+            });
     }
 
     public function user()
