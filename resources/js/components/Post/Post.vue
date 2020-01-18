@@ -102,7 +102,9 @@ export default {
           });
         }
 
-        return `<h${level} id="${text}" class="toc-anchor">${text}</h${level}>`;
+        let id = text.replace(/\s+/g, "");
+
+        return `<h${level} id="toc-${id}" class="toc-anchor">${text}</h${level}>`;
       };
 
       this.tocs = tocs;

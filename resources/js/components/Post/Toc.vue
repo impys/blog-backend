@@ -3,14 +3,14 @@
     <div class="mb-2 text-blue-500 text-lg">目录</div>
     <ul v-for="(toc,index) in tocsTree" :key="index" class="text-grey">
       <li
-        @click="handleCilckToc"
+        @click="handleClickToc"
         class="cursor-pointer hover:text-blue-500 mb-2 font-medium"
         :id="'toc-'+toc.value"
       >{{ toc.value }}</li>
       <li v-if="toc.children">
         <ul v-for="(childToc,childIndex) in toc.children" :key="childIndex" class="ml-3">
           <li
-            @click="handleCilckToc"
+            @click="handleClickToc"
             class="cursor-pointer hover:text-blue-500 mb-2 text-sm"
             :id="'toc-'+childToc.value"
           >{{ childToc.value }}</li>
@@ -46,9 +46,10 @@ export default {
   },
 
   methods: {
-    handleCilckToc(e) {
-      let id = e.srcElement.innerText;
-      document.querySelector("#" + id).scrollIntoView({
+    handleClickToc(e) {
+      let id = "#" + e.srcElement.id.replace(/\s+/g, "");
+      console.log(id);
+      document.querySelector(id).scrollIntoView({
         block: "start",
         behavior: "auto"
       });
