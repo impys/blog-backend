@@ -182,7 +182,7 @@ export default {
 
 <style lang="scss">
 #editor {
-  height: 600px;
+  height: 700px;
   textarea {
     line-height: normal;
     color: #7c858e;
