@@ -1,64 +1,47 @@
 <template>
-  <default-field :field="field" :errors="errors" :full-width-content="true">
-    <template slot="field">
-      <div
-        class="flex justify-between"
-        :id="field.name"
-        :class="errorClasses"
-        :placeholder="field.name"
-      >
-        <div class="custom__markdown-editor w-5/6 form-input-bordered">
-          <!-- <pre class="hidden-pre">{{ value }}<br /></pre> -->
-          <textarea
-            id="markdown-textarea"
-            @keydown.tab="tabIndent"
-            @paste="onPaste"
-            v-model="value"
-          ></textarea>
-        </div>
-        <div class="w-1/6 relative ml-2">
-          <div class="sticky" style="top:10px">
-            <div class="flex flex-col">
-              <div class="custom__upload-icon form-input-bordered">
-                <label for="file-input" id="file-upload-label">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="60"
-                    height="60"
-                  >
-                    <path
-                      class="heroicon-ui"
-                      d="M13 5.41V17a1 1 0 0 1-2 0V5.41l-3.3 3.3a1 1 0 0 1-1.4-1.42l5-5a1 1 0 0 1 1.4 0l5 5a1 1 0 1 1-1.4 1.42L13 5.4zM3 17a1 1 0 0 1 2 0v3h14v-3a1 1 0 0 1 2 0v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3z"
-                    />
-                  </svg>
-                </label>
-                <input
-                  type="file"
-                  class="hidden"
-                  id="file-input"
-                  ref="fileInput"
-                  @change="uploadFile"
+  <div class="flex p-2">
+    <div class="flex custom__markdown-editor p-0 form-input-bordered w-11/12 rounded">
+      <textarea
+        id="markdown-textarea"
+        class="p-2 rounded"
+        @keydown.tab="tabIndent"
+        @paste="onPaste"
+        v-model="value"
+      ></textarea>
+      <div class="w-1/2 p-2 markdown-body" v-html="markedBody"></div>
+    </div>
+
+    <div class="w-1/12 relative ml-2">
+      <div class="sticky" style="top:10px">
+        <div class="flex flex-col">
+          <div class="custom__upload-icon form-input-bordered">
+            <label for="file-input" id="file-upload-label">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="60" height="60">
+                <path
+                  class="heroicon-ui"
+                  d="M13 5.41V17a1 1 0 0 1-2 0V5.41l-3.3 3.3a1 1 0 0 1-1.4-1.42l5-5a1 1 0 0 1 1.4 0l5 5a1 1 0 1 1-1.4 1.42L13 5.4zM3 17a1 1 0 0 1 2 0v3h14v-3a1 1 0 0 1 2 0v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3z"
                 />
-              </div>
-              <div class="relative my-2" v-if="showProgress">
-                <progress id="progressBar" class="w-full" value="0" max="100"></progress>
-                <div id="progressLabel" class="absolute" style="top:0;left:4px">0%</div>
-              </div>
-              <div class="custom__upload-msg" v-if="showCopyLinkButton">
-                <button @click.prevent="copyLink">点击复制链接</button>
-                <input type="text" id="custom__copy" :value="link" />
-              </div>
-            </div>
+              </svg>
+            </label>
+            <input type="file" class="hidden" id="file-input" ref="fileInput" @change="uploadFile" />
+          </div>
+          <div class="relative my-2" v-if="showProgress">
+            <progress id="progressBar" class="w-full" value="0" max="100"></progress>
+            <div id="progressLabel" class="absolute" style="top:0;left:4px">0%</div>
+          </div>
+          <div class="custom__upload-msg" v-if="showCopyLinkButton">
+            <button @click.prevent="copyLink" class="py-2 text-xs">点击复制链接</button>
+            <input type="text" id="custom__copy" :value="link" />
           </div>
         </div>
       </div>
-    </template>
-  </default-field>
+    </div>
+  </div>
 </template>
 
 <script>
 import { FormField, HandlesValidationErrors } from "laravel-nova";
+import marked from "marked";
 
 const UPLOAD_API = "/upload";
 
@@ -74,6 +57,20 @@ export default {
       showProgress: false,
       link: ""
     };
+  },
+
+  computed: {
+    markedBody: function() {
+      if (this.value) {
+        return marked(this.value);
+      }
+    }
+  },
+
+  watch: {
+    value: function(value) {
+      this.$nextTick(() => Prism.highlightAll());
+    }
   },
 
   methods: {
@@ -158,15 +155,17 @@ export default {
             "Content-Type": "multipart/form-data"
           }
         };
+        this.$toasted.info("正在上传", { duration: 0 });
         axios
           .post(UPLOAD_API, formData, config)
           .then(res => {
-            this.$toasted.success("成功");
+            this.$toasted.clear();
+            this.$toasted.success("上传成功");
             this.insertStringToTextarea("![](" + res.data.data.url + ")\n");
             this.value = document.getElementById("markdown-textarea").value;
           })
           .catch(e => {
-            this.$toasted.error("失败");
+            this.$toasted.error("上传失败");
           });
       }
     },
@@ -210,37 +209,35 @@ export default {
 
 <style lang="scss">
 .custom__markdown-editor {
-  position: relative;
-  //   min-height: 400px;
-  height: 700px;
-  overflow: hidden;
-
-  .hidden-pre {
-    display: inline-block;
-    visibility: hidden;
-    padding: 12px;
-    font-size: 22px;
-    width: 100%;
-    height: 100%;
-    line-height: normal;
-  }
-
+  height: 600px;
   textarea {
     line-height: normal;
-    padding: 12px;
     color: #7c858e;
     outline: none;
     height: 100%;
     border: none;
     resize: none;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
+    width: 50%;
+  }
+  .markdown-body {
+    overflow: scroll;
+    audio {
+      margin-bottom: 10px;
+    }
+
+    audio::-webkit-media-controls-volume-control-container {
+      display: none;
+    }
+    audio::-webkit-media-controls-enclosure {
+      background-color: transparent;
+      border-radius: 4px !important;
+      border: 1px solid black;
+    }
   }
 }
+
 .custom__upload-icon {
-  height: 100px;
+  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -254,21 +251,19 @@ export default {
   }
 }
 .custom__upload-msg {
-  margin-top: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   button {
     background-color: var(--success);
     color: #fff;
-    border-radius: 10px;
-    height: 40px;
     width: 100%;
     outline: none;
   }
 
   input {
     opacity: 0;
+    width: 10px;
   }
 }
 
@@ -277,12 +272,12 @@ progress::-webkit-progress-bar {
   background-color: var(--white);
   border: 1px solid var(--success);
 }
+
 progress::-webkit-progress-value {
   border-radius: 10px;
   background-color: var(--success);
 }
-</style>
-<style lang="scss">
+
 #file-upload-label {
   svg path,
   svg rect {
