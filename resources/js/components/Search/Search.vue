@@ -13,14 +13,15 @@
               <loading-icon key="loading" v-if="searchLoading"></loading-icon>
             </transition>
           </div>
-          <div class="flex items-center w-full">
+          <form action class="flex items-center w-full block">
             <input
               ref="keywordInput"
+              type="search"
               v-model="keyword"
               @keyup.enter="debounceSearch"
               class="outline-none w-full border-transparent text-base bg-transparent w-full z-10 input-caret-color-blue-500"
             />
-          </div>
+          </form>
           <div class="w-8">
             <svg v-if="keyword" @click="reset()" class="icon text-grey cursor-pointer">
               <use xlink:href="#icon-close-outline" />
@@ -153,6 +154,8 @@ export default {
       await this.fetch();
 
       this.searchLoading = false;
+
+      this.$refs.keywordInput.blur();
     },
 
     // load more
@@ -194,3 +197,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
+</style>
