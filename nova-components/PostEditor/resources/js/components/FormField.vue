@@ -1,6 +1,6 @@
 <template>
   <div class="flex p-2 w-full" id="editor-box">
-    <div id="editor" class="flex p-0 form-input-bordered rounded" style="width:92%">
+    <div id="editor" class="flex p-0 form-input-bordered rounded markdown-github" style="width:92%">
       <textarea
         id="markdown-textarea"
         class="p-3 rounded"
@@ -9,7 +9,7 @@
         v-model="value"
         @click="handelClickMarkdownTextarea"
       ></textarea>
-      <div id="markdown-preview" class="w-1/2 p-3 border-l border-60 markdown-github" v-html="markedBody"></div>
+      <div id="markdown-preview" class="w-1/2 p-3 border-l border-60" v-html="markedBody"></div>
     </div>
 
     <div class="relative ml-2" style="width:8%">
