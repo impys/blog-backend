@@ -312,6 +312,14 @@
     padding-left: 0;
 }
 
+.markdown-github ul {
+    list-style-type: disc;
+}
+
+.markdown-github ol {
+    list-style-type: decimal;
+}
+
 .markdown-github ol ol,
 .markdown-github ul ol {
     list-style-type: lower-roman;
