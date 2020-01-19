@@ -1,10 +1,10 @@
 <template>
-  <div class="flex flex-wrap text-xs justify-between last-row-justify-start">
+  <div class="flex flex-wrap text-xs justify-between last-row-justify-start cursor-pointer">
     <div
       @click.prevent="handleClick(tag)"
       v-for="(tag,index) in tags"
       :key="index"
-      class="mr-1 text-blue-500 hover:shadow"
+      class="mr-1 text-blue-500"
     >#{{ tag.name }}</div>
     <!-- <div
       v-for="(tag,index) in tags"
