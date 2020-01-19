@@ -19,7 +19,7 @@
         class="text-grey mb-2 text-sm"
       >创建于{{ post.created_at_human }} · 更新于{{ post.updated_at_human }} · 阅读{{ post.visited_count }}次</div>
       <tags v-if="post.tags && post.tags.length" :tags="post.tags" class="mb-2"></tags>
-      <div class="markdown" v-html="markedBody"></div>
+      <div class="markdown-github" v-html="markedBody"></div>
     </template>
     <template v-slot:sidebar-content>
       <toc :tocs="tocs" v-if="tocs.length" class="sticky top-12"></toc>
