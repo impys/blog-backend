@@ -12,6 +12,7 @@
         "algolia/algoliasearch-client-php": "^2.2",
         "algolia/scout-extended": "^1.8",
         "fideloper/proxy": "^4.0",
+        "fruitcake/laravel-cors": "^1.0",
         "fzaninotto/faker": "^1.8",
         "laravel/framework": "^6.3",
         "laravel/nova": "*",
