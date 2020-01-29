@@ -46,7 +46,7 @@
 import { FormField, HandlesValidationErrors } from "laravel-nova";
 import marked from "marked";
 
-const UPLOAD_API = "/upload";
+const UPLOAD_API = "/web/upload";
 
 export default {
   mixins: [FormField, HandlesValidationErrors],
