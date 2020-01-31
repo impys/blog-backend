@@ -16,8 +16,6 @@ class Post extends Model
     use HasEnable;
     use Searchable;
 
-    const SIZE = 15;
-
     protected $fillable = [
         'title',
         'body',

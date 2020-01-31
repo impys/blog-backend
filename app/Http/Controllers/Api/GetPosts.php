@@ -25,7 +25,7 @@ class GetPosts extends Controller
             ->with(['tags', 'files'])
             ->top()
             ->latest()
-            ->paginate(Post::SIZE);
+            ->paginate($request->input('size', 10));
 
         return PostList::collection($posts);
     }
