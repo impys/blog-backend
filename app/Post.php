@@ -250,9 +250,7 @@ class Post extends Model
 
     public function beVisited()
     {
-        DB::table('posts')
-            ->where('id', $this->id)
-            ->increment('visited_count');
+        $this->increment('visited_count');
     }
 
     // public function fillSlug()
