@@ -130,6 +130,8 @@ export default {
           this.insertStringToTextarea(res.data.data.markdown_dom);
         })
         .catch(e => {
+          console.log(e);
+          this.$toasted.clear();
           this.$toasted.error("上传失败");
         });
     },
