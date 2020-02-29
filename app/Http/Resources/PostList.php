@@ -22,6 +22,7 @@ class PostList extends JsonResource
         $data["updated_at_human"] = $this->updated_at_human;
         $data["cover_media"] = $this->cover_media;
         $data["summary"] = $this->summary;
+        $data["tags"] = $this->tags;
 
         return $data;
     }
