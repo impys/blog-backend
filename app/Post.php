@@ -156,13 +156,13 @@ class Post extends Model
 
     public function getSummaryAttribute(): ?string
     {
-        preg_match("/<p>((?!<).)*<\/p>/U", Markdown::parse($this->body), $results);
+        preg_match("/<p>(.)*<\/p>/U", Markdown::parse($this->body), $results);
 
         if (!count($results)) {
             return null;
         }
 
-        return Str::limit(strip_tags($results[0]), 140);
+        return Str::limit(strip_tags($results[0]), 300);
     }
 
     public function getAudioCountAttribute(): int
