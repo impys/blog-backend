@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\TranslatePostTitleJob;
 use App\Post;
 
 class PostObserver
@@ -10,6 +11,10 @@ class PostObserver
     {
         if ($post->isDirty('body')) {
             $post->syncFiles();
+        }
+
+        if ($post->isDirty('title')) {
+            TranslatePostTitleJob::dispatch($post);
         }
     }
 }

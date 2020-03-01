@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Collection;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class Post extends Model
 {
@@ -255,24 +256,9 @@ class Post extends Model
             ->increment('visited_count', 1);
     }
 
-    // public function fillSlug()
-    // {
-    //     $this->slug = $this->id;
-    // }
-
-    // public function transSlug()
-    // {
-    //     if (!$this->isDirty('title')) {
-    //         return;
-    //     }
-
-    //     $slug = GoogleTranslate::trans($this->title);
-
-    //     if ($slug != null) {
-    //         $slug = Str::slug($slug);
-    //         DB::table('articles')
-    //             ->where('id', $this->id)
-    //             ->update(['slug' => $slug]);
-    //     }
-    // }
+    public function syncSlug()
+    {
+        $this->slug = GoogleTranslate::trans($this->title);
+        $this->save();
+    }
 }
