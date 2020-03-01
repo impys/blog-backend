@@ -35,6 +35,7 @@ class Post extends Resource
     public static $search = [
         'id',
         'title',
+        'slug',
     ];
 
     public static $with = [
@@ -56,6 +57,8 @@ class Post extends Resource
 
             Text::make('Title')
                 ->sortable(),
+
+            Text::make('Slug'),
 
             Boolean::make('Is Enable'),
 
