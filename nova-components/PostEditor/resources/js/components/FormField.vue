@@ -12,7 +12,7 @@
       <div id="markdown-preview" class="w-1/2 p-3 border-l border-60" v-html="markedBody"></div>
     </div>
 
-    <div id="uploader" class="absolute flex flex-col" style="top:8px;left:50%">
+    <div id="uploader" class="absolute flex flex-col" style="top:8px;right:8px">
       <label for="file-input" class="relative">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
           <path
@@ -114,11 +114,13 @@ export default {
           this.$toasted.clear();
           this.$toasted.success("上传成功");
           this.insertStringToTextarea(res.data.data.markdown_dom);
+          this.$refs.fileInput.value = "";
         })
         .catch(e => {
           console.log(e);
           this.$toasted.clear();
           this.$toasted.error("上传失败");
+          this.$refs.fileInput.value = "";
         });
     },
 
@@ -148,9 +150,7 @@ export default {
       progressLabel.value = 0;
       if (e.lengthComputable) {
         let percent = Math.round((e.loaded * 100) / e.total);
-
         progressLabel.innerHTML = percent.toFixed(2) + "%";
-
         progressLabel.max = e.total;
         progressLabel.value = e.loaded;
       }
@@ -192,7 +192,8 @@ export default {
   align-items: center;
   background-color: var(--primary);
   color: var(--white);
-  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
   font-size: 12px;
 
   svg path,
