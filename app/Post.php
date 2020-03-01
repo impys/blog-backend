@@ -259,7 +259,10 @@ class Post extends Model
 
     public function syncSlug()
     {
-        $this->slug = GoogleTranslate::trans($this->title);
-        $this->save();
+        $slug = GoogleTranslate::trans($this->title);
+
+        DB::table('posts')
+            ->where('id', $this->id)
+            ->update(['slug' => $slug]);
     }
 }
