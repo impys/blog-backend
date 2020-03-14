@@ -28,7 +28,6 @@ class RouteServiceProvider extends ServiceProvider
                 Route::any($uri, $action);
             }
         });
-        parent::boot();
 
         parent::boot();
     }
