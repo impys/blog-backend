@@ -5,7 +5,6 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\Password;
 
 class User extends Resource
@@ -43,8 +42,6 @@ class User extends Resource
     {
         return [
             ID::make()->sortable(),
-
-            Gravatar::make(),
 
             Text::make('Name')
                 ->sortable()
