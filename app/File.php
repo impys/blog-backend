@@ -25,9 +25,9 @@ class File extends Model
         'markdown_dom',
     ];
 
-    public function post()
+    public function entity()
     {
-        return $this->belongsTo(Post::class);
+        return $this->morphTo();
     }
 
     public function getUrlAttribute(): string

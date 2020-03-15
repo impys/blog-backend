@@ -7,6 +7,7 @@ use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Qingfengbaili\PostEditor\PostEditor;
 use Qingfengbaili\TagAutocomplete\TagAutocomplete;
@@ -86,7 +87,9 @@ class Post extends Resource
                 'allTags' => Tag::all()
                     ->pluck('name')
                     ->toArray()
-            ])
+            ]),
+
+            HasMany::make('files'),
         ];
     }
 

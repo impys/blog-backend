@@ -109,7 +109,7 @@ class Post extends Model
 
     public function files()
     {
-        return $this->hasMany(File::class);
+        return $this->morphMany(File::class, 'entity');
     }
 
     public function scopeInTagIds($query, $tagIds)
@@ -196,14 +196,13 @@ class Post extends Model
 
     protected function dissociateAllFiles()
     {
-        DB::table('files')
-            ->where('post_id', $this->id)
-            ->update(
-                [
-                    'post_id' => null,
-                    'sort' => null
-                ]
-            );
+        $this->files()->update(
+            [
+                'entity_id' => null,
+                'entity_type' => null,
+                'sort' => null,
+            ]
+        );
     }
 
     protected function associateFiles()
@@ -215,7 +214,7 @@ class Post extends Model
         $files = File::inNames($names)->get();
 
         foreach ($files as $file) {
-            $file->post()->associate($this);
+            $file->entity()->associate($this);
             $file->sort = $sort[$file->name] + 1;
             $file->save();
         }

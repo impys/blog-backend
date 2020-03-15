@@ -4,7 +4,7 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Text;
 
 class File extends Resource
@@ -38,7 +38,7 @@ class File extends Resource
     ];
 
     public static $with = [
-        'post',
+        'entity',
     ];
 
     /**
@@ -52,7 +52,9 @@ class File extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('post'),
+            MorphTo::make('Entity')->types([
+                Post::class,
+            ]),
 
             Text::make('Type')
                 ->sortable(),
