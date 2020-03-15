@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\HasOne;
 use App\Nova\Fields\PublicImage;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Textarea;
 
 class Book extends Resource
@@ -51,6 +52,8 @@ class Book extends Resource
             PublicImage::make('Cover')->deletable(false),
 
             Textarea::make('Intro'),
+
+            HasMany::make('Posts'),
 
             HasOne::make('File'),
         ];

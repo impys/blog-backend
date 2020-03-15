@@ -97,9 +97,9 @@ class Post extends Model
             });
     }
 
-    public function books()
+    public function book()
     {
-        return $this->belongsToMany(Book::class);
+        return $this->belongsTo(Book::class);
     }
 
     public function user()
