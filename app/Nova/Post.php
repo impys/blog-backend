@@ -89,7 +89,7 @@ class Post extends Resource
                     ->toArray()
             ]),
 
-            HasMany::make('files'),
+            HasMany::make('Files'),
         ];
     }
 
