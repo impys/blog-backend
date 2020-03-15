@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Search\Feeds;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostSearchCollection;
-use App\Search\Feeds;
 
 class Search extends Controller
 {

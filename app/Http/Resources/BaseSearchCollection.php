@@ -3,8 +3,8 @@
 namespace App\Http\Resources;
 
 use Carbon\Carbon;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class BaseSearchCollection extends ResourceCollection
 {

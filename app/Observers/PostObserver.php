@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Jobs\TranslatePostTitleJob;
 use App\Post;
+use App\Jobs\TranslatePostTitleJob;
 
 class PostObserver
 {
