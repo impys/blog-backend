@@ -5,29 +5,25 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\MorphTo;
+use Laravel\Nova\Fields\HasOne;
 use App\Nova\Fields\PublicImage;
+use Laravel\Nova\Fields\Textarea;
 
-class File extends Resource
+class Book extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\File::class;
+    public static $model = 'App\Book';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    // public static $title = 'id';
-
-    public function title()
-    {
-        return $this->id . '/' . $this->type;
-    }
+    public static $title = 'title';
 
     /**
      * The columns that should be searched.
@@ -36,10 +32,7 @@ class File extends Resource
      */
     public static $search = [
         'id',
-    ];
-
-    public static $with = [
-        'entity',
+        'title'
     ];
 
     /**
@@ -53,27 +46,13 @@ class File extends Resource
         return [
             ID::make()->sortable(),
 
-            MorphTo::make('Entity')->types([
-                Post::class,
-            ]),
+            Text::make('Title'),
 
-            PublicImage::make('Preview', 'name'),
+            PublicImage::make('Cover')->deletable(false),
 
-            Text::make('Type')
-                ->sortable(),
+            Textarea::make('Intro'),
 
-            Text::make('Name')
-                ->sortable(),
-
-            Text::make('Size')
-                ->sortable(),
-
-            Text::make('Width')
-                ->sortable(),
-
-            Text::make('Height')
-                ->sortable(),
-
+            HasOne::make('File'),
         ];
     }
 

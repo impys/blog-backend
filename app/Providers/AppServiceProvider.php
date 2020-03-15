@@ -27,12 +27,14 @@ class AppServiceProvider extends ServiceProvider
     {
         \App\Post::observe(\App\Observers\PostObserver::class);
         \App\File::observe(\App\Observers\FileObserver::class);
+        \App\Book::observe(\App\Observers\BookObserver::class);
 
         \App\Search\Feeds::bootSearchable();
 
         Relation::morphMap([
             'post' => 'App\Post',
             'files' => 'APP\File',
+            'book' => 'App\Book',
         ]);
     }
 }
