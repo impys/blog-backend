@@ -30,10 +30,6 @@
     font-weight: bolder;
   }
 
-  .markdown-github img {
-    border-style: none;
-  }
-
   .markdown-github hr {
     box-sizing: content-box;
     height: 0;
@@ -203,7 +199,6 @@
 
   .markdown-github blockquote {
     border-left: .25em solid #dfe2e5;
-    color: #6a737d;
     padding: 0 1em;
   }
 
@@ -215,27 +210,12 @@
     margin-bottom: 0;
   }
 
-  .markdown-github kbd {
-    background-color: #fafbfc;
-    border: 1px solid #c6cbd1;
-    border-bottom-color: #959da5;
-    border-radius: 3px;
-    box-shadow: inset 0 -1px 0 #959da5;
-    color: #444d56;
-    display: inline-block;
-    font-size: 11px;
-    line-height: 10px;
-    padding: 3px 5px;
-    vertical-align: middle;
-  }
-
   .markdown-github h1,
   .markdown-github h2,
   .markdown-github h3,
   .markdown-github h4,
   .markdown-github h5,
   .markdown-github h6 {
-    font-weight: 600;
     line-height: 1.25;
     margin-bottom: 16px;
     margin-top: 24px;
@@ -253,12 +233,14 @@
 
   .markdown-github h2 {
     font-size: 1.25em;
+    font-weight: 700;
     padding-top: 50px !important;
     margin-top: -50px !important;
   }
 
   .markdown-github h3 {
     font-size: 1.125em;
+    font-weight: 600;
     padding-top: 50px !important;
     margin-top: -50px !important;
   }
@@ -272,7 +254,6 @@
   }
 
   .markdown-github h6 {
-    color: #6a737d;
     font-size: .85em;
   }
 
@@ -347,6 +328,7 @@
     background-color: #fff;
     box-sizing: content-box;
     max-width: 100%;
+    border-radius: 4px;
   }
 
   .markdown-github img[align=right] {
@@ -359,21 +341,16 @@
 
   .markdown-github p code {
     word-break: break-all;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .075);
     padding: 0 .25em;
+    font-weight: 300;
+    color: #000;
   }
 
   .markdown-github kbd {
-    background-color: #fafbfc;
-    border: 1px solid #d1d5da;
-    border-bottom-color: #c6cbd1;
-    border-radius: 3px;
-    box-shadow: inset 0 -1px 0 #c6cbd1;
-    color: #444d56;
-    display: inline-block;
-    line-height: 10px;
-    padding: 3px 5px;
-    vertical-align: middle;
+    word-break: break-all;
+    padding: 0 .25em;
+    font-weight: 300;
+    color: #000;
   }
 
   .markdown-github hr {
@@ -392,4 +369,11 @@
     background-color: transparent;
     border-radius: 4px !important;
     border: 1px solid black;
+  }
+
+  .markdown-github iframe {
+    width: calc(100% + 48px);
+    min-height: 600px;
+    margin: 10px -24px;
+    border-bottom: #eee 1px solid;
   }
