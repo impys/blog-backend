@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
+    protected $appends = [
+        'cover_url'
+    ];
+
     public function posts()
     {
         return $this->hasMany(Post::class);
@@ -14,6 +18,11 @@ class Book extends Model
     public function file()
     {
         return $this->morphOne(File::class, 'entity');
+    }
+
+    public function getCoverUrlAttribute()
+    {
+        return asset("assets/{$this->cover}");
     }
 
     public function syncFiles()
