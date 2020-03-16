@@ -1,15 +1,18 @@
 <template>
   <div class="flex p-2 w-full relative" id="editor-box">
-    <div id="editor" class="flex p-0 form-input-bordered rounded markdown-github w-full">
+    <div
+      id="editor"
+      class="flex p-0 rounded markdown-github w-full"
+      @click="handelClickMarkdownTextarea"
+    >
       <textarea
         id="markdown-textarea"
         class="p-3 rounded"
         @keydown.tab="tabIndent"
         @paste="uploadFileByPaste"
         v-model="value"
-        @click="handelClickMarkdownTextarea"
       ></textarea>
-      <div id="markdown-preview" class="w-1/2 p-3 border-l border-60" v-html="markedBody"></div>
+      <div id="markdown-preview" class="w-1/2 p-3" v-html="markedBody"></div>
     </div>
 
     <div id="uploader" class="absolute flex flex-col" style="top:8px;right:8px">
@@ -159,7 +162,7 @@ export default {
     handelClickMarkdownTextarea() {
       document.querySelector("#editor-box").scrollIntoView({
         block: "start",
-        behavior: "smooth"
+        behavior: "auto"
       });
     }
   }
@@ -170,9 +173,10 @@ export default {
 <style lang="scss">
 #editor {
   height: 702px;
+  border-width: 1px;
+  border-color: #bacad6;
   textarea {
     line-height: normal;
-    color: #7c858e;
     outline: none;
     height: 100%;
     border: none;
