@@ -23,4 +23,5 @@ Route::group(['middleware' => ['api', 'throttle']], function () {
     Route::get('/search', 'Search');
     Route::get('/tags', 'GetTags');
     Route::get('/books', 'GetBooks');
+    Route::get('/books/{book}', 'GetBook');
 });

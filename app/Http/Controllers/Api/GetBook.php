@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Post;
+use App\Book;
 use Illuminate\Http\Request;
-use App\Http\Resources\PostView;
+use App\Http\Resources\BookView;
 
-class GetPost extends Controller
+class GetBook extends Controller
 {
     /**
      * Handle the incoming request.
@@ -14,9 +14,8 @@ class GetPost extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, Post $post)
+    public function __invoke(Request $request, Book $book)
     {
-        $post->beVisited();
-        return new PostView($post);
+        return new BookView($book);
     }
 }

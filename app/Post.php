@@ -146,6 +146,11 @@ class Post extends Model
         return $query->orderBy('upvote_count', 'desc');
     }
 
+    public function scopeOfChapter($query, int $chapter)
+    {
+        return $query->where('chapter', $chapter);
+    }
+
     public function getCreatedAtHumanAttribute()
     {
         return $this->created_at->diffForHumans();
@@ -268,5 +273,33 @@ class Post extends Model
         DB::table('posts')
             ->where('id', $this->id)
             ->update(['slug' => $slug]);
+    }
+
+    public function getPrevChapter(): ?self
+    {
+        if (!$this->book) {
+            return null;
+        }
+
+        $post = $this->book
+            ->posts()
+            ->ofChapter($this->chapter - 1)
+            ->first();
+
+        return $post ?? null;
+    }
+
+    public function getnextChapter(): ?self
+    {
+        if (!$this->book) {
+            return null;
+        }
+
+        $post = $this->book
+            ->posts()
+            ->ofChapter($this->chapter + 1)
+            ->first();
+
+        return $post ?? null;
     }
 }

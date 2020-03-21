@@ -14,6 +14,16 @@ class PostView extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+
+        $data['tags'] = $this->tags;
+
+        $data['book'] = new BookView($this->book);
+
+        $data['prev_chapter'] =  new ChapterView($this->getPrevChapter());
+
+        $data['next_chapter'] = new ChapterView($this->getNextChapter());
+
+        return $data;
     }
 }
