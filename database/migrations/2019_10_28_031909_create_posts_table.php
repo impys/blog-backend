@@ -19,7 +19,7 @@ class CreatePostsTable extends Migration
 
             $table->string('title')->nullable();
             $table->text('body');
-            $table->boolean('is_enable')->default(true);
+            $table->boolean('is_enabled')->default(true);
             $table->boolean('is_top')->default(false);
             $table->unsignedInteger('sort')->default(0);
             $table->unsignedInteger('visited_count')->default(0);

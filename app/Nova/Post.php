@@ -63,7 +63,7 @@ class Post extends Resource
 
             Text::make('Slug'),
 
-            Boolean::make('Is Enable'),
+            Boolean::make('Is Enabled'),
 
             Boolean::make('Is Top'),
 

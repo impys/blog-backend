@@ -18,7 +18,7 @@ class GetBooks extends Controller
     {
         $books = Book::query()
             ->withCount(['posts' => function ($query) {
-                return $query->enable();
+                return $query->enabled();
             }])
             ->get();
 

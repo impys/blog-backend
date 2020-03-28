@@ -21,7 +21,7 @@ class GetPosts extends Controller
             ->when($tagId, function ($query) use ($tagId) {
                 return $query->ofTagId($tagId);
             })
-            ->enable()
+            ->enabled()
             ->with(['tags', 'files'])
             ->top()
             ->latest()

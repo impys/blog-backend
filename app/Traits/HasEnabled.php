@@ -2,15 +2,15 @@
 
 namespace App\Traits;
 
-trait HasEnable
+trait HasEnabled
 {
     public function scopeEnable($query)
     {
-        return $query->where('is_enable', true);
+        return $query->where('is_enabled', true);
     }
 
     public function scopeDisable($query)
     {
-        return $query->where('is_enable', false);
+        return $query->where('is_enabled', false);
     }
 }

@@ -18,7 +18,7 @@ class GetTags extends Controller
     {
         $tags = Tag::query()
             ->withCount(['posts' => function ($query) {
-                return $query->enable();
+                return $query->enabled();
             }])
             ->get();
 

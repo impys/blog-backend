@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Traits\HasEnable;
+use App\Traits\HasEnabled;
 use Illuminate\Support\Str;
 use Illuminate\Mail\Markdown;
 use Laravel\Scout\Searchable;
@@ -14,7 +14,7 @@ use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class Post extends Model
 {
-    use HasEnable;
+    use HasEnabled;
     use Searchable;
 
     protected $fillable = [
@@ -37,7 +37,7 @@ class Post extends Model
     ];
 
     protected $attributes = [
-        'is_enable' => true
+        'is_enabled' => true
     ];
 
     public static function boot()
@@ -51,7 +51,7 @@ class Post extends Model
 
     public function shouldBeSearchable()
     {
-        return $this->is_enable;
+        return $this->is_enabled;
     }
 
     public function splitBody()
