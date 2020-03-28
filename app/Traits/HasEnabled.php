@@ -4,12 +4,12 @@ namespace App\Traits;
 
 trait HasEnabled
 {
-    public function scopeEnable($query)
+    public function scopeEnabled($query)
     {
         return $query->where('is_enabled', true);
     }
 
-    public function scopeDisable($query)
+    public function scopeDisabled($query)
     {
         return $query->where('is_enabled', false);
     }
