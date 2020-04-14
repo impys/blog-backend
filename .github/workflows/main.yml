@@ -26,7 +26,7 @@ jobs:
       run: echo "${{ secrets.TENCENT_REGISTRY_PASSWORD }}" |  docker login --username=100011753229 hkccr.ccs.tencentyun.com --password-stdin
 
     - name: Build image
-      run: docker build -t hkccr.ccs.tencentyun.com/qingfengbaili/blog-api --build-arg GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} --build-arg SSH_PRIVATE_KEY=${{ secrets.SSH_PRIVATE_KEY }} .
+      run: docker build . -t hkccr.ccs.tencentyun.com/qingfengbaili/blog-api --build-arg GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} --build-arg SSH_PRIVATE_KEY=${{ secrets.SSH_PRIVATE_KEY }}
       
     - name: Push image to tencent docker image registry
       run: docker push hkccr.ccs.tencentyun.com/qingfengbaili/blog-api
