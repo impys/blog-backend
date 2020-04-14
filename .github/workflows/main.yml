@@ -21,12 +21,12 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-    
-    - name: Login to tencnet docker image registry
-      run: echo "${{ secrets.TENCENT_REGISTRY_PASSWORD }}" |  docker login --username=100011753229 hkccr.ccs.tencentyun.com --password-stdin
 
     - name: Build image
       run: docker build . -t hkccr.ccs.tencentyun.com/qingfengbaili/blog-api --build-arg TOKEN_FOR_COMPOSER=${{ secrets.TOKEN_FOR_COMPOSER }} --build-arg SSH_PRIVATE_KEY=${{ secrets.SSH_PRIVATE_KEY }}
-      
+       
+    - name: Login to tencnet docker image registry
+      run: echo "${{ secrets.TENCENT_REGISTRY_PASSWORD }}" |  docker login --username=100011753229 hkccr.ccs.tencentyun.com --password-stdin
+   
     - name: Push image to tencent docker image registry
       run: docker push hkccr.ccs.tencentyun.com/qingfengbaili/blog-api
