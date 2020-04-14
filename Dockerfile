@@ -21,5 +21,3 @@ FROM php:7.4-fpm-alpine
 WORKDIR /app
 
 COPY --from=builder /app /app
-
-CMD ["php-fpm"]
