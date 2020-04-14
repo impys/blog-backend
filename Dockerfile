@@ -4,9 +4,16 @@ WORKDIR /app
 
 COPY ./ /app
 
+ARG SSH_PRIVATE_KEY
+
 ARG GITHUB_TOKEN
 
-RUN composer config -g github-oauth.github.com ${GITHUB_TOKEN} \
+RUN mkdir /root/.ssh/ \
+    && echo ${SSH_PRIVATE_KEY} > /root/.ssh/id_rsa \
+    && chmod 600 /root/.ssh/id_rsa \
+    && touch /root/.ssh/known_hosts \
+    && ssh-keyscan github.com >> /root/.ssh/known_hosts \
+    && composer config -g github-oauth.github.com ${GITHUB_TOKEN} \
     && composer install --ignore-platform-reqs
 
 FROM php:7.4-fpm-alpine
