@@ -4,9 +4,9 @@ WORKDIR /app
 
 COPY ./ /app
 
-ARG GITHUB_OAUTH_TOKEN
+ARG GITHUB_TOKEN
 
-RUN composer config -g github-oauth.github.com ${GITHUB_OAUTH_TOKEN} \
+RUN composer config -g github-oauth.github.com ${GITHUB_TOKEN} \
     && composer install --ignore-platform-reqs
 
 FROM php:7.4-fpm-alpine
