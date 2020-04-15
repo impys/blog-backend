@@ -23,3 +23,5 @@ RUN docker-php-ext-install pdo_mysql
 WORKDIR /app
 
 COPY --from=builder /app /app
+
+ENTRYPOINT [ "php-fpm"]
