@@ -1,8 +1,8 @@
 FROM composer as builder
 
-WORKDIR /srv
+WORKDIR /app
 
-COPY ./ /srv
+COPY ./ /app
 
 ARG SSH_PRIVATE_KEY
 
@@ -16,8 +16,16 @@ RUN mkdir /root/.ssh/ \
     && composer config -g github-oauth.github.com ${TOKEN_FOR_COMPOSER} \
     && composer install --ignore-platform-reqs
 
-FROM php:7.4.4-apache
+# FROM php:7.4.4-apache
 
-WORKDIR /srv
+# WORKDIR /app
 
-COPY --from=builder /srv /srv
+# COPY --from=builder /app /app
+
+FROM php:7.4-fpm-alpine
+
+RUN docker-php-ext-install pdo_mysql
+
+WORKDIR /app
+
+COPY --from=builder /app /app
