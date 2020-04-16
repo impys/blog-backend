@@ -22,7 +22,7 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    - name: Build image
+    - name: Build image1
       run: docker build . -t hkccr.ccs.tencentyun.com/qingfengbaili/blog-backend --build-arg TOKEN_FOR_COMPOSER=${{ secrets.TOKEN_FOR_COMPOSER }} --build-arg SSH_PRIVATE_KEY=${{ secrets.SSH_PRIVATE_KEY }}
        
     - name: Login to tencnet docker image registry
