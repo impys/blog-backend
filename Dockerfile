@@ -16,12 +16,8 @@ RUN mkdir /root/.ssh/ \
     && composer config -g github-oauth.github.com ${TOKEN_FOR_COMPOSER} \
     && composer install --ignore-platform-reqs
 
-FROM php:7.4-fpm-alpine
-
-RUN docker-php-ext-install pdo_mysql
+FROM scratch
 
 WORKDIR /app
 
 COPY --from=builder /app /app
-
-ENTRYPOINT [ "php-fpm"]
