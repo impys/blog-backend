@@ -22,6 +22,7 @@ WORKDIR /srv
 
 RUN docker-php-ext-install pdo_mysql
 
+COPY --from=builder /srv /srv
+
 RUN chown -R www-data:www-data /srv/storage
 
-COPY --from=builder /srv /srv
