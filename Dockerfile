@@ -20,4 +20,8 @@ FROM php:7.4.4-apache
 
 WORKDIR /srv
 
+RUN docker-php-ext-install pdo_mysql
+
+RUN chown -R www-data:www-data /srv/storage
+
 COPY --from=builder /srv /srv
