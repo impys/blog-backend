@@ -1,8 +1,8 @@
 FROM composer as builder
 
-WORKDIR /app
+WORKDIR /srv
 
-COPY ./ /app
+COPY ./ /srv
 
 ARG SSH_PRIVATE_KEY
 
@@ -18,6 +18,6 @@ RUN mkdir /root/.ssh/ \
 
 FROM php:7.4.4-apache
 
-WORKDIR /var/www/html
+WORKDIR /srv
 
-COPY --from=builder /app /var/www/html
+COPY --from=builder /srv /srv
