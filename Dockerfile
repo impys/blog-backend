@@ -20,9 +20,11 @@ FROM php:7.4.4-apache
 
 WORKDIR /srv
 
-RUN docker-php-ext-install pdo_mysql
-
 COPY --from=builder /srv /srv
 
-RUN chown -R www-data:www-data /srv/storage
+RUN docker-php-ext-install pdo_mysql \
+    && chown -R www-data:www-data /srv/storage \
+    && apt-get update \
+    && apt-get -y install vim \
+    && a2enmod rewrite
 
