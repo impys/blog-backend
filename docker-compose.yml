@@ -6,7 +6,8 @@ services:
             context: ./
             dockerfile: Dockerfile.dev
         container_name: blog-backend
-        depends_on: mysql
+        depends_on:
+          - mysql
         ports:
             - 8090:80
         volumes:
