@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Services\CosService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -16,8 +17,6 @@ class File extends Model
         'mime',
         'name',
         'size',
-        'width',
-        'height',
     ];
 
     protected $appends = [
@@ -32,7 +31,7 @@ class File extends Model
 
     public function getUrlAttribute(): string
     {
-        return Storage::disk('public')->url("assets/{$this->name}");
+        return CosService::url($this->name);
     }
 
     public function getMarkdownDomAttribute(): ?string
@@ -66,22 +65,13 @@ class File extends Model
         return $query->where('sort', $sort);
     }
 
-    protected static function generateNamePrefix(): string
-    {
-        return today()->format('ymd') . sprintf("%08d", random_int(0, 99999999));
-    }
-
-    public static function newInstanceForUploadFile(UploadedFile $uploadedFile): self
+    public static function newInstanceForUploadFile(UploadedFile $uploadedFile, string $name): self
     {
         $mime = $uploadedFile->getClientMimeType();
 
         $type = explode('/', $mime)[0];
 
         $size = $uploadedFile->getSize();
-
-        $ext = $uploadedFile->clientExtension();
-
-        $name = self::generateNamePrefix() . '.' . $ext;
 
         $file = new File([
             'mime' => $mime,
@@ -91,19 +81,5 @@ class File extends Model
         ]);
 
         return $file;
-    }
-
-    protected function getPhysicalPath(): string
-    {
-        return storage_path("app/public/assets/{$this->name}");
-    }
-
-    public function syncWidthAndHeight(): bool
-    {
-        [$width, $height] = getimagesize($this->getPhysicalPath());
-
-        $this->width = $width;
-        $this->height = $height;
-        return $this->save();
     }
 }

@@ -40,7 +40,7 @@
 import { FormField, HandlesValidationErrors } from "laravel-nova";
 import marked from "marked";
 
-const UPLOAD_API = "/web/upload";
+const UPLOAD_API = "/nova-vendor/post-editor/upload";
 
 export default {
   mixins: [FormField, HandlesValidationErrors],
@@ -111,7 +111,7 @@ export default {
 
       this.$toasted.info("正在上传", { duration: 0 });
 
-      axios
+      Nova.request()
         .post(UPLOAD_API, formData, config)
         .then(res => {
           this.$toasted.clear();
@@ -172,7 +172,7 @@ export default {
 
 <style lang="scss">
 #editor {
-  height: 702px;
+  height: 670px;
   border-width: 1px;
   border-color: #bacad6;
   textarea {

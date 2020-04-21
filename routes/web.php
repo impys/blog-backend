@@ -11,18 +11,4 @@
 |
 */
 
-Route::combine([
-    '/',
-    '/search',
-    '/posts',
-    '/posts/{post}',
-    '/tags'
-], function () {
-    return view('app');
-});
-
-Route::middleware('auth')->group(function () {
-    Route::post('/upload', 'Upload');
-});
-
 // Auth::routes();
