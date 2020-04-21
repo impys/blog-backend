@@ -23,7 +23,7 @@ class CosService
     }
 
     /**
-     * Undocumented function
+     * Build full url for given file name that stored on tencent cos
      *
      * @param string $filename
      * @return string
