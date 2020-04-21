@@ -23,6 +23,9 @@ WORKDIR /srv
 COPY --from=builder /srv /srv
 
 RUN docker-php-ext-install pdo_mysql \
+    && pecl install -o -f redis \
+    && rm -rf /tmp/pear \
+    && docker-php-ext-enable redis \
     && chown -R www-data:www-data /srv/storage \
     && cp ./run.sh /usr/local/bin/run \
     && chmod u+x /usr/local/bin/run \
