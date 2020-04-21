@@ -28,3 +28,4 @@ RUN docker-php-ext-install pdo_mysql \
     && apt-get -y install vim \
     && a2enmod rewrite
 
+CMD [ "php", "artisan", "migrage", "--force"]
