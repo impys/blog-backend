@@ -25,7 +25,7 @@ COPY --from=builder /srv /srv
 RUN docker-php-ext-install pdo_mysql \
     && chown -R www-data:www-data /srv/storage \
     && cp ./run.sh /usr/local/bin/run \
-    && chmod u+x /usr/local/bin/start \
+    && chmod u+x /usr/local/bin/run \
     && apt-get update \
     && apt-get -y install vim \
     && a2enmod rewrite
