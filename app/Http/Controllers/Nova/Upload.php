@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Nova;
 
 use Illuminate\Http\Request;
-use App\Services\UploadService;
+use App\Http\Controllers\Controller;
+use App\Services\CosService;
 use App\Http\Resources\FileResource;
 
 class Upload extends Controller
@@ -14,7 +15,7 @@ class Upload extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, UploadService $uploadService)
+    public function __invoke(Request $request)
     {
         $request->validate([
             'file' => 'required|file|mimetypes:image/png,image/jpeg,image/gif,audio/mp3,audio/mpeg',
@@ -22,7 +23,7 @@ class Upload extends Controller
 
         $uploadedFile = $request->file;
 
-        $file = $uploadService->store($uploadedFile);
+        $file = CosService::store($uploadedFile);
 
         return new FileResource($file);
     }

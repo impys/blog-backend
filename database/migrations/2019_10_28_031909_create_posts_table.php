@@ -18,6 +18,7 @@ class CreatePostsTable extends Migration
             $table->timestamps();
 
             $table->string('title')->nullable();
+            $table->string('slug')->nullable();
             $table->text('body');
             $table->boolean('is_enabled')->default(true);
             $table->boolean('is_top')->default(false);
@@ -25,6 +26,11 @@ class CreatePostsTable extends Migration
             $table->unsignedInteger('visited_count')->default(0);
             $table->unsignedInteger('upvote_count')->default(0);
             $table->unsignedBigInteger('user_id');
+
+            $table->unsignedBigInteger('book_id')->nullable();
+            $table->foreign('book_id')->references('id')->on('books');
+
+            $table->unsignedInteger('chapter')->nullable()->comment('文章在书中的章节');
         });
     }
 

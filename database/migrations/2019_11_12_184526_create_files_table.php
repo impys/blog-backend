@@ -21,11 +21,8 @@ class CreateFilesTable extends Migration
             $table->string('mime');
             $table->string('name');
             $table->string('size');
-            $table->string('width')->nullable();
-            $table->string('height')->nullable();
 
-            $table->unsignedBigInteger('post_id')->nullable();
-            $table->foreign('post_id')->references('id')->on('posts');
+            $table->nullableMorphs('entity');
 
             $table->string('sort')->nullable();
         });

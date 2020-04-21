@@ -58,17 +58,15 @@ class Post extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('Title')
-                ->sortable(),
+            Text::make('Title')->sortable(),
 
-            Text::make('Slug'),
+            Text::make('Slug')->exceptOnForms(),
 
             Boolean::make('Is Enabled'),
 
             Boolean::make('Is Top'),
 
-            BelongsTo::make('Book')
-                ->nullable(),
+            BelongsTo::make('Book')->nullable(),
 
             Number::make('chapter')->step(1),
 

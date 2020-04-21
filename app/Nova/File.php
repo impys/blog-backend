@@ -67,13 +67,6 @@ class File extends Resource
 
             Text::make('Size')
                 ->sortable(),
-
-            Text::make('Width')
-                ->sortable(),
-
-            Text::make('Height')
-                ->sortable(),
-
         ];
     }
 

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\App;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class Post extends Model
@@ -268,7 +269,15 @@ class Post extends Model
 
     public function syncSlug()
     {
-        $slug = GoogleTranslate::trans($this->title);
+        if (App::environment('production')) {
+            try {
+                $slug = GoogleTranslate::trans($this->title);
+            } catch (\Throwable $th) {
+                $slug = $this->id;
+            }
+        } else {
+            $slug = $this->id;
+        }
 
         DB::table('posts')
             ->where('id', $this->id)
