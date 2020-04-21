@@ -9,9 +9,3 @@ exec apache2-foreground
 
 echo "Running the queue..."
 php /srv/artisan queue:work --verbose --tries=3 --timeout=90
-
-while [ true ]
-    do
-      php /srv/artisan schedule:run --verbose --no-interaction &
-      sleep 60
-    done
