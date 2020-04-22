@@ -14,7 +14,7 @@ RUN mkdir /root/.ssh/ \
     && touch /root/.ssh/known_hosts \
     && ssh-keyscan github.com >> /root/.ssh/known_hosts \
     && composer config -g github-oauth.github.com ${TOKEN_FOR_COMPOSER} \
-    && composer install --ignore-platform-reqs
+    && composer install --ignore-platform-reqs --no-dev
 
 FROM php:7.4.4-apache
 
