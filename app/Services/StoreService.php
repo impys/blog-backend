@@ -7,7 +7,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class CosService
+class StoreService
 {
     public static function store(UploadedFile $uploadedFile): File
     {
@@ -28,7 +28,7 @@ class CosService
      * @param string $filename
      * @return string
      */
-    public static function url(string $filename): string
+    public static function url(string $filename = ''): string
     {
         return 'https://' . Storage::url("/{$filename}");
     }

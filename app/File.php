@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Services\CosService;
+use App\Services\StoreService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -31,7 +31,7 @@ class File extends Model
 
     public function getUrlAttribute(): string
     {
-        return CosService::url($this->name);
+        return StoreService::url($this->name);
     }
 
     public function getMarkdownDomAttribute(): ?string
