@@ -182,6 +182,7 @@ export default {
     border: none;
     resize: none;
     width: 50%;
+    word-break: break-all;
   }
   #markdown-preview {
     overflow: scroll;
