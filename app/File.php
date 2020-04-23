@@ -2,9 +2,8 @@
 
 namespace App;
 
-use App\Services\StoreService;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class File extends Model
@@ -31,7 +30,7 @@ class File extends Model
 
     public function getUrlAttribute(): string
     {
-        return StoreService::url($this->name);
+        return Storage::url($this->name);
     }
 
     public function getMarkdownDomAttribute(): ?string

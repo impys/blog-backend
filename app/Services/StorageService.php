@@ -7,7 +7,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class StoreService
+class StorageService
 {
     public static function store(UploadedFile $uploadedFile): File
     {
@@ -20,16 +20,5 @@ class StoreService
 
             return $file;
         });
-    }
-
-    /**
-     * Build full url for given file name that stored on tencent cos
-     *
-     * @param string $filename
-     * @return string
-     */
-    public static function url(string $filename = ''): string
-    {
-        return 'https://' . Storage::url("/{$filename}");
     }
 }

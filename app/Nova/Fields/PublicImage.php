@@ -5,7 +5,8 @@ namespace App\Nova\Fields;
 use Closure;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Image;
-use App\Services\StoreService;
+use App\Services\StorageService;
+use Illuminate\Support\Facades\Storage;
 
 class PublicImage extends Image
 {
@@ -27,14 +28,14 @@ class PublicImage extends Image
     protected function getStorageCallback(): Closure
     {
         return function (Request $request) {
-            return (new StoreService)->store($request->cover)->name;
+            return (new StorageService)->store($request->cover)->name;
         };
     }
 
     protected function getUrlCallback(): Closure
     {
         return function ($value) {
-            return $value ? StoreService::url($value) : null;
+            return $value ? Storage::url($value) : null;
         };
     }
 }

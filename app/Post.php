@@ -6,12 +6,13 @@ use App\Traits\HasEnabled;
 use Illuminate\Support\Str;
 use Illuminate\Mail\Markdown;
 use Laravel\Scout\Searchable;
-use App\Services\StoreService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Collection;
 use Stichoza\GoogleTranslate\GoogleTranslate;
+
 
 class Post extends Model
 {
@@ -190,7 +191,7 @@ class Post extends Model
 
     public function getAllFilesName(): array
     {
-        $prefix = preg_replace("/\//", "\\\/", StoreService::url());
+        $prefix = preg_replace("/\//", "\\\/", Storage::url('/'));
 
         $pattern = "/$prefix(.*)(\)|\")/U";
 

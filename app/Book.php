@@ -2,8 +2,8 @@
 
 namespace App;
 
-use App\Services\StoreService;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Book extends Model
 {
@@ -23,7 +23,7 @@ class Book extends Model
 
     public function getCoverUrlAttribute()
     {
-        return StoreService::url($this->cover);
+        return Storage::url($this->cover);
     }
 
     public function syncFiles()
