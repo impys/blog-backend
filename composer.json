@@ -21,6 +21,7 @@
         "predis/predis": "^1.1",
         "qingfengbaili/post-editor": "*",
         "qingfengbaili/tag-autocomplete": "*",
+        "sentry/sentry-laravel": "1.7.1",
         "stichoza/google-translate-php": "^4.0"
     },
     "require-dev": {
