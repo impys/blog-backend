@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Throwable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -34,6 +35,14 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
+        if (
+            App::environment(['production'])
+            && app()->bound('sentry')
+            && $this->shouldReport($exception)
+        ) {
+            app('sentry')->captureException($exception);
+        }
+
         parent::report($exception);
     }
 
