@@ -286,29 +286,49 @@ class Post extends Model
 
     public function getPrevChapter(): ?self
     {
-        if (!$this->book) {
-            return null;
-        }
-
-        $post = $this->book
-            ->posts()
-            ->ofChapter($this->chapter - 1)
-            ->first();
-
-        return $post ?? null;
+        return $this->getAdjacentChapters('prev');
     }
 
-    public function getnextChapter(): ?self
+    public function getNextChapter(): ?self
+    {
+        return $this->getAdjacentChapters('next');
+    }
+
+    /**
+     * get prev chapter or next chapter of this post in the book
+     *
+     * @param string $selector prev or next
+     * @return self|null
+     */
+    protected function getAdjacentChapters(string $selector): ?self
     {
         if (!$this->book) {
             return null;
         }
 
-        $post = $this->book
+        $posts = $this->book
             ->posts()
-            ->ofChapter($this->chapter + 1)
-            ->first();
+            ->enabled()
+            ->whereNotNull('chapter')
+            ->get();
 
-        return $post ?? null;
+        [$prevPosts, $nextPosts] = $posts->filter(function ($post) {
+            return $post->chapter != $this->chapter;
+        })->partition(function ($post) {
+            return $post->chapter < $this->chapter;
+        });
+
+        $prevPost = $prevPosts->sortByDesc('chapter')->first();
+        $nextPost = $nextPosts->sortBy('chapter')->first();
+
+        if ($selector === 'prev') {
+            return $prevPost;
+        }
+
+        if ($selector === 'next') {
+            return $nextPost;
+        }
+
+        return null;
     }
 }
