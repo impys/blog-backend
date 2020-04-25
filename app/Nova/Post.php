@@ -66,7 +66,7 @@ class Post extends Resource
 
             Boolean::make('Is Top'),
 
-            BelongsTo::make('Book')->nullable(),
+            BelongsTo::make('Book')->searchable()->nullable(),
 
             Number::make('chapter')->step(1),
 
