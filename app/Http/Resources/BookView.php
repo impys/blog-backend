@@ -18,7 +18,7 @@ class BookView extends JsonResource
         $data["title"] = $this->title;
         $data["intro"] = $this->intro;
         $data["cover_url"] = $this->cover_url;
-        $data['chapters'] = ChapterList::collection($this->posts->sortBy('chapter'));
+        $data['chapters'] = ChapterList::collection($this->getChapters());
 
         return $data;
     }
