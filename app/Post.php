@@ -152,6 +152,15 @@ class Post extends Model
         return $query->where('chapter', $chapter);
     }
 
+    public function getTitleAttribute($value)
+    {
+        if ($this->book_id) {
+            return "{$value}『{$this->book->title}』";
+        } else {
+            return $value;
+        }
+    }
+
     public function setChapterAttribute($value)
     {
         if (!$this->book_id) {
