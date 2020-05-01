@@ -68,7 +68,7 @@ class Post extends Resource
 
             BelongsTo::make('Book')->searchable()->nullable(),
 
-            Number::make('chapter')->step(1),
+            Number::make('chapter')->step(1)->help('默认为最后一个章节'),
 
             PostEditor::make('body')->onlyOnForms(),
 
@@ -84,9 +84,7 @@ class Post extends Resource
 
             TagAutocomplete::make()->withMeta([
                 'tags' => $this
-                    ->tags()
-                    ->latest()
-                    ->get()
+                    ->tags
                     ->pluck('name')
                     ->toArray(),
                 'allTags' => Tag::all()

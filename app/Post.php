@@ -152,6 +152,20 @@ class Post extends Model
         return $query->where('chapter', $chapter);
     }
 
+    public function setChapterAttribute($value)
+    {
+        if (!$this->book_id) {
+            $this->attributes['chapter'] = null;
+        } else {
+            if ($value) {
+                $this->attributes['chapter'] = $value;
+            } else {
+                $lastChapter = $this->book->posts()->where('id', '!=', $this->id)->max('chapter');
+                $this->attributes['chapter'] = $lastChapter ? $lastChapter + 1 : 1;
+            }
+        }
+    }
+
     public function getCreatedAtHumanAttribute()
     {
         return $this->created_at->diffForHumans();
