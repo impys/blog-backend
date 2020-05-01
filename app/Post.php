@@ -35,6 +35,7 @@ class Post extends Model
         'audio_count',
         'cover_media',
         'summary',
+        'full_title',
     ];
 
     protected $attributes = [
@@ -152,12 +153,12 @@ class Post extends Model
         return $query->where('chapter', $chapter);
     }
 
-    public function getTitleAttribute($value)
+    public function getFullTitleAttribute()
     {
         if ($this->book_id) {
-            return "{$value}『{$this->book->title}』";
+            return "{$this->title}『{$this->book->title}』";
         } else {
-            return $value;
+            return $this->title;
         }
     }
 
