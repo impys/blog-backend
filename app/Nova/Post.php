@@ -60,7 +60,7 @@ class Post extends Resource
 
             Text::make('Title')->sortable(),
 
-            Text::make('Slug')->exceptOnForms(),
+            Text::make('Slug')->onlyOnDetail(),
 
             Boolean::make('Is Enabled'),
 
