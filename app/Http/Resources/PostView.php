@@ -16,6 +16,8 @@ class PostView extends JsonResource
     {
         $data = parent::toArray($request);
 
+        $data["title"] = $this->full_title;
+
         $data['tags'] = $this->tags;
 
         $data['book'] = new BookView($this->book);
