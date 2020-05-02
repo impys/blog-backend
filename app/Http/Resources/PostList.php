@@ -23,6 +23,7 @@ class PostList extends JsonResource
         $data["cover_media"] = $this->cover_media;
         $data["summary"] = $this->summary;
         $data["tags"] = $this->tags;
+        $data["audio_count"] = $this->audio_count;
 
         return $data;
     }
