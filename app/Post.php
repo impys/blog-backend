@@ -209,7 +209,12 @@ class Post extends Model
 
     public function getCoverMediaAttribute(): ?file
     {
-        return $this->files->firstWhere('sort', 1);
+        $file = $this->files->firstWhere('sort', 1);
+        if (!$file && $this->book_id) {
+            $file = $this->book->file;
+        }
+
+        return $file;
     }
 
     public function getAllFilesName(): array
