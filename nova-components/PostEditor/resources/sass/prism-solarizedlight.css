@@ -30,8 +30,8 @@ cyan      #2aa198
 green     #859900
 */
 
-code[class*="language-"],
-pre[class*="language-"] {
+code,
+pre {
   color: #657b83;
   /* base00 */
   font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
@@ -54,38 +54,38 @@ pre[class*="language-"] {
   hyphens: none;
 }
 
-pre[class*="language-"]::-moz-selection,
-pre[class*="language-"] ::-moz-selection,
-code[class*="language-"]::-moz-selection,
-code[class*="language-"] ::-moz-selection {
+pre::-moz-selection,
+pre ::-moz-selection,
+code::-moz-selection,
+code ::-moz-selection {
   background: #073642;
   /* base02 */
 }
 
-pre[class*="language-"]::selection,
-pre[class*="language-"] ::selection,
-code[class*="language-"]::selection,
-code[class*="language-"] ::selection {
+pre::selection,
+pre ::selection,
+code::selection,
+code ::selection {
   background: #073642;
   /* base02 */
 }
 
 /* Code blocks */
-pre[class*="language-"] {
+pre {
   padding: 1em;
   margin: 1em 0;
   overflow: auto;
   border-radius: 4px;
 }
 
-:not(pre)>code[class*="language-"],
-pre[class*="language-"] {
-  /* background-color: #fdf6e3; */
+:not(pre)>code,
+pre {
+  background-color: #fdf6e3;
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 /* Inline code */
-:not(pre)>code[class*="language-"] {
+:not(pre)>code {
   padding: .1em;
   border-radius: .3em;
 }
