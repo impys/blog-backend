@@ -17,4 +17,9 @@ class PostObserver
             TranslatePostTitleJob::dispatch($post);
         }
     }
+
+    public function deleting(Post $post)
+    {
+        $post->tags()->detach();
+    }
 }
