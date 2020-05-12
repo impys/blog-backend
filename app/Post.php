@@ -300,7 +300,7 @@ class Post extends Model
     {
         if (App::environment('production')) {
             try {
-                $slug = GoogleTranslate::trans($this->title);
+                $slug = GoogleTranslate::trans($this->full_title);
             } catch (\Throwable $th) {
                 $slug = $this->id;
             }
