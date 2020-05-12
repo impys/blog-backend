@@ -57,8 +57,6 @@ class File extends Resource
                 Post::class,
             ]),
 
-            PublicImage::make('Preview', 'name'),
-
             Text::make('Type')
                 ->sortable(),
 
