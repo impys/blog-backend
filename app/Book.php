@@ -53,7 +53,9 @@ class Book extends Model
 
     public function getChapters(): Collection
     {
-        return $this->posts
+        return $this->posts()
+            ->enabled()
+            ->get()
             ->sortBy('chapter')
             ->values()
             ->map(function ($post, $index) {
