@@ -4,8 +4,8 @@ namespace App;
 
 use App\Traits\HasEnabled;
 use Illuminate\Support\Str;
-use Illuminate\Mail\Markdown;
 use Laravel\Scout\Searchable;
+use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Model;
@@ -56,22 +56,21 @@ class Post extends Model
         return $this->is_enabled;
     }
 
-    public function splitBody()
-    {
-        return array_filter(explode('<split>', $this->getCleanBody()));
-    }
-
     public function toSearchableArray()
     {
         $array['id'] = $this->id;
 
         $array['title'] = $this->full_title;
 
-        $array['body'] = $this->body;
+        $array['summary'] = $this->summary;
+
+        $array['body'] = $this->getCleanBody();
 
         $array['tags'] = $this->buildTagsForSearch();
 
         $array['visited_count'] = $this->visited_count;
+
+        $array['is_top'] = $this->is_top;
 
         $array['cover_media'] = $this->cover_media;
 
@@ -84,18 +83,11 @@ class Post extends Model
 
     public function getCleanBody(): string
     {
-        return collect(
-            explode(PHP_EOL, Markdown::parse($this->body)
-                ->toHtml())
-        )
-            ->map(function ($dom) {
-                $value = strip_tags($dom);
-                if (Str::startsWith($dom, '<h2>')) {
-                    $value = '<split>' . strip_tags($dom);
-                }
-                return $value;
-            })->reduce(function ($carry, $item) {
-                return $carry . $item;
+        return collect(explode(PHP_EOL, Markdown::parse($this->body)->toHtml()))
+            ->map(function ($stringWithHtml) {
+                return strip_tags($stringWithHtml);
+            })->reduce(function ($carry, $pureString) {
+                return $carry . $pureString;
             });
     }
 
@@ -273,7 +265,7 @@ class Post extends Model
     }
 
     /**
-     * get tags id and name for algolia
+     * get tags id and name for elasticsearch
      *
      * @return array
      */
