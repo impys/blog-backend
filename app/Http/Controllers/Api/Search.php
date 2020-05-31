@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Search\Feeds;
+use App\Post;
 use Illuminate\Http\Request;
-use App\Http\Resources\PostSearchCollection;
+use App\Http\Resources\PostList;
 
 class Search extends Controller
 {
@@ -16,18 +16,8 @@ class Search extends Controller
      */
     public function __invoke(Request $request)
     {
-        $keyword = $request->input('keyword');
-        $ranking = $request->input('ranking', null);
+        $posts = Post::search($request->input('keyword', null))->paginate();
 
-        $query = Feeds::search($keyword);
-
-        if ($ranking) {
-            $index = config('scout.prefix') . 'feeds-' . $ranking;
-            $query->within($index);
-        }
-
-        $feeds = $query->paginateRaw();
-
-        return new PostSearchCollection($feeds);
+        return PostList::collection($posts);
     }
 }

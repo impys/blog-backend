@@ -9,8 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "algolia/algoliasearch-client-php": "^2.2",
-        "algolia/scout-extended": "^1.8",
+        "babenkoivan/elastic-migrations": "^1.0",
+        "babenkoivan/elastic-scout-driver": "^1.0",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.0",
         "freyo/flysystem-qcloud-cos-v5": "^2.0",

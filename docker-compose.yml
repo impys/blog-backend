@@ -3,11 +3,11 @@ version: "3"
 services:
     blog-backend:
         build:
-            context: ./
-            dockerfile: Dockerfile.dev
+            context: ./docker/php
+            dockerfile: Dockerfile
         container_name: blog-backend
         depends_on:
-          - mysql
+            - mysql
         ports:
             - 8090:80
         volumes:
@@ -28,5 +28,36 @@ services:
             MYSQL_DATABASE: blog
         command: --default-authentication-plugin=mysql_native_password
 
+    es:
+        build:
+            context: ./docker/elasticsearch
+            dockerfile: Dockerfile
+        container_name: blog-es
+        ports:
+          - 9200:9200
+          - 9300:9300
+        volumes:
+            - es-data:/usr/share/elasticsearch/data
+        environment:
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+
+    kibana:
+        image: kibana:7.7.0
+        container_name: kibana
+        depends_on:
+            - es
+        environment:
+            - ELASTICSEARCH_HOSTS=http://es:9200
+            - STATUS_ALLOWANONYMOUS=true
+            - XPACK_SECURITY_ENABLED=false
+        ports:
+            - 5601:5601
+
 volumes:
     mysql:
+    es-data:
