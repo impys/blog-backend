@@ -48,7 +48,10 @@ class Book extends Resource
 
             Text::make('Title'),
 
-            PublicImage::make('Cover')->deletable(false),
+            PublicImage::make('Cover')
+                ->rules('dimensions:width=600,height=800')
+                ->deletable(false)
+                ->help('请上传宽600px，高800px的图片。'),
 
             Textarea::make('Intro'),
 
