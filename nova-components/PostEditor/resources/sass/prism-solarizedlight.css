@@ -55,19 +55,13 @@ pre {
 }
 
 pre::-moz-selection,
-pre ::-moz-selection,
-code::-moz-selection,
-code ::-moz-selection {
-  background: #073642;
-  /* base02 */
+pre ::-moz-selection {
+  background: #EDE8D7;
 }
 
 pre::selection,
-pre ::selection,
-code::selection,
-code ::selection {
-  background: #073642;
-  /* base02 */
+pre ::selection {
+  background: #EDE8D7;
 }
 
 /* Code blocks */
