@@ -184,6 +184,7 @@ export default {
     width: 50%;
     word-break: break-all;
     padding-bottom: 600px;
+    text-align: justify;
   }
   #markdown-preview {
     overflow: scroll;
