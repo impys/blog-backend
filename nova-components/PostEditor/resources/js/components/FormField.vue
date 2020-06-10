@@ -8,11 +8,12 @@
       <textarea
         id="markdown-textarea"
         class="p-3 rounded"
+        :style="textareaStyle"
         @keydown.tab="tabIndent"
         @paste="uploadFileByPaste"
         v-model="value"
       ></textarea>
-      <div id="markdown-preview" class="w-1/2 p-3" v-html="markedBody"></div>
+      <div v-if="showPreview" id="markdown-preview" class="w-1/2 p-3" v-html="markedBody"></div>
     </div>
 
     <div id="uploader" class="absolute flex flex-col" style="top:8px;right:8px">
@@ -33,6 +34,20 @@
         @change="uploadFileByClickButton"
       />
     </div>
+
+    <div
+      id="previewBtn"
+      class="absolute flex flex-col"
+      style="top:8px;right:58px"
+      @click="showPreview = !showPreview"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+        <path
+          class="heroicon-ui"
+          d="M17.56 17.66a8 8 0 0 1-11.32 0L1.3 12.7a1 1 0 0 1 0-1.42l4.95-4.95a8 8 0 0 1 11.32 0l4.95 4.95a1 1 0 0 1 0 1.42l-4.95 4.95zm-9.9-1.42a6 6 0 0 0 8.48 0L20.38 12l-4.24-4.24a6 6 0 0 0-8.48 0L3.4 12l4.25 4.24zM11.9 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"
+        />
+      </svg>
+    </div>
   </div>
 </template>
 
@@ -47,11 +62,22 @@ export default {
 
   props: ["resourceName", "resourceId", "field"],
 
+  data() {
+    return {
+      showPreview: false
+    };
+  },
+
   computed: {
     markedBody: function() {
       if (this.value) {
         return marked(this.value);
       }
+    },
+    textareaStyle() {
+      return {
+        width: this.showPreview ? "50%" : "100%"
+      };
     }
   },
 
@@ -162,7 +188,7 @@ export default {
     handelClickMarkdownTextarea() {
       document.querySelector("#editor-box").scrollIntoView({
         block: "start",
-        behavior: "auto"
+        behavior: "smooth"
       });
     }
   }
@@ -181,7 +207,6 @@ export default {
     height: 100%;
     border: none;
     resize: none;
-    width: 50%;
     word-break: break-all;
     padding-bottom: 600px;
     text-align: justify;
@@ -191,22 +216,16 @@ export default {
   }
 }
 
-#uploader {
+#uploader,
+#previewBtn {
   height: 50px;
   width: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--primary);
-  color: var(--white);
-  border-bottom-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
-  font-size: 12px;
 
-  svg path,
-  svg rect {
-    fill: #fff;
-  }
+  font-size: 12px;
+  cursor: pointer;
 
   label {
     height: 100px;
@@ -215,6 +234,24 @@ export default {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+  }
+}
+
+#uploader {
+  background-color: var(--primary);
+  border-top-right-radius: 0.25rem;
+  svg path,
+  svg rect {
+    fill: var(--white);
+  }
+}
+#previewBtn {
+  border-bottom-left-radius: 0.25rem;
+  background-color: var(--white);
+  border: 1px solid var(--primary);
+  svg path,
+  svg rect {
+    fill: var(--primary);
   }
 }
 </style>

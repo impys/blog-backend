@@ -32,7 +32,6 @@ green     #859900
 
 code,
 pre {
-  color: #657b83;
   /* base00 */
   font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   font-size: .8rem;
@@ -80,9 +79,12 @@ pre {
 
 /* Inline code */
 :not(pre)>code {
-  padding: .1em;
+  padding: 0 .3em;
+  margin: 0 .3em;
   border-radius: .3em;
-  white-space : pre-wrap;
+  white-space: pre-wrap;
+  display: inline-block;
+  vertical-align: 2px;
 }
 
 .token.comment,
