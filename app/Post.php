@@ -185,7 +185,7 @@ class Post extends Model
 
     public function getSummaryAttribute(): ?string
     {
-        preg_match("/<p>(.)*<\/p>/U", Markdown::parse($this->body), $results);
+        preg_match("/<p>((?!<img).)*<\/p>/U", Markdown::parse($this->body), $results);
 
         if (!count($results)) {
             return null;
