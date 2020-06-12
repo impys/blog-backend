@@ -16,7 +16,7 @@
   }
 
   .markdown-github a {
-    color: #027BE3 !important;
+    color: #027BE3;
     text-decoration: none;
     background-color: transparent;
     word-break: break-all;
@@ -24,6 +24,11 @@
 
   .markdown-github a:hover {
     text-decoration: underline;
+  }
+
+  .markdown-github a:not([href]) {
+    color: inherit;
+    text-decoration: none;
   }
 
 
@@ -171,11 +176,6 @@
 
   .markdown-github>:last-child {
     margin-bottom: 0 !important;
-  }
-
-  .markdown-github a:not([href]) {
-    color: inherit;
-    text-decoration: none;
   }
 
   .markdown-github blockquote,
@@ -336,9 +336,25 @@
     padding-right: 20px;
   }
 
-  .markdown-github hr {
-    border-bottom-color: #eee;
+  .markdown-github pre {
+    padding: 16px;
+    margin: 16px 0;
+    overflow: auto;
+    border-radius: 4px;
   }
+
+  .markdown-github :not(pre)>code {
+    background-color: #fdf6e3;
+    color: #657b83;
+    padding: 0 3px;
+    margin: 0 3px;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    display: inline-block;
+    vertical-align: 2px;
+    font-size: 14px;
+  }
+
 
   .markdown-github audio {
     margin-bottom: 10px;
@@ -359,4 +375,95 @@
     min-height: 600px;
     margin: 10px 0px;
     border-bottom: #eee 1px solid;
+  }
+
+
+  .note-base {
+    background-color: #eee;
+    border-radius: 4px;
+    margin: 16px 0;
+    padding: 16px 24px;
+    font-size: 1em;
+    border-width: 0 5px;
+    border-style: solid;
+    border-color: #9e9e9e;
+    letter-spacing: .5px;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .note-tip {
+    background-color: #c1f4cd;
+    border-color: #21ba45;
+
+    code {
+      color: white !important;
+      background-color: #21ba45 !important;
+    }
+  }
+
+  .note-warning {
+    background-color: #f9e09b;
+    border-color: #f2c037;
+
+    code {
+      color: white !important;
+      background-color: #f2c037 !important;
+    }
+  }
+
+  .note-danger {
+    background-color: #ffc0c6;
+    border-color: #c10015;
+
+    code {
+      color: white !important;
+      background-color: #c10015 !important;
+    }
+  }
+
+  .page {
+    margin-top: 14px;
+    margin-bottom: 14px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 500px;
+    background-image: linear-gradient(45deg, #ace0f9, #fff1eb);
+    color: #757575 !important;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.5s;
+    position: relative;
+
+    p {
+      padding: 26px;
+      margin: 0;
+      height: 80px;
+      font-weight: 600;
+    }
+  }
+
+  .page:after {
+    content: '→';
+    position: absolute;
+    opacity: 0;
+    top: 26px;
+    right: -10px;
+    font-size: 20px;
+    font-weight: 600;
+    transition: 0.5s;
+    width: 31px;
+    height: 31px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    background: #fff;
+    color: #bdbdbd;
+  }
+
+  .page:hover:after {
+    opacity: 1;
+    right: 10px;
   }
