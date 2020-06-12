@@ -67,29 +67,6 @@ md.use(require('markdown-it-container'), 'page', {
   }
 });
 
-// 解析 h2 h3 标签，用于创建目录
-md.use(function (md) {
-  md.core.ruler.push('anchor', state => {
-    const tokens = state.tokens
-    tokens.filter(token => {
-      return token.type === 'heading_open' &&
-        (token.tag === 'h2' || token.tag === 'h3')
-    }).forEach((token, index) => {
-      const title = tokens[tokens.indexOf(token) + 1]
-        .children
-        .filter(token => token.type === 'text' || token.type === 'code_inline')
-        .reduce((accumulator, currentToken) => accumulator + currentToken.content.trim(), '')
-
-      const id = 'toc' + (title + index).hashCode()
-
-      token.attrSet('id', id)
-      token.attrSet('data-title', title)
-      token.attrSet('data-id', id)
-      token.attrSet('class', 'anchor')
-    });
-  })
-});
-
 // append _blank to a element
 md.use(require('markdown-it-for-inline'), 'url_new_win', 'link_open', function (tokens, idx) {
   var aIndex = tokens[idx].attrIndex('target');
