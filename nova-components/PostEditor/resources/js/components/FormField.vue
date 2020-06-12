@@ -2,7 +2,7 @@
   <div class="flex p-2 w-full relative" id="editor-box">
     <div
       id="editor"
-      class="flex p-0 rounded markdown-github w-full"
+      class="flex p-0 rounded w-full"
       @click="handelClickMarkdownTextarea"
     >
       <textarea
@@ -13,7 +13,7 @@
         @paste="uploadFileByPaste"
         v-model="value"
       ></textarea>
-      <div v-if="showPreview" id="markdown-preview" class="w-1/2 p-3" v-html="markedBody"></div>
+      <div v-if="showPreview" id="markdown-preview" class="w-1/2 p-3 markdown-github" v-html="markedBody"></div>
     </div>
 
     <div id="uploader" class="absolute flex flex-col" style="top:8px;right:8px">
@@ -53,7 +53,7 @@
 
 <script>
 import { FormField, HandlesValidationErrors } from "laravel-nova";
-import marked from "marked";
+import { md } from "../md";
 
 const UPLOAD_API = "/nova-vendor/post-editor/upload";
 
@@ -71,19 +71,13 @@ export default {
   computed: {
     markedBody: function() {
       if (this.value) {
-        return marked(this.value);
+        return md.render(this.value);
       }
     },
     textareaStyle() {
       return {
         width: this.showPreview ? "50%" : "100%"
       };
-    }
-  },
-
-  watch: {
-    value: function(value) {
-      this.$nextTick(() => Prism.highlightAll());
     }
   },
 

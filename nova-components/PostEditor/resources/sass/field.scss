@@ -1,6 +1,6 @@
-// Nova Tool CSS
+* {
+    outline: none !important;
+}
 
-@import "./custom";
-@import "./markdown";
-
-@import './prism-solarizedlight.css';
+@import "./markdown-github.scss";
+@import "~highlight.js/styles/solarized-light.css"
