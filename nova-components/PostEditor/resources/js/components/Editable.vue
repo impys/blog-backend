@@ -1,12 +1,11 @@
 <template>
   <div
     class="editable"
-    v-html="innerText"
-    :contenteditable="canEdit"
+    v-html="textContent"
+    :contenteditable="true"
     @focus="isLocked = true"
     @blur="isLocked = false"
     @input="changeText"
-
   ></div>
 </template>
 <script>
@@ -16,32 +15,25 @@ export default {
     value: {
       type: String,
       default: ""
-    },
-    canEdit: {
-      type: Boolean,
-      default: true
     }
   },
   data() {
     return {
-      innerText: this.value,
+      textContent: this.value,
       isLocked: false
     };
   },
   watch: {
     value() {
-      if (!this.isLocked || !this.innerText) {
-        this.innerText = this.value;
+      if (!this.isLocked || !this.textContent) {
+        this.textContent = this.value;
       }
     }
   },
   methods: {
     changeText() {
-      this.$emit("input", this.$el.innerHTML);
-    },
-    // handlePaste(e) {
-    //   console.log(e);
-    // }
+      this.$emit("input", this.$el.textContent);
+    }
   }
 };
 </script>

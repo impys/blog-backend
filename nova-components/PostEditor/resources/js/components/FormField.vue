@@ -229,7 +229,7 @@ export default {
       selection.addRange(range);
 
       // 更新 value
-      this.value = document.querySelector("#uploader-progress-label").innerText;
+      this.value = document.querySelector("#markdown-editor").textContent;
 
       // lastRange 用过一次之后就没有意义了，置为 null
       this.lastRange = null;
