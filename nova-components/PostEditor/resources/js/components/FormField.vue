@@ -152,7 +152,6 @@ export default {
       let second = buttons.children[1];
 
       let confirm = buttons.children[2];
-      console.log(confirm.children[0]);
       confirm.children[0].innerHTML = "✔︎";
       confirm.className = "markdown-buttons-confirm";
 
