@@ -146,13 +146,14 @@ export default {
       buttons.className = "markdown-buttons";
 
       let cancel = buttons.children[0];
-      cancel.innerHTML = "";
+      cancel.innerHTML = "✘";
       cancel.className = "markdown-buttons-cancel";
 
       let second = buttons.children[1];
 
       let confirm = buttons.children[2];
-      confirm.innerHTML = "";
+      console.log(confirm.children[0]);
+      confirm.children[0].innerHTML = "✔︎";
       confirm.className = "markdown-buttons-confirm";
 
       buttons.removeChild(second);
@@ -289,19 +290,32 @@ export default {
     width: 40px;
   }
 
+  .markdown-buttons {
+    top: 148px;
+  }
+
   #uploader,
   #previewBtn,
   .markdown-buttons-cancel,
   .markdown-buttons-confirm {
+    display: block;
+    line-height: 40px;
+    text-align: center;
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    color: white;
     border-bottom-left-radius: 2px;
     background-color: var(--primary);
     margin-bottom: 5px;
-
     font-size: 12px;
+    position: relative;
     cursor: pointer;
+    span {
+      svg {
+        width: 16px !important;
+      }
+    }
   }
 
   .toolbar {
@@ -328,32 +342,6 @@ export default {
       svg rect {
         fill: var(--white);
       }
-    }
-  }
-
-  .markdown-buttons {
-    top: 148px;
-    .markdown-buttons-cancel,
-    .markdown-buttons-confirm {
-      display: block;
-      position: relative;
-      &::after {
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        line-height: 40px;
-        color: white;
-        text-align: center;
-      }
-    }
-
-    .markdown-buttons-cancel::after {
-      content: "✘";
-    }
-    .markdown-buttons-confirm::after {
-      content: "✔︎";
     }
   }
 }
