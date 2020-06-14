@@ -297,9 +297,6 @@ export default {
   #previewBtn,
   .markdown-buttons-cancel,
   .markdown-buttons-confirm {
-    display: block;
-    line-height: 40px;
-    text-align: center;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -307,6 +304,14 @@ export default {
     border-bottom-left-radius: 2px;
     background-color: var(--primary);
     margin-bottom: 5px;
+    font-size: 12px;
+  }
+
+  .markdown-buttons-cancel,
+  .markdown-buttons-confirm {
+    display: block;
+    line-height: 40px;
+    text-align: center;
     font-size: 12px;
     position: relative;
     cursor: pointer;
