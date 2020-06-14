@@ -78,12 +78,6 @@ export default {
     });
   },
 
-  watch: {
-    lastSelection(newValue, oldValue) {
-      //   console.log(newValue);
-    }
-  },
-
   computed: {
     markedBody: function() {
       if (this.value) {
