@@ -4,7 +4,7 @@
       id="markdown-editor"
       ref="markdownEditor"
       v-model="value"
-      placeholder="🍭🍉🍮"
+      @focus.native="handleMarkdownEditorFocus"
       @keydown.tab.native="tabIndent"
       @paste.native="uploadFileByPaste"
       @click.native="handelClickMarkdownTextarea"
@@ -67,7 +67,8 @@ export default {
   data() {
     return {
       isShowPreview: false,
-      lastRange: null
+      lastRange: null,
+      initialValue: "🍭"
     };
   },
 
@@ -91,7 +92,7 @@ export default {
      * Set the initial, internal value for the field.
      */
     setInitialValue() {
-      this.value = this.field.value || "";
+      this.value = this.field.value || this.initialValue;
     },
 
     /**
@@ -266,6 +267,13 @@ export default {
 
     getMarkdownEditorRange() {
       return this.getMarkdownEditorSelection().getRangeAt(0);
+    },
+
+    handleMarkdownEditorFocus() {
+      if (this.value === this.initialValue) {
+        document.querySelector("#markdown-editor").innerHTML = null;
+        this.value = null;
+      }
     }
   }
 };
