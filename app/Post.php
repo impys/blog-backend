@@ -213,7 +213,10 @@ class Post extends Model
     {
         $prefix = preg_replace("/\//", "\\\/", Storage::url('/'));
 
-        $pattern = "/$prefix(.*)(\)|\")/U";
+        // 匹配以 https://blog-hk-1300446047.file.myqcloud.com/ 开头，中间是任意字符，然后以 \n 或者 ) 结尾的字符串
+        // https://blog-hk-1300446047.file.myqcloud.com/33BfxLQFsUUEcXWFYvHvf8IRkiJ7as31NoVQiSMC.mpga\n
+        // https://blog-hk-1300446047.file.myqcloud.com/toC9A5RxKkQI43voYcznhPgIkROshplyhFVOvciz.png)
+        $pattern = "/$prefix(.*)(\)|\\n)/U";
 
         preg_match_all($pattern, $this->body, $results);
 
