@@ -73,16 +73,14 @@ export default {
 
   mounted() {
     this.setFormStyle();
-    this.$nextTick(() => {
+    this.$nextTick(function() {
       this.setMarkdownPreviewWidth();
     });
   },
 
   watch: {
-    value(newValue, oldValue) {
-      if (oldValue === null || oldValue === "") {
-        this.setCaretToEnd();
-      }
+    lastSelection(newValue, oldValue) {
+      //   console.log(newValue);
     }
   },
 
@@ -274,16 +272,6 @@ export default {
 
     getMarkdownEditorRange() {
       return this.getMarkdownEditorSelection().getRangeAt(0);
-    },
-
-    /**
-     * FIXME:为了使输入第一个字符的时候，光标落在字符后面
-     * 如果不这样做，输入第一个字符时，光标是落在字符前面
-     * 好像也可以用 range 对象来控制，但是还没有研究该怎么做
-     */
-    setCaretToEnd() {
-      this.value = " ";
-      this.value = null;
     }
   }
 };
