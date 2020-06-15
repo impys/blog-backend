@@ -3,6 +3,7 @@
     <editable
       id="markdown-editor"
       ref="markdownEditor"
+      v-scroll="handleScroll"
       v-model="value"
       @focus.native="handleMarkdownEditorFocus"
       @keydown.tab.native="tabIndent"
@@ -10,7 +11,14 @@
       @click.native="handelClickMarkdownTextarea"
       @blur.native="handleMarkdownEditorBlur"
     ></editable>
-    <div id="markdown-preview" class="markdown-github" v-html="markedBody"></div>
+    <div
+      id="markdown-preview"
+      class="markdown-github"
+      v-html="markedBody"
+      v-scroll="handleScroll"
+      @mouseenter="handleMouseEntry"
+      @mouseleave="handleMouseLeave"
+    ></div>
 
     <div class="toolbar">
       <div id="uploader" class="flex flex-col">
@@ -68,7 +76,8 @@ export default {
     return {
       isShowPreview: false,
       lastRange: null,
-      initialValue: "🍭"
+      initialValue: "🍭",
+      isHoverPreview: false
     };
   },
 
@@ -84,6 +93,10 @@ export default {
       if (this.value) {
         return md.render(this.value);
       }
+    },
+
+    editorHeight() {
+      return;
     }
   },
 
@@ -109,20 +122,82 @@ export default {
       this.value = value;
     },
 
+    handleMouseEntry() {
+      this.isHoverPreview = true;
+    },
+
+    handleMouseLeave() {
+      this.isHoverPreview = false;
+    },
+
+    handleScroll(event, el) {
+      if (this.isHoverPreview) {
+        this.handleMarkdownPreviewScroll();
+      } else {
+        this.handleMarkdownEditorScroll();
+      }
+    },
+
+    handleMarkdownEditorScroll() {
+      let editorScrollTop =
+        0 - this.getMarkdownEditor().getBoundingClientRect().top;
+      console.log(document.documentElement.scrollTop, "---", editorScrollTop);
+      if (editorScrollTop > 0) {
+        let ratio = this.getEditorHeightDividePreviewHeight();
+        let previewScrollTop = editorScrollTop / ratio;
+        this.getMarkdownPreview().scrollTop = previewScrollTop;
+      }
+    },
+
+    handleMarkdownPreviewScroll() {
+      let preview = this.getMarkdownPreview();
+      // TODO: 用计算属性来代替 620， 620 指的是 Editor 上边距到视口顶部的距离
+      let ratio = this.getEditorHeightDividePreviewHeight(620);
+      let editorScrollTop = preview.scrollTop * ratio;
+      document.documentElement.scrollTop = editorScrollTop;
+    },
+
+    /**
+     * 编辑器最大卷起高度 / 预览区最大卷起高度
+     */
+    getEditorHeightDividePreviewHeight(EditorHeightIncrement = 0) {
+      let vh = Math.max(
+        document.documentElement.clientHeight || 0,
+        window.innerHeight || 0
+      );
+
+      return (
+        (this.getMarkdownEditor().clientHeight + EditorHeightIncrement - vh) /
+        (this.getMarkdownPreview().scrollHeight - vh)
+      );
+    },
+
+    getEditorHeight(element) {
+      return document.documentElement.scrollHeight;
+    },
+
     handlePreview() {
       this.setMarkdownEditorWidth();
       this.setMarkdownPreviewTop();
       this.toggleIsShowPreview();
     },
 
+    getMarkdownEditor() {
+      return document.querySelector("#markdown-editor");
+    },
+
+    getMarkdownPreview() {
+      return document.querySelector("#markdown-preview");
+    },
+
     setMarkdownEditorWidth() {
-      let editor = document.querySelector("#markdown-editor");
-      editor.style.width = this.isShowPreview ? "100%" : "50%";
+      this.getMarkdownEditor().style.width = this.isShowPreview
+        ? "100%"
+        : "50%";
     },
 
     setMarkdownPreviewTop() {
-      let preview = document.querySelector("#markdown-preview");
-      preview.style.top = this.isShowPreview ? "100%" : "50px";
+      this.getMarkdownPreview().style.top = this.isShowPreview ? "100%" : 0;
     },
 
     toggleIsShowPreview() {
@@ -131,8 +206,7 @@ export default {
 
     setMarkdownPreviewWidth() {
       let wrap = document.querySelector("#markdown-wrap");
-      let preview = document.querySelector("#markdown-preview");
-      preview.style.width = wrap.offsetWidth / 2 + "px";
+      this.getMarkdownPreview().style.width = wrap.offsetWidth / 2 + "px";
     },
 
     setFormStyle() {
@@ -224,7 +298,7 @@ export default {
       selection.addRange(range);
 
       // 更新 value
-      this.value = document.querySelector("#markdown-editor").textContent;
+      this.value = this.getMarkdownEditor().textContent;
 
       // lastRange 用过一次之后就没有意义了，置为 null
       this.lastRange = null;
@@ -256,10 +330,8 @@ export default {
     },
 
     getMarkdownEditorSelection() {
-      let editor = document.querySelector("#markdown-editor");
-
       // 返回返回当前 document 对象所关联的 window 对象，如果没有，会返回 null https://developer.mozilla.org/zh-CN/docs/Web/API/Document/defaultView
-      let window = editor.ownerDocument.defaultView;
+      let window = this.getMarkdownEditor().ownerDocument.defaultView;
 
       // 返回一个 Selection 对象，表示用户选择的文本范围或光标的当前位置 https://developer.mozilla.org/zh-CN/docs/Web/API/Window/getSelection
       return window.getSelection();
@@ -271,7 +343,7 @@ export default {
 
     handleMarkdownEditorFocus() {
       if (this.value === this.initialValue) {
-        document.querySelector("#markdown-editor").innerHTML = null;
+        this.getMarkdownEditor().innerHTML = null;
         this.value = null;
       }
     }
@@ -362,9 +434,7 @@ export default {
   top: 100%;
   right: 50px;
   z-index: 9999;
-  height: calc(100% - 50px);
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
+  height: 100vh;
   background-color: white;
   box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.05),
     0 4px 8px 3px rgba(60, 64, 67, 0.15);

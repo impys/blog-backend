@@ -339,8 +339,19 @@
   .markdown-github pre {
     padding: 16px;
     margin: 16px 0;
-    overflow: auto;
+    overflow: scroll;
     border-radius: 4px;
+    position: relative;
+    pointer-events: none;
+
+    &::after {
+      content: '复制';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      pointer-events: auto;
+      cursor: pointer;
+    }
   }
 
   .markdown-github :not(pre)>code {
@@ -447,11 +458,27 @@
   }
 
   .page::after {
-    content: '⚛';
+    content: ' ';
     position: absolute;
-    top: 0px;
+    top: 10px;
     right: 10px;
-    font-size: 20px;
-    font-weight: 600;
-    color: #8b8b8b;
+    background-image: url('/statics/atom.svg');
+    display: block;
+    background-size: 14px 14px;
+    height: 14px;
+    width: 14px;
+  }
+
+  .music {
+    margin-top: 14px;
+    margin-bottom: 14px;
+    margin-left: auto;
+    margin-right: auto;
+    background-image: url('/statics/play-circle-outline.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 48px 48px;
+    height: 100px;
+    width: 100px;
+    cursor: pointer;
   }
