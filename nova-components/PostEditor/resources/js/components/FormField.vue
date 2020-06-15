@@ -5,10 +5,10 @@
       ref="markdownEditor"
       v-scroll="handleScroll"
       v-model="value"
-      @focus.native="handleMarkdownEditorFocus"
       @keydown.tab.native="tabIndent"
       @paste.native="uploadFileByPaste"
-      @click.native="handelClickMarkdownTextarea"
+      @click.native="handelClickMarkdownEditor"
+      @focus.native="handleMarkdownEditorFocus"
       @blur.native="handleMarkdownEditorBlur"
     ></editable>
     <div
@@ -16,8 +16,8 @@
       class="markdown-github"
       v-html="markedBody"
       v-scroll="handleScroll"
-      @mouseenter="handleMouseEntry"
-      @mouseleave="handleMouseLeave"
+      @mouseenter="handleMouseEntryPreview"
+      @mouseleave="handleMouseLeavePreview"
     ></div>
 
     <div class="toolbar">
@@ -77,7 +77,8 @@ export default {
       isShowPreview: false,
       lastRange: null,
       initialValue: "🍭",
-      isHoverPreview: false
+      isHoverPreview: false,
+      editorMaxBoundingClientRect: 0
     };
   },
 
@@ -86,6 +87,7 @@ export default {
     this.$nextTick(function() {
       this.setMarkdownPreviewWidth();
     });
+    this.setEditorMaxBoundingClientRect();
   },
 
   computed: {
@@ -95,8 +97,11 @@ export default {
       }
     },
 
-    editorHeight() {
-      return;
+    vh() {
+      return Math.max(
+        document.documentElement.clientHeight || 0,
+        window.innerHeight || 0
+      );
     }
   },
 
@@ -122,12 +127,72 @@ export default {
       this.value = value;
     },
 
-    handleMouseEntry() {
+    /**
+     * 点击上传按钮上传文件
+     */
+    uploadFileByClickButton() {
+      let self = this;
+      let file = this.$refs.fileInput.files[0];
+      if (file) {
+        this.uploadFile(file);
+      }
+    },
+
+    /**
+     * 通过粘贴上传文件
+     */
+    uploadFileByPaste(e) {
+      let file = e.clipboardData.items[0].getAsFile();
+      if (file) {
+        this.uploadFile(file);
+      }
+    },
+
+    /**
+     * 上传文件
+     */
+    uploadFile(file) {
+      let self = this;
+      let formData = new FormData();
+      formData.append("file", file);
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        },
+        onUploadProgress: self.handleOnUploadProgress
+      };
+
+      this.$toasted.info("正在上传", { duration: 0 });
+
+      Nova.request()
+        .post(UPLOAD_API, formData, config)
+        .then(res => {
+          this.$toasted.clear();
+          this.$toasted.success("上传成功");
+          this.insertStringToEditor(res.data.data.markdown_dom);
+          this.$refs.fileInput.value = "";
+        })
+        .catch(e => {
+          console.log(e);
+          this.$toasted.clear();
+          this.$toasted.error("上传失败");
+          this.$refs.fileInput.value = "";
+        });
+    },
+
+    handleMouseEntryPreview() {
       this.isHoverPreview = true;
     },
 
-    handleMouseLeave() {
+    handleMouseLeavePreview() {
       this.isHoverPreview = false;
+    },
+
+    /**
+     * set editor 上边距与视口上边距最大距离
+     */
+    setEditorMaxBoundingClientRect() {
+      this.editorMaxBoundingClientRect = this.getMarkdownEditor().getBoundingClientRect().top;
     },
 
     handleScroll(event, el) {
@@ -139,41 +204,38 @@ export default {
     },
 
     handleMarkdownEditorScroll() {
-      let editorScrollTop =
-        0 - this.getMarkdownEditor().getBoundingClientRect().top;
-      console.log(document.documentElement.scrollTop, "---", editorScrollTop);
-      if (editorScrollTop > 0) {
-        let ratio = this.getEditorHeightDividePreviewHeight();
-        let previewScrollTop = editorScrollTop / ratio;
-        this.getMarkdownPreview().scrollTop = previewScrollTop;
-      }
+      this.getMarkdownPreview().scrollTop =
+        (this.getEditorScrollTop() * this.getMaxPreviewScrollTop()) /
+        this.getMaxEditorScrollTop();
     },
 
     handleMarkdownPreviewScroll() {
-      let preview = this.getMarkdownPreview();
-      // TODO: 用计算属性来代替 620， 620 指的是 Editor 上边距到视口顶部的距离
-      let ratio = this.getEditorHeightDividePreviewHeight(620);
-      let editorScrollTop = preview.scrollTop * ratio;
-      document.documentElement.scrollTop = editorScrollTop;
+      document.documentElement.scrollTop =
+        (this.getPreviewScrollTop() *
+          (this.getMaxEditorScrollTop() + this.editorMaxBoundingClientRect)) /
+        this.getMaxPreviewScrollTop();
+    },
+
+    getMaxEditorScrollTop() {
+      return this.getMarkdownEditor().clientHeight - this.vh;
+    },
+
+    getMaxPreviewScrollTop() {
+      return this.getMarkdownPreview().scrollHeight - this.vh;
     },
 
     /**
-     * 编辑器最大卷起高度 / 预览区最大卷起高度
+     * 获取 Editor 元素的卷起高度
+     * 不能直接通过 scrollTop 获得，所以通过 getBoundingClientRect 变相获取
+     * https://developer.mozilla.org/zh-CN/docs/Web/API/Element/getBoundingClientRect
+     * 如果 Editor 上边沿在视口上边沿下放，则为负数，但是最小为0
      */
-    getEditorHeightDividePreviewHeight(EditorHeightIncrement = 0) {
-      let vh = Math.max(
-        document.documentElement.clientHeight || 0,
-        window.innerHeight || 0
-      );
-
-      return (
-        (this.getMarkdownEditor().clientHeight + EditorHeightIncrement - vh) /
-        (this.getMarkdownPreview().scrollHeight - vh)
-      );
+    getEditorScrollTop() {
+      return Math.max(-this.getMarkdownEditor().getBoundingClientRect().top, 0);
     },
 
-    getEditorHeight(element) {
-      return document.documentElement.scrollHeight;
+    getPreviewScrollTop() {
+      return this.getMarkdownPreview().scrollTop;
     },
 
     handlePreview() {
@@ -232,50 +294,6 @@ export default {
       buttons.removeChild(second);
     },
 
-    uploadFileByClickButton() {
-      let self = this;
-      let file = this.$refs.fileInput.files[0];
-      if (file) {
-        this.uploadFile(file);
-      }
-    },
-
-    uploadFileByPaste(e) {
-      let file = e.clipboardData.items[0].getAsFile();
-      if (file) {
-        this.uploadFile(file);
-      }
-    },
-
-    uploadFile(file) {
-      let self = this;
-      let formData = new FormData();
-      formData.append("file", file);
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        },
-        onUploadProgress: self.handleOnUploadProgress
-      };
-
-      this.$toasted.info("正在上传", { duration: 0 });
-
-      Nova.request()
-        .post(UPLOAD_API, formData, config)
-        .then(res => {
-          this.$toasted.clear();
-          this.$toasted.success("上传成功");
-          this.insertStringToEditor(res.data.data.markdown_dom);
-          this.$refs.fileInput.value = "";
-        })
-        .catch(e => {
-          console.log(e);
-          this.$toasted.clear();
-          this.$toasted.error("上传失败");
-          this.$refs.fileInput.value = "";
-        });
-    },
-
     tabIndent(event) {
       if (event.keyCode == 9) {
         event.preventDefault();
@@ -315,11 +333,13 @@ export default {
       }
     },
 
-    handelClickMarkdownTextarea() {
-      document.querySelector("#markdown-wrap").scrollIntoView({
-        block: "nearest",
-        behavior: "smooth"
-      });
+    scrollToTopIfNeeded() {
+      if (this.getMarkdownEditor().getBoundingClientRect().top > 0) {
+        window.scrollTo({
+          top: this.editorMaxBoundingClientRect,
+          behavior: "smooth"
+        });
+      }
     },
 
     /**
@@ -339,6 +359,10 @@ export default {
 
     getMarkdownEditorRange() {
       return this.getMarkdownEditorSelection().getRangeAt(0);
+    },
+
+    handelClickMarkdownEditor() {
+      this.scrollToTopIfNeeded();
     },
 
     handleMarkdownEditorFocus() {
