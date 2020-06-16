@@ -5,222 +5,233 @@
     font-size: 16px;
     line-height: 1.5;
     word-wrap: break-word;
-  }
+}
 
-  .markdown-github details {
+.markdown-github details {
     display: block;
-  }
+}
 
-  .markdown-github summary {
+.markdown-github summary {
     display: list-item;
-  }
+}
 
-  .markdown-github a {
+.markdown-github a {
     color: #027BE3;
     text-decoration: none;
     background-color: transparent;
     word-break: break-all;
-  }
+}
 
-  .markdown-github a:hover {
+.markdown-github a:hover {
     text-decoration: underline;
-  }
+}
 
-  .markdown-github a:not([href]) {
+.markdown-github a:not([href]) {
     color: inherit;
     text-decoration: none;
-  }
+}
 
 
-  .markdown-github a:active,
-  .markdown-github a:hover {
+.markdown-github a:active,
+.markdown-github a:hover {
     outline-width: 0;
-  }
+}
 
-  .markdown-github strong {
+.markdown-github a[target="_blank"]:after {
+    content: ' ';
+    background-image: url('/statics/external-link-outline.svg');
+    background-repeat: no-repeat;
+    display: inline-block;
+    background-size: 10px 10px;
+    height: 13px;
+    width: 10px;
+}
+
+
+.markdown-github strong {
     font-weight: inherit;
     font-weight: bolder;
-  }
+}
 
-  .markdown-github hr {
+.markdown-github hr {
     box-sizing: content-box;
     height: 0;
     overflow: visible;
-  }
+}
 
-  .markdown-github input {
+.markdown-github input {
     font: inherit;
     margin: 0;
-  }
+}
 
-  .markdown-github input {
+.markdown-github input {
     overflow: visible;
-  }
+}
 
-  .markdown-github [type=checkbox] {
+.markdown-github [type=checkbox] {
     box-sizing: border-box;
     padding: 0;
-  }
+}
 
-  .markdown-github * {
+.markdown-github * {
     box-sizing: border-box;
-  }
+}
 
-  .markdown-github input {
+.markdown-github input {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
-  }
+}
 
-  .markdown-github strong {
+.markdown-github strong {
     font-weight: 400;
-  }
+}
 
-  .markdown-github hr {
+.markdown-github hr {
     background: transparent;
     border: 0;
     border-bottom: 1px solid #dfe2e5;
     height: 0;
     margin: 15px 0;
     overflow: hidden;
-  }
+}
 
-  .markdown-github hr:before {
+.markdown-github hr:before {
     content: "";
     display: table;
-  }
+}
 
-  .markdown-github hr:after {
+.markdown-github hr:after {
     clear: both;
     content: "";
     display: table;
-  }
+}
 
-  .markdown-github table {
+.markdown-github table {
     border-collapse: collapse;
     border-spacing: 0;
-  }
+}
 
-  .markdown-github td,
-  .markdown-github th {
+.markdown-github td,
+.markdown-github th {
     padding: 0;
-  }
+}
 
-  .markdown-github details summary {
+.markdown-github details summary {
     cursor: pointer;
-  }
+}
 
-  .markdown-github p {
+.markdown-github p {
     margin-bottom: 16px;
     margin-top: 0;
     text-align: justify;
     line-height: 1.7;
-  }
+}
 
-  .markdown-github blockquote {
+.markdown-github blockquote {
     margin: 0;
-  }
+}
 
-  .markdown-github ol,
-  .markdown-github ul {
+.markdown-github ol,
+.markdown-github ul {
     margin-bottom: 0;
     margin-top: 0;
     padding-left: 0;
-  }
+}
 
-  .markdown-github ul {
+.markdown-github ul {
     list-style-type: disc;
-  }
+}
 
-  .markdown-github ol {
+.markdown-github ol {
     list-style-type: decimal;
-  }
+}
 
-  .markdown-github ol ol,
-  .markdown-github ul ol {
+.markdown-github ol ol,
+.markdown-github ul ol {
     list-style-type: lower-roman;
-  }
+}
 
-  .markdown-github ol ol ol,
-  .markdown-github ol ul ol,
-  .markdown-github ul ol ol,
-  .markdown-github ul ul ol {
+.markdown-github ol ol ol,
+.markdown-github ol ul ol,
+.markdown-github ul ol ol,
+.markdown-github ul ul ol {
     list-style-type: lower-alpha;
-  }
+}
 
-  .markdown-github dd {
+.markdown-github dd {
     margin-left: 0;
-  }
+}
 
-  .markdown-github input::-webkit-inner-spin-button,
-  .markdown-github input::-webkit-outer-spin-button {
+.markdown-github input::-webkit-inner-spin-button,
+.markdown-github input::-webkit-outer-spin-button {
     -webkit-appearance: none;
     appearance: none;
     margin: 0;
-  }
+}
 
-  .markdown-github:before {
+.markdown-github:before {
     content: "";
     display: table;
-  }
+}
 
-  .markdown-github:after {
+.markdown-github:after {
     clear: both;
     content: "";
     display: table;
-  }
+}
 
-  .markdown-github>:first-child {
+.markdown-github>:first-child {
     margin-top: 0;
-  }
+}
 
-  .markdown-github>:last-child {
+.markdown-github>:last-child {
     margin-bottom: 0 !important;
-  }
+}
 
-  .markdown-github blockquote,
-  .markdown-github dl,
-  .markdown-github ol,
-  .markdown-github p,
-  .markdown-github table,
-  .markdown-github ul {
+.markdown-github blockquote,
+.markdown-github dl,
+.markdown-github ol,
+.markdown-github p,
+.markdown-github table,
+.markdown-github ul {
     margin-bottom: 16px;
     margin-top: 0;
-  }
+}
 
-  .markdown-github hr {
+.markdown-github hr {
     background-color: #e1e4e8;
     border: 0;
     height: .25em;
     margin: 24px 0;
     padding: 0;
-  }
+}
 
-  .markdown-github blockquote {
+.markdown-github blockquote {
     border-left: .25em solid #dfe2e5;
     padding: 0 1em;
-  }
+}
 
-  .markdown-github blockquote>:first-child {
+.markdown-github blockquote>:first-child {
     margin-top: 0;
-  }
+}
 
-  .markdown-github blockquote>:last-child {
+.markdown-github blockquote>:last-child {
     margin-bottom: 0;
-  }
+}
 
-  .markdown-github h1,
-  .markdown-github h2,
-  .markdown-github h3,
-  .markdown-github h4,
-  .markdown-github h5,
-  .markdown-github h6 {
+.markdown-github h1,
+.markdown-github h2,
+.markdown-github h3,
+.markdown-github h4,
+.markdown-github h5,
+.markdown-github h6 {
     line-height: 1.25;
     margin-bottom: 10px;
-  }
+}
 
-  .markdown-github h1,
-  .markdown-github h2 {
+.markdown-github h1,
+.markdown-github h2 {
     font-size: 30px;
     font-weight: 700;
     padding-left: 20px;
@@ -230,131 +241,132 @@
     position: relative;
 
     &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 70px;
-      width: 10px;
-      height: 37px;
-      background-color: #027BE3;
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 70px;
+        width: 10px;
+        height: 37px;
+        background-color: #027BE3;
     }
-  }
+}
 
-  .markdown-github h3 {
+.markdown-github h3 {
     font-size: 20px;
     font-weight: 600;
     padding-top: 60px !important;
     margin-top: -50px !important;
-  }
+}
 
-  .markdown-github h4,
-  .markdown-github h5,
-  .markdown-github h6 {
+.markdown-github h4,
+.markdown-github h5,
+.markdown-github h6 {
     font-size: 14px;
-  }
+}
 
 
-  .markdown-github ol,
-  .markdown-github ul {
+.markdown-github ol,
+.markdown-github ul {
     padding-left: 2em;
-  }
+}
 
-  .markdown-github ol ol,
-  .markdown-github ol ul,
-  .markdown-github ul ol,
-  .markdown-github ul ul {
+.markdown-github ol ol,
+.markdown-github ol ul,
+.markdown-github ul ol,
+.markdown-github ul ul {
     margin-bottom: 0;
     margin-top: 0;
-  }
+}
 
-  .markdown-github li {
+.markdown-github li {
     word-wrap: break-all;
-  }
+}
 
-  .markdown-github li>p {
+.markdown-github li>p {
     margin-top: 16px;
-  }
+}
 
-  .markdown-github li+li {
+.markdown-github li+li {
     margin-top: .25em;
-  }
+}
 
-  .markdown-github dl {
+.markdown-github dl {
     padding: 0;
-  }
+}
 
-  .markdown-github dl dt {
+.markdown-github dl dt {
     font-size: 1em;
     font-style: italic;
     font-weight: 600;
     margin-top: 16px;
     padding: 0;
-  }
+}
 
-  .markdown-github dl dd {
+.markdown-github dl dd {
     margin-bottom: 16px;
     padding: 0 16px;
-  }
+}
 
-  .markdown-github table {
+.markdown-github table {
     display: block;
     overflow: auto;
     width: 90%;
-  }
+}
 
-  .markdown-github table th {
+.markdown-github table th {
     font-weight: 600;
-  }
+}
 
-  .markdown-github table td,
-  .markdown-github table th {
+.markdown-github table td,
+.markdown-github table th {
     border: 1px solid #dfe2e5;
     padding: 6px 13px;
-  }
+}
 
-  .markdown-github table tr {
+.markdown-github table tr {
     background-color: #fff;
     border-top: 1px solid #c6cbd1;
-  }
+}
 
-  .markdown-github table tr:nth-child(2n) {
+.markdown-github table tr:nth-child(2n) {
     background-color: #f6f8fa;
-  }
+}
 
-  .markdown-github img {
+.markdown-github img {
     background-color: #fff;
     box-sizing: content-box;
     width: 100%;
     border-radius: 4px;
-  }
+}
 
-  .markdown-github img[align=right] {
+.markdown-github img[align=right] {
     padding-left: 20px;
-  }
+}
 
-  .markdown-github img[align=left] {
+.markdown-github img[align=left] {
     padding-right: 20px;
-  }
+}
 
-  .markdown-github pre {
+.markdown-github pre {
     padding: 16px;
     margin: 16px 0;
-    overflow: scroll;
+    overflow-y: scroll !important;
+    overflow-x: scroll !important;
     border-radius: 4px;
     position: relative;
     pointer-events: none;
 
     &::after {
-      content: '复制';
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      pointer-events: auto;
-      cursor: pointer;
+        content: '复制';
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        pointer-events: auto;
+        cursor: pointer;
     }
-  }
+}
 
-  .markdown-github :not(pre)>code {
+.markdown-github :not(pre)>code {
     background-color: #fdf6e3;
     color: #424242;
     padding: 0 3px;
@@ -364,32 +376,32 @@
     vertical-align: 1px;
     font-size: 88%;
     word-break: break-all;
-  }
+}
 
 
-  .markdown-github audio {
+.markdown-github audio {
     margin-bottom: 10px;
-  }
+}
 
-  .markdown-github audio::-webkit-media-controls-volume-control-container {
+.markdown-github audio::-webkit-media-controls-volume-control-container {
     display: none;
-  }
+}
 
-  .markdown-github audio::-webkit-media-controls-enclosure {
+.markdown-github audio::-webkit-media-controls-enclosure {
     background-color: transparent;
     border-radius: 4px !important;
     border: 1px solid black;
-  }
+}
 
-  .markdown-github iframe {
+.markdown-github iframe {
     width: calc(100% + 48px);
     min-height: 600px;
     margin: 10px 0px;
     border-bottom: #eee 1px solid;
-  }
+}
 
 
-  .note-base {
+.note-base {
     background-color: #eee;
     border-radius: 4px;
     margin: 16px 0;
@@ -401,41 +413,41 @@
     letter-spacing: .5px;
 
     p {
-      margin: 0;
+        margin: 0;
     }
-  }
+}
 
-  .note-tip {
+.note-tip {
     background-color: #c1f4cd;
     border-color: #21ba45;
 
     code {
-      color: white !important;
-      background-color: #21ba45 !important;
+        color: white !important;
+        background-color: #21ba45 !important;
     }
-  }
+}
 
-  .note-warning {
+.note-warning {
     background-color: #f9e09b;
     border-color: #f2c037;
 
     code {
-      color: white !important;
-      background-color: #f2c037 !important;
+        color: white !important;
+        background-color: #f2c037 !important;
     }
-  }
+}
 
-  .note-danger {
+.note-danger {
     background-color: #ffc0c6;
     border-color: #c10015;
 
     code {
-      color: white !important;
-      background-color: #c10015 !important;
+        color: white !important;
+        background-color: #c10015 !important;
     }
-  }
+}
 
-  .page {
+.page {
     margin-top: 14px;
     margin-bottom: 14px;
     margin-left: auto;
@@ -450,14 +462,15 @@
     position: relative;
 
     p {
-      padding: 26px;
-      margin: 0;
-      height: 80px;
-      font-weight: 600;
+        padding: 26px;
+        margin: 0;
+        height: 80px;
+        font-weight: 600;
+        text-align: center;
     }
-  }
+}
 
-  .page::after {
+.page::after {
     content: ' ';
     position: absolute;
     top: 10px;
@@ -467,9 +480,9 @@
     background-size: 14px 14px;
     height: 14px;
     width: 14px;
-  }
+}
 
-  .music {
+.music {
     margin-top: 14px;
     margin-bottom: 14px;
     margin-left: auto;
@@ -481,4 +494,4 @@
     height: 100px;
     width: 100px;
     cursor: pointer;
-  }
+}
