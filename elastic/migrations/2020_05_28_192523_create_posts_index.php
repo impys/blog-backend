@@ -6,7 +6,6 @@ use ElasticAdapter\Indices\Mapping;
 use ElasticAdapter\Indices\Settings;
 use ElasticMigrations\Facades\Index;
 use ElasticMigrations\MigrationInterface;
-use Illuminate\Support\Facades\App;
 
 final class CreatePostsIndex implements MigrationInterface
 {
@@ -16,33 +15,22 @@ final class CreatePostsIndex implements MigrationInterface
     public function up(): void
     {
         Index::create('posts', function (Mapping $mapping, Settings $settings) {
-            $fields = [
-                'std' => [
-                    'type' => 'text',
-                    'analyzer' => 'std',
-                    'search_analyzer' => 'ik',
-                ],
-                'std_prefix' => [
-                    'type' => 'text',
-                    'analyzer' => 'std_prefix',
-                    'search_analyzer' => 'ik',
-                ],
-                'cn_chars' => [
-                    'type' => 'text',
-                    'analyzer' => 'standard',
-                    'search_analyzer' => 'standard',
-                ],
-            ];
+            $settings->index([
+                'number_of_shards' => 1,
+                'number_of_replicas' => 0,
+            ]);
 
-            $mapping->text('title', ['fields' => $fields]);
+            $mapping->text('title', [
+                'type' => 'text',
+                'analyzer' => 'ik_smart',
+                'search_analyzer' => 'ik_smart',
+            ]);
 
-            $mapping->text('body', ['fields' => $fields]);
-
-            if (App::environment(['local', 'testing'])) {
-                $settings->index(config('elastic.migrations.settings'));
-            }
-
-            $settings->analysis(config('elastic.migrations.analysis'));
+            $mapping->text('body', [
+                'type' => 'text',
+                'analyzer' => 'ik_max_word',
+                'search_analyzer' => 'ik_smart',
+            ]);
         });
     }
 
