@@ -357,10 +357,16 @@
     pointer-events: none;
 
     &::after {
-        content: '复制';
+        content: '';
         position: absolute;
-        top: 10px;
-        right: 10px;
+        top: 0;
+        right: 0;
+        background-image: url('/statics/copy-outline.svg');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 16px 16px;
+        height: 18px;
+        width: 18px;
         pointer-events: auto;
         cursor: pointer;
     }
