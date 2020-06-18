@@ -12,11 +12,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Collection;
 use Stichoza\GoogleTranslate\GoogleTranslate;
+use ElasticScoutDriverPlus\CustomSearch;
 
 class Post extends Model
 {
     use HasEnabled;
     use Searchable;
+    use CustomSearch;
 
     protected $fillable = [
         'title',

@@ -11,6 +11,7 @@
         "php": "^7.2",
         "babenkoivan/elastic-migrations": "^1.0",
         "babenkoivan/elastic-scout-driver": "^1.0",
+        "babenkoivan/elastic-scout-driver-plus": "^1.1",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.0",
         "freyo/flysystem-qcloud-cos-v5": "^2.0",

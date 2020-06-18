@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Post;
 use Illuminate\Http\Request;
-use App\Http\Resources\PostList;
+use App\Services\PostSearchService;
+use App\Http\Resources\PostSearchList;
 
 class Search extends Controller
 {
@@ -16,8 +16,10 @@ class Search extends Controller
      */
     public function __invoke(Request $request)
     {
-        $posts = Post::search($request->input('keyword', null))->paginate();
+        $keyword = $request->input('keyword', null);
 
-        return PostList::collection($posts);
+        $paginator = PostSearchService::boolSearch($keyword);
+
+        return PostSearchList::collection($paginator);
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cd041967c7e8cdf8ae9b5d76601a2b8d",
+    "content-hash": "7e560c94c5c422ad53dc2a761e463110",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -60,16 +60,16 @@
         },
         {
             "name": "babenkoivan/elastic-adapter",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/babenkoivan/elastic-adapter.git",
-                "reference": "8620ca58ccf039a196b07754e82a3ef76f68378d"
+                "reference": "a23825b3a28831e248cd436850772a34be83a455"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/babenkoivan/elastic-adapter/zipball/8620ca58ccf039a196b07754e82a3ef76f68378d",
-                "reference": "8620ca58ccf039a196b07754e82a3ef76f68378d",
+                "url": "https://api.github.com/repos/babenkoivan/elastic-adapter/zipball/a23825b3a28831e248cd436850772a34be83a455",
+                "reference": "a23825b3a28831e248cd436850772a34be83a455",
                 "shasum": ""
             },
             "require": {
@@ -103,7 +103,7 @@
                 "elasticsearch",
                 "php"
             ],
-            "time": "2020-05-12T17:53:42+00:00"
+            "time": "2020-06-08T12:18:10+00:00"
         },
         {
             "name": "babenkoivan/elastic-client",
@@ -274,6 +274,64 @@
                 "scout"
             ],
             "time": "2020-05-12T20:00:36+00:00"
+        },
+        {
+            "name": "babenkoivan/elastic-scout-driver-plus",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/babenkoivan/elastic-scout-driver-plus.git",
+                "reference": "a97da316985b54b8a502299b348ad8901431c26e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/babenkoivan/elastic-scout-driver-plus/zipball/a97da316985b54b8a502299b348ad8901431c26e",
+                "reference": "a97da316985b54b8a502299b348ad8901431c26e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "babenkoivan/elastic-migrations": "^1.0",
+                "babenkoivan/elastic-scout-driver": "^1.0",
+                "laravel/scout": "^8.0",
+                "orchestra/testbench": "^5.2",
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ElasticScoutDriverPlus\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ElasticScoutDriverPlus\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Babenko",
+                    "email": "babenko.i.a@gmail.com"
+                }
+            ],
+            "description": "Extension for Elastic Scout Driver",
+            "keywords": [
+                "driver",
+                "elastic",
+                "elasticsearch",
+                "laravel",
+                "php",
+                "scout"
+            ],
+            "time": "2020-06-08T12:34:47+00:00"
         },
         {
             "name": "brick/math",
