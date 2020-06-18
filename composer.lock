@@ -2029,12 +2029,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:qingfengbaili/laravel-nova.git",
-                "reference": "bff1a8db4856d68428dcb31caaf616edee17553a"
+                "reference": "f05ee6aee38f781339c919fe12b4734c95be2058"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/qingfengbaili/laravel-nova/zipball/bff1a8db4856d68428dcb31caaf616edee17553a",
-                "reference": "bff1a8db4856d68428dcb31caaf616edee17553a",
+                "url": "https://api.github.com/repos/qingfengbaili/laravel-nova/zipball/f05ee6aee38f781339c919fe12b4734c95be2058",
+                "reference": "f05ee6aee38f781339c919fe12b4734c95be2058",
                 "shasum": ""
             },
             "require": {
@@ -2099,7 +2099,7 @@
                 "source": "https://github.com/qingfengbaili/laravel-nova/tree/master",
                 "issues": "https://github.com/qingfengbaili/laravel-nova/issues"
             },
-            "time": "2020-05-02T07:49:06+00:00"
+            "time": "2020-06-18T17:35:15+00:00"
         },
         {
             "name": "laravel/scout",
