@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
 
         Relation::morphMap([
             'post' => 'App\Post',
-            'files' => 'APP\File',
+            'file' => 'APP\File',
             'book' => 'App\Book',
         ]);
     }
