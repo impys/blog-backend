@@ -126,6 +126,7 @@
     margin-top: 0;
     text-align: justify;
     line-height: 1.7;
+    color: #4c4e4d;
 }
 
 .markdown-github blockquote {
@@ -235,16 +236,15 @@
     font-size: 30px;
     font-weight: 700;
     padding-left: 20px;
-    padding-bottom: 8px;
-    padding-top: 70px !important;
-    margin-top: -50px !important;
+    margin-top: 60px;
+    margin-bottom: 24px;
     position: relative;
 
     &::before {
         content: '';
         position: absolute;
         left: 0;
-        top: 70px;
+        top: 0;
         width: 10px;
         height: 37px;
         background-color: #027BE3;
@@ -254,8 +254,6 @@
 .markdown-github h3 {
     font-size: 20px;
     font-weight: 600;
-    padding-top: 60px !important;
-    margin-top: -50px !important;
 }
 
 .markdown-github h4,
@@ -280,10 +278,12 @@
 
 .markdown-github li {
     word-wrap: break-all;
+    color: #4c4e4d;
 }
 
 .markdown-github li>p {
     margin-top: 16px;
+    color: #4c4e4d;
 }
 
 .markdown-github li+li {
@@ -350,11 +350,14 @@
 .markdown-github pre {
     padding: 16px;
     margin: 16px 0;
-    overflow-y: scroll !important;
-    overflow-x: scroll !important;
     border-radius: 4px;
     position: relative;
     pointer-events: none;
+    white-space: pre-wrap;
+
+    .hljs-comment {
+        font-size: 90%;
+    }
 
     &::after {
         content: '';
@@ -374,7 +377,7 @@
 
 .markdown-github :not(pre)>code {
     background-color: #fdf6e3;
-    color: #424242;
+    color: #4c4e4d;
     padding: 0 3px;
     margin: 0 3px;
     border-radius: 4px;
