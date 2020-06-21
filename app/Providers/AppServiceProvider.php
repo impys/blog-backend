@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,7 +30,9 @@ class AppServiceProvider extends ServiceProvider
         \App\Post::observe(\App\Observers\PostObserver::class);
         \App\Book::observe(\App\Observers\BookObserver::class);
 
-        \Illuminate\Support\Facades\URL::forceScheme('https');
+        if ($this->app->isProduction()) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
 
         Relation::morphMap([
             'post' => 'App\Post',
