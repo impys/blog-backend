@@ -129,6 +129,13 @@
     color: #4c4e4d;
 }
 
+.markdown-github :first-child:last-child[class="music"] {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
 .markdown-github blockquote {
     margin: 0;
 }
@@ -184,10 +191,6 @@
 
 .markdown-github>:first-child {
     margin-top: 0;
-}
-
-.markdown-github>:last-child {
-    margin-bottom: 0 !important;
 }
 
 .markdown-github blockquote,
@@ -387,29 +390,6 @@
     word-break: break-all;
 }
 
-
-.markdown-github audio {
-    margin-bottom: 10px;
-}
-
-.markdown-github audio::-webkit-media-controls-volume-control-container {
-    display: none;
-}
-
-.markdown-github audio::-webkit-media-controls-enclosure {
-    background-color: transparent;
-    border-radius: 4px !important;
-    border: 1px solid black;
-}
-
-.markdown-github iframe {
-    width: calc(100% + 48px);
-    min-height: 600px;
-    margin: 10px 0px;
-    border-bottom: #eee 1px solid;
-}
-
-
 .note-base {
     background-color: #eee;
     border-radius: 4px;
@@ -496,11 +476,13 @@
     margin-bottom: 14px;
     margin-left: auto;
     margin-right: auto;
+    background-color: #EA4335;
+    border-radius: 50%;
     background-image: url('/statics/play-circle-outline.svg');
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: 48px 48px;
-    height: 100px;
-    width: 100px;
+    background-size: 50px 50px;
+    height: 90px;
+    width: 90px;
     cursor: pointer;
 }
