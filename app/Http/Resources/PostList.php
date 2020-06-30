@@ -15,7 +15,7 @@ class PostList extends JsonResource
     public function toArray($request)
     {
         $data["id"] = $this->id;
-        $data["title"] = $this->full_title;
+        $data["title"] = $this->title;
         $data["is_top"] = $this->is_top;
         $data["visited_count"] = $this->visited_count;
         $data["created_at_human"] = $this->created_at_human;
