@@ -196,6 +196,8 @@ export default {
     },
 
     handleScroll(event, el) {
+      if (!this.getMarkdownEditor()) return;
+
       if (this.isHoverPreview) {
         this.handleMarkdownPreviewScroll();
       } else {
