@@ -2,12 +2,16 @@
 
 namespace App;
 
+use App\Traits\SyncFiles;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as BaseCollection;
 
 class Book extends Model
 {
+    use SyncFiles;
+
     protected $appends = [
         'cover_url'
     ];
@@ -27,31 +31,19 @@ class Book extends Model
         return Storage::url($this->cover);
     }
 
-    public function syncFiles()
+    /**
+     * Get the files belongs to this book
+     *
+     * @return Collection
+     */
+    public function getAllFiles(): Collection
     {
-        $this->dissociateAllFiles();
-        $this->associateFiles();
+        return File::query()
+            ->ofName($this->cover)
+            ->get();
     }
 
-    protected function dissociateAllFiles()
-    {
-        $this->file()->update(
-            [
-                'entity_id' => null,
-                'entity_type' => null,
-            ]
-        );
-    }
-
-    protected function associateFiles()
-    {
-        $file = File::ofName($this->cover)->first();
-
-        $file->entity()->associate($this);
-        $file->save();
-    }
-
-    public function getChapters(): Collection
+    public function getChapters(): BaseCollection
     {
         return $this->posts()
             ->enabled()

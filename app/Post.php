@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\SyncFiles;
 use App\Traits\HasEnabled;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
@@ -10,13 +11,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Collection;
 use Stichoza\GoogleTranslate\GoogleTranslate;
-use ElasticScoutDriverPlus\CustomSearch;
 
 class Post extends Model
 {
     use HasEnabled;
+    use SyncFiles;
     use Searchable;
     use CustomSearch;
 
@@ -35,7 +37,6 @@ class Post extends Model
         'updated_at_human',
         'length',
         'audio_count',
-        'cover_media',
         'summary',
         'full_title',
     ];
@@ -73,8 +74,6 @@ class Post extends Model
         $array['visited_count'] = $this->visited_count;
 
         $array['is_top'] = $this->is_top;
-
-        $array['cover_media'] = $this->cover_media;
 
         $array['created_at'] = $this->created_at;
 
@@ -201,16 +200,28 @@ class Post extends Model
         return $this->files->where('type', File::TYPE_AUDIO)->count();
     }
 
-    public function getCoverMediaAttribute(): ?file
+    public function getCoverMedia(): ?file
     {
-        $file = $this->files->firstWhere('sort', 1);
-        if (!$file && $this->book_id) {
-            $file = $this->book->file;
-        }
+        $name = $this->getFirstFileName();
 
-        return $file;
+        return $this->files->firstWhere('name', $name);
     }
 
+    /**
+     * get the first image or audio of this post
+     *
+     * @return string|null
+     */
+    public function getFirstFileName(): ?string
+    {
+        return $this->getAllFilesName()[0] ?? null;
+    }
+
+    /**
+     * get images and audios from post body by regex match
+     *
+     * @return array
+     */
     public function getAllFilesName(): array
     {
         $prefix = preg_replace("/\//", "\\\/", Storage::url('/'));
@@ -225,36 +236,18 @@ class Post extends Model
         return $results[1];
     }
 
-    public function syncFiles()
-    {
-        $this->dissociateAllFiles();
-        $this->associateFiles();
-    }
-
-    protected function dissociateAllFiles()
-    {
-        $this->files()->update(
-            [
-                'entity_id' => null,
-                'entity_type' => null,
-                'sort' => null,
-            ]
-        );
-    }
-
-    protected function associateFiles()
+    /**
+     * Get the files belongs to this post
+     *
+     * @return Collection
+     */
+    public function getAllFiles(): Collection
     {
         $names = $this->getAllFilesName();
 
-        $sort = array_flip($names);
-
-        $files = File::inNames($names)->get();
-
-        foreach ($files as $file) {
-            $file->entity()->associate($this);
-            $file->sort = $sort[$file->name] + 1;
-            $file->save();
-        }
+        return File::query()
+            ->inNames($names)
+            ->get();
     }
 
     /**

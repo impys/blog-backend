@@ -20,7 +20,7 @@ class PostList extends JsonResource
         $data["visited_count"] = $this->visited_count;
         $data["created_at_human"] = $this->created_at_human;
         $data["updated_at_human"] = $this->updated_at_human;
-        $data["cover_media"] = $this->cover_media;
+        $data["cover_media"] = $this->getCoverMedia();
         $data["summary"] = $this->summary;
         $data["tags"] = $this->tags;
         $data["audio_count"] = $this->audio_count;
