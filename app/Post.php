@@ -63,7 +63,7 @@ class Post extends Model
     {
         $array['id'] = $this->id;
 
-        $array['title'] = $this->full_title;
+        $array['title'] = $this->title;
 
         $array['summary'] = $this->summary;
 
