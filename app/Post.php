@@ -65,8 +65,6 @@ class Post extends Model
 
         $array['title'] = $this->title;
 
-        $array['summary'] = $this->summary;
-
         $array['body'] = $this->getPlainBodyText();
 
         $array['tags'] = $this->buildTagsForSearch();
