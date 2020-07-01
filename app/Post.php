@@ -67,7 +67,7 @@ class Post extends Model
 
         $array['summary'] = $this->summary;
 
-        $array['body'] = $this->getCleanBody();
+        $array['body'] = $this->getPlainBodyText();
 
         $array['tags'] = $this->buildTagsForSearch();
 
@@ -82,7 +82,7 @@ class Post extends Model
         return $array;
     }
 
-    public function getCleanBody(): string
+    public function getPlainBodyText(): string
     {
         return collect(explode(PHP_EOL, Markdown::parse($this->body)->toHtml()))
             ->map(function ($stringWithHtml) {
@@ -184,15 +184,9 @@ class Post extends Model
         return mb_strlen($this->body, 'utf-8');
     }
 
-    public function getSummaryAttribute(): ?string
+    public function getSummaryAttribute(): string
     {
-        preg_match("/<p>((?!<img).)*<\/p>/U", Markdown::parse($this->body), $results);
-
-        if (!count($results)) {
-            return null;
-        }
-
-        return Str::limit(strip_tags($results[0]), 300);
+        return Str::limit($this->getPlainBodyText(), 300);
     }
 
     public function getAudioCountAttribute(): int
