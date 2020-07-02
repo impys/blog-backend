@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
 {

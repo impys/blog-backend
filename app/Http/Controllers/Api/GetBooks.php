@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Book;
-use App\Http\Resources\BookList;
 use Illuminate\Http\Request;
+use App\Http\Resources\BookList;
 
 class GetBooks extends Controller
 {

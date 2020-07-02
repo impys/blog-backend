@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Nova;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Services\StorageService;
 use App\Http\Resources\FileResource;
+use App\Http\Controllers\Controller;
 
 class Upload extends Controller
 {

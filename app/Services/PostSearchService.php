@@ -4,9 +4,8 @@ namespace App\Services;
 
 use App\Post;
 use ElasticScoutDriverPlus\Match;
-use Illuminate\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class PostSearchService
 {
@@ -40,7 +39,7 @@ class PostSearchService
 
         $total = $searchResult->total();
 
-        $models = new EloquentCollection();
+        $models = new Collection();
 
         $searchResult->matches()->each(function (Match $match) use ($models) {
             $model = $match->model();
