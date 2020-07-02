@@ -323,11 +323,9 @@ class Post extends Model
             ->whereNotNull('chapter')
             ->get();
 
-        [$prevPosts, $nextPosts] = $posts->filter(function ($post) {
-            return $post->chapter != $this->chapter;
-        })->partition(function ($post) {
-            return $post->chapter < $this->chapter;
-        });
+        [$prevPosts, $nextPosts] = $posts
+            ->filter(fn ($post) => $post->chapter != $this->chapter)
+            ->partition(fn ($post) => $post->chapter < $this->chapter);
 
         $prevPost = $prevPosts->sortByDesc('chapter')->first();
         $nextPost = $nextPosts->sortBy('chapter')->first();
