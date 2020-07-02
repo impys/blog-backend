@@ -182,9 +182,18 @@ class Post extends Model
         return mb_strlen($this->body, 'utf-8');
     }
 
-    public function getSummaryAttribute(): string
+    public function getSummaryAttribute(): ?string
     {
-        return Str::limit($this->getPlainBodyText(), 300);
+        return collect(
+            explode(PHP_EOL, Markdown::parse($this->body)->toHtml())
+        )->filter(
+            fn ($html) => Str::containsAll($html, ['<p>', '</p>'])
+                && !Str::contains($html, ['code>', 'audio>', 'img>', 'a>'])
+        )->map(
+            fn ($html) => html_entity_decode(strip_tags($html))
+        )->sortByDesc(
+            fn ($html) => strlen($html)
+        )->first();
     }
 
     public function getAudioCountAttribute(): int
