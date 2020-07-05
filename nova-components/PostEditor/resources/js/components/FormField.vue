@@ -3,7 +3,6 @@
     <editable
       id="markdown-editor"
       ref="markdownEditor"
-      v-scroll="handleScroll"
       v-model="value"
       @keydown.tab.native="tabIndent"
       @paste.native="uploadFileByPaste"
@@ -15,7 +14,6 @@
       id="markdown-preview"
       class="markdown-github"
       v-html="markedBody"
-      v-scroll="handleScroll"
       @mouseenter="handleMouseEntryPreview"
       @mouseleave="handleMouseLeavePreview"
     ></div>
@@ -88,6 +86,15 @@ export default {
       this.setMarkdownPreviewWidth();
     });
     this.setEditorMaxBoundingClientRect();
+    this.registerListener();
+  },
+
+  destroyed() {
+    window.removeEventListener("scroll", this.handleMarkdownEditorScroll);
+    this.getMarkdownPreview().removeEventListener(
+      "scroll",
+      this.handleMarkdownPreviewScroll
+    );
   },
 
   computed: {
@@ -195,23 +202,27 @@ export default {
       this.editorMaxBoundingClientRect = this.getMarkdownEditor().getBoundingClientRect().top;
     },
 
-    handleScroll(event, el) {
-      if (!this.getMarkdownEditor()) return;
-
-      if (this.isHoverPreview) {
-        this.handleMarkdownPreviewScroll();
-      } else {
-        this.handleMarkdownEditorScroll();
-      }
+    registerListener() {
+      window.addEventListener("scroll", this.handleMarkdownEditorScroll);
+      this.getMarkdownPreview().addEventListener(
+        "scroll",
+        this.handleMarkdownPreviewScroll
+      );
     },
 
     handleMarkdownEditorScroll() {
+      // 如果是 preview 主动滚动，则阻止 editor
+      if (this.isHoverPreview) return;
+
       this.getMarkdownPreview().scrollTop =
         (this.getEditorScrollTop() * this.getMaxPreviewScrollTop()) /
         this.getMaxEditorScrollTop();
     },
 
     handleMarkdownPreviewScroll() {
+      // 如果是 editor 主动滚动，则阻止 preview
+      if (!this.isHoverPreview) return;
+
       document.documentElement.scrollTop =
         (this.getPreviewScrollTop() *
           (this.getMaxEditorScrollTop() + this.editorMaxBoundingClientRect)) /
