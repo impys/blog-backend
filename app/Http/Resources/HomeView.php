@@ -14,8 +14,8 @@ class HomeView extends JsonResource
      */
     public function toArray($request)
     {
-        $data["books"] = BookList::collection($this->resource['books']);
-        $data["posts"] = PostList::collection($this->resource['posts']);
+        $data["books"] = BookList::collection($this->resource['books'] ?? []);
+        $data["posts"] = PostList::collection($this->resource['posts'] ?? []);
 
         return $data;
     }

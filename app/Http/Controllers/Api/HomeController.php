@@ -16,12 +16,6 @@ class HomeController extends Controller
     {
         $books = Book::query()
             ->latest()
-            ->when(
-                $request->input('random', false) == 'book',
-                function ($query) {
-                    $query->inRandomOrder();
-                }
-            )
             ->limit(4)
             ->get();
 
@@ -31,18 +25,41 @@ class HomeController extends Controller
             ->top()
             ->mostVisit()
             ->latest()
-            ->when(
-                $request->input('random', false) == 'post',
-                function ($query) {
-                    $query->inRandomOrder();
-                }
-            )
             ->limit(8)
             ->get();
 
         return new HomeView(
             [
                 'books' => $books,
+                'posts' => $posts,
+            ]
+        );
+    }
+
+    public function booksInRandomOrder(Request $request)
+    {
+        $books = Book::query()
+            ->inRandomOrder()
+            ->limit(4)
+            ->get();
+        return new HomeView(
+            [
+                'books' => $books,
+            ]
+        );
+    }
+
+    public function postsInRandomOrder(Request $request)
+    {
+        $posts = Post::query()
+            ->enabled()
+            ->with(['tags', 'files'])
+            ->inRandomOrder()
+            ->limit(8)
+            ->get();
+
+        return new HomeView(
+            [
                 'posts' => $posts,
             ]
         );
