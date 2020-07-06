@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => ['api', 'throttle']], function () {
+    Route::get('/', 'HomeController@index');
     Route::get('/posts', 'GetPosts');
     Route::get('/posts/{post}', 'GetPost');
     Route::get('/search', 'Search');
