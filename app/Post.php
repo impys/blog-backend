@@ -45,6 +45,8 @@ class Post extends Model
         'is_enabled' => true
     ];
 
+    protected $touches = ['books'];
+
     public static function boot()
     {
         parent::boot();
