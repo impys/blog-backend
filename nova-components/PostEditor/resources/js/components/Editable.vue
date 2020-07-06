@@ -1,7 +1,7 @@
 <template>
   <div
     class="editable"
-    v-html="textContent"
+    v-text="textContent"
     :contenteditable="true"
     @focus="isLocked = true"
     @blur="isLocked = false"
