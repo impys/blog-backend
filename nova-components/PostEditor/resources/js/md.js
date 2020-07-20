@@ -58,7 +58,7 @@ md.use(MarkdownItContainer, 'page', {
     if (tokens[idx].nesting === 1) {
       let route = m[1].split(" ").reduce((carry, currentValue) => { return carry + '/' + currentValue }, '');
 
-      return `<div class="page" route=${route}>` + '\n';
+      return `<div class="page" route=${route} data-url="atom.ac.cn${route}">` + '\n';
 
     } else {
       return '</div>\n';
