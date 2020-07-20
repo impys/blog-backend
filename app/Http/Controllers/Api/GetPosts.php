@@ -22,7 +22,7 @@ class GetPosts extends Controller
                 return $query->ofTagId($tagId);
             })
             ->enabled()
-            ->with(['tags', 'files'])
+            ->with(['tags', 'files', 'book'])
             ->top()
             ->latest()
             ->paginate($request->input('size', 10));

@@ -24,6 +24,7 @@ class PostList extends JsonResource
         $data["summary"] = $this->summary;
         $data["tags"] = $this->tags;
         $data["audio_count"] = $this->audio_count;
+        $data["book"] = $this->book;
 
         return $data;
     }
