@@ -6,6 +6,7 @@
     @focus="isLocked = true"
     @blur="isLocked = false"
     @input="changeText"
+    @keydown.191.stop
   ></div>
 </template>
 <script>
