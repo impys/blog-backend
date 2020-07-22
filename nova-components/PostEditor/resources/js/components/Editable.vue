@@ -46,7 +46,9 @@ export default {
   outline: none;
   user-select: text;
   white-space: pre-wrap;
-  text-align: left;
+  text-align: justify;
+  line-height: 1.9;
+  color: #4c4e4d;
   &[contenteditable="true"] {
     -webkit-user-modify: read-write-plaintext-only;
     &:empty:before {
