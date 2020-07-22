@@ -176,6 +176,12 @@ return [
         App\Providers\NovaServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * My Service Providers...
+         */
+
+        App\Providers\BaiduTransServiceProvider::class,
+
     ],
 
     /*

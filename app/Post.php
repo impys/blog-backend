@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Facades\Trans;
 use App\Traits\SyncFiles;
 use App\Traits\HasEnabled;
 use Illuminate\Support\Str;
@@ -15,7 +16,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Collection;
-use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class Post extends Model
 {
@@ -280,19 +280,19 @@ class Post extends Model
 
     public function syncSlug()
     {
-        if (App::environment('production')) {
-            try {
-                $slug = GoogleTranslate::trans($this->full_title);
-            } catch (\Throwable $th) {
-                $slug = $this->id;
-            }
-        } else {
+        if (!App::environment('production')) {
+            return;
+        }
+
+        try {
+            $slug = Trans::trans($this->full_title);
+        } catch (\Throwable $th) {
             $slug = $this->id;
         }
 
-        DB::table('posts')
-            ->where('id', $this->id)
-            ->update(['slug' => $slug]);
+        $this->slug = $slug;
+
+        $this->saveQuietly();
     }
 
     public function syncChapter()

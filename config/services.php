@@ -30,4 +30,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'baidufanyi' => [
+        'app_id' => env('BAIDUFANYI_APP_ID'),
+        'secret' => env('BAIDUFANYI_SECRET'),
+    ]
 ];
