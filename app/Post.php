@@ -42,6 +42,7 @@ class Post extends Model
         'audio_count',
         'summary',
         'full_title',
+        'full_title_with_dash',
     ];
 
     protected $attributes = [
@@ -153,6 +154,15 @@ class Post extends Model
     {
         if ($this->book_id) {
             return "{$this->title}『{$this->book->title}』";
+        } else {
+            return $this->title;
+        }
+    }
+
+    public function getFullTitleWithDashAttribute()
+    {
+        if ($this->book_id) {
+            return "{$this->title} - {$this->book->title}";
         } else {
             return $this->title;
         }
@@ -285,7 +295,7 @@ class Post extends Model
         }
 
         try {
-            $slug = Trans::trans($this->full_title);
+            $slug = Trans::trans($this->full_title_with_dash);
         } catch (\Throwable $th) {
             $slug = $this->id;
         }
