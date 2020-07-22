@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Post;
+use App\Jobs\SyncPostChapterJob;
 use App\Jobs\TranslatePostTitleJob;
 
 class PostObserver
@@ -15,6 +16,19 @@ class PostObserver
 
         if ($post->isDirty('title')) {
             TranslatePostTitleJob::dispatch($post);
+        }
+
+        if ($post->book_id) {
+            if ($post->isDirty('chapter') || $post->isDirty('book_id')) {
+                SyncPostChapterJob::dispatch($post);
+            }
+        }
+    }
+
+    public function saving(Post $post)
+    {
+        if (!$post->book_id) {
+            $post->chapter = null;
         }
     }
 

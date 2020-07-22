@@ -7,6 +7,8 @@ use App\Traits\HasEnabled;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Illuminate\Mail\Markdown;
+use App\Exceptions\PostException;
+use App\Traits\ModelWithoutEvents;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
@@ -21,6 +23,7 @@ class Post extends Model
     use SyncFiles;
     use Searchable;
     use CustomSearch;
+    use ModelWithoutEvents;
 
     protected $fillable = [
         'title',
@@ -152,20 +155,6 @@ class Post extends Model
             return "{$this->title}『{$this->book->title}』";
         } else {
             return $this->title;
-        }
-    }
-
-    public function setChapterAttribute($value)
-    {
-        if (!$this->book_id) {
-            $this->attributes['chapter'] = null;
-        } else {
-            if ($value) {
-                $this->attributes['chapter'] = $value;
-            } else {
-                $lastChapter = $this->book->posts()->where('id', '!=', $this->id)->max('chapter');
-                $this->attributes['chapter'] = $lastChapter ? $lastChapter + 1 : 1;
-            }
         }
     }
 
@@ -304,6 +293,64 @@ class Post extends Model
         DB::table('posts')
             ->where('id', $this->id)
             ->update(['slug' => $slug]);
+    }
+
+    public function syncChapter()
+    {
+        if (!$this->book_id) {
+            throw new PostException("Book id is required");
+        }
+
+        if (!$this->chapter) {
+            $this->setDefaultChapter();
+        }
+
+        $chapters = $this->book->posts()->get();
+
+        if ($chapters->max('chapter') !== $chapters->count()) {
+            $this->reorderChapters($chapters);
+        }
+    }
+
+    /**
+     * Set default chapter(max chapter + 1)
+     *
+     * @return void
+     */
+    public function setDefaultChapter()
+    {
+        $lastChapter = $this->book->posts()->max('chapter') ?? 0;
+
+        $this->chapter = $lastChapter + 1;
+
+        // 不触发 saved 事件，避免递归
+        $this->save();
+    }
+
+    public function reorderChapters($chapters)
+    {
+        $otherChapters = $chapters->except($this->id)->sortBy('chapter');
+
+        $chapter = 1;
+
+        // 如果数据量大，应该用批量更新
+        foreach ($otherChapters as $post) {
+            if ($chapter === $this->chapter) {
+                $chapter++;
+            }
+
+            $post->chapter = $chapter;
+
+            // 不触发 saved 事件，避免递归
+            $post->saveQuietly();
+
+            $chapter++;
+        }
+
+        if ($this->chapter - $otherChapters->count() > 1) {
+            $this->chapter = $otherChapters->count() + 1;
+            $this->saveQuietly();
+        }
     }
 
     public function getPrevChapter(): ?self
