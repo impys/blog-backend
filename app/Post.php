@@ -5,11 +5,11 @@ namespace App;
 use App\Facades\Trans;
 use App\Traits\SyncFiles;
 use App\Traits\HasEnabled;
+use App\Traits\ModelExtend;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Illuminate\Mail\Markdown;
 use App\Exceptions\PostException;
-use App\Traits\ModelWithoutEvents;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
@@ -23,7 +23,7 @@ class Post extends Model
     use SyncFiles;
     use Searchable;
     use CustomSearch;
-    use ModelWithoutEvents;
+    use ModelExtend;
 
     protected $fillable = [
         'title',

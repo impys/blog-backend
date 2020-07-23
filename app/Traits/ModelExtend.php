@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait ModelWithoutEvents
+trait ModelExtend
 {
     public function saveQuietly(array $options = [])
     {
