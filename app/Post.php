@@ -334,7 +334,7 @@ class Post extends Model
         $this->chapter = $lastChapter + 1;
 
         // 不触发 saved 事件，避免递归
-        $this->saveQuietly();
+        $this->withoutTimestamps()->saveQuietly();
     }
 
     public function reorderChapters($chapters)
@@ -352,14 +352,14 @@ class Post extends Model
             $post->chapter = $chapter;
 
             // 不触发 saved 事件，避免递归
-            $post->saveQuietly();
+            $post->withoutTimestamps()->saveQuietly();
 
             $chapter++;
         }
 
         if ($this->chapter - $otherChapters->count() > 1) {
             $this->chapter = $otherChapters->count() + 1;
-            $this->saveQuietly();
+            $this->withoutTimestamps()->saveQuietly();
         }
     }
 

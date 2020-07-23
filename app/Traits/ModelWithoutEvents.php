@@ -10,4 +10,10 @@ trait ModelWithoutEvents
             return $this->save($options);
         });
     }
+
+    public function withoutTimestamps()
+    {
+        $this->timestamps = false;
+        return $this;
+    }
 }
