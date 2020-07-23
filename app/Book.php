@@ -51,7 +51,7 @@ class Book extends Model
             ->sortBy('chapter')
             ->values()
             ->map(function ($post, $index) {
-                $post->chapter_index = $index;
+                $post->chapter_index = $index + 1;
                 return $post;
             });
     }
