@@ -334,7 +334,7 @@ class Post extends Model
         $this->chapter = $lastChapter + 1;
 
         // 不触发 saved 事件，避免递归
-        $this->save();
+        $this->saveQuietly();
     }
 
     public function reorderChapters($chapters)
