@@ -231,33 +231,23 @@
 
 .markdown-github h1,
 .markdown-github h2 {
-    font-size: 30px;
-    font-weight: 700;
-    padding-left: 20px;
-    margin-top: 60px;
-    margin-bottom: 24px;
-    position: relative;
-
-    &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 10px;
-        height: 37px;
-        background-color: #027BE3;
-    }
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 50px;
+    margin-bottom: 20px;
 }
 
 .markdown-github h3 {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 30px;
 }
 
 .markdown-github h4,
 .markdown-github h5,
 .markdown-github h6 {
-    font-size: 14px;
+    font-size: 12px;
+    font-weight: 400;
 }
 
 
@@ -331,10 +321,11 @@
 }
 
 .markdown-github img {
-    background-color: #fff;
     box-sizing: content-box;
-    width: 100%;
+    max-width: 100%;
     border-radius: 4px;
+    margin: 10px auto;
+    display: block;
 }
 
 .markdown-github img[align=right] {
