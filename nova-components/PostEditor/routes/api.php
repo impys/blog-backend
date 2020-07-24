@@ -14,3 +14,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/upload', \App\Http\Controllers\Nova\Upload::class);
+Route::get('/search', \App\Http\Controllers\Nova\Search::class);

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Nova;
 use App\Tag;
 use App\Post;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class TagPost extends Controller
 {

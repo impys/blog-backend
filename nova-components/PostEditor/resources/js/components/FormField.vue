@@ -5,6 +5,7 @@
       ref="markdownEditor"
       v-model="value"
       @keydown.tab.native="tabIndent"
+      @keydown.esc.native="closeSearch"
       @paste.native="uploadFileByPaste"
       @click.native="handelClickMarkdownEditor"
       @focus.native="handleMarkdownEditorFocus"
@@ -51,23 +52,67 @@
         </svg>
       </div>
     </div>
+
+    <!-- Search result modal -->
+    <div
+      v-on-clickaway="closeSearch"
+      v-if="showSearchResultWrap"
+      id="search-result-wrap"
+      class="overflow-hidden rounded-lg shadow-lg w-full overflow-y-auto"
+    >
+      <!-- Loader -->
+      <div v-if="searchLoading" class="bg-white py-4 overflow-hidden shadow-lg w-full">
+        <loader class="text-60" width="52" />
+      </div>
+
+      <!-- No Results Found -->
+      <div v-if="shouldShowNoResults" class="bg-white overflow-hidden shadow-lg w-full">
+        <h3
+          class="text-xs uppercase tracking-wide text-80 bg-40 py-4 px-3"
+        >{{ __('No Results Found.') }}</h3>
+      </div>
+
+      <div v-for="(group,index) in formattedSearchResults" :key="index">
+        <h3
+          class="text-xs uppercase tracking-wide text-80 bg-40 py-2 px-3"
+        >{{ group.resourceTitle }}</h3>
+
+        <ul class="list-reset">
+          <li v-for="item in group.items" :key="item.resourceName + ' ' + item.index">
+            <div
+              class="cursor-pointer flex items-center hover:bg-20 block py-2 px-3 no-underline font-normal"
+              @click="handleClickResource(item)"
+            >
+              <p class="text-90">{{ item.title }}</p>
+              <p v-if="item.subTitle" class="text-xs mt-1 text-80">{{ item.subTitle }}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { FormField, HandlesValidationErrors } from "laravel-nova";
 import { md } from "../md";
+import { mixin as clickaway } from "vue-clickaway";
+
 import Editable from "./Editable";
 
 const UPLOAD_API = "/nova-vendor/post-editor/upload";
 
+const SEARCH_API = "/nova-vendor/post-editor/search";
+
+const PAGE_CONTAINER_TRIGGER = ":::page";
+
 export default {
-  mixins: [FormField, HandlesValidationErrors],
+  mixins: [FormField, HandlesValidationErrors, clickaway],
 
   props: ["resourceName", "resourceId", "field"],
 
   components: {
-    Editable
+    Editable,
   },
 
   data() {
@@ -76,13 +121,16 @@ export default {
       lastRange: null,
       initialValue: "🍭",
       isHoverPreview: false,
-      editorMaxBoundingClientRect: 0
+      editorMaxBoundingClientRect: 0,
+      searchResults: [],
+      searchLoading: false,
+      showSearchResultWrap: false,
     };
   },
 
   mounted() {
     this.setFormStyle();
-    this.$nextTick(function() {
+    this.$nextTick(function () {
       this.setMarkdownPreviewWidth();
     });
     this.setEditorMaxBoundingClientRect();
@@ -97,8 +145,14 @@ export default {
     );
   },
 
+  watch: {
+    value() {
+      this.debounceSearchIfNeed();
+    },
+  },
+
   computed: {
-    markedBody: function() {
+    markedBody: function () {
       if (this.value) {
         return md.render(this.value);
       }
@@ -109,7 +163,46 @@ export default {
         document.documentElement.clientHeight || 0,
         window.innerHeight || 0
       );
-    }
+    },
+
+    hasSearchResults() {
+      return this.searchResults.length > 0;
+    },
+
+    shouldShowNoResults() {
+      return !this.hasSearchResults && !this.searchLoading;
+    },
+
+    indexedSearchResults() {
+      return _.map(this.searchResults, (item, index) => {
+        return { index, ...item };
+      });
+    },
+
+    formattedSearchGroups() {
+      return _.chain(this.indexedSearchResults)
+        .map((item) => {
+          return {
+            resourceName: item.resourceName,
+            resourceTitle: item.resourceTitle,
+          };
+        })
+        .uniqBy("resourceName")
+        .value();
+    },
+
+    formattedSearchResults() {
+      return _.map(this.formattedSearchGroups, (group) => {
+        return {
+          resourceName: group.resourceName,
+          resourceTitle: group.resourceTitle,
+          items: _.filter(
+            this.indexedSearchResults,
+            (item) => item.resourceName == group.resourceName
+          ),
+        };
+      });
+    },
   },
 
   methods: {
@@ -164,22 +257,22 @@ export default {
       formData.append("file", file);
       let config = {
         headers: {
-          "Content-Type": "multipart/form-data"
+          "Content-Type": "multipart/form-data",
         },
-        onUploadProgress: self.handleOnUploadProgress
+        onUploadProgress: self.handleOnUploadProgress,
       };
 
       this.$toasted.info("正在上传", { duration: 0 });
 
       Nova.request()
         .post(UPLOAD_API, formData, config)
-        .then(res => {
+        .then((res) => {
           this.$toasted.clear();
           this.$toasted.success("上传成功");
           this.insertStringToEditor(res.data.data.markdown_dom);
           this.$refs.fileInput.value = "";
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
           this.$toasted.clear();
           this.$toasted.error("上传失败");
@@ -350,7 +443,7 @@ export default {
       if (this.getMarkdownEditor().getBoundingClientRect().top > 0) {
         window.scrollTo({
           top: this.editorMaxBoundingClientRect,
-          behavior: "smooth"
+          behavior: "smooth",
         });
       }
     },
@@ -383,8 +476,95 @@ export default {
         this.getMarkdownEditor().innerHTML = null;
         this.value = null;
       }
-    }
-  }
+    },
+
+    handleClickResource(resource) {
+      this.closeSearch();
+
+      let selection = this.getMarkdownEditorSelection();
+
+      let range = document.createRange();
+
+      // 将 node 利用 selectNode 放入 range
+      range.selectNode(this.lastRange.startContainer);
+
+      // 利用 range deleteContents 方法删除文本
+      range.deleteContents();
+
+      let string = `:::page ${resource.resourceName} ${resource.resourceId}
+${resource.title}
+:::
+
+`;
+
+      this.insertStringToEditor(string);
+    },
+
+    /**
+     * Debounce function for the search handler
+     */
+    debouncer: _.debounce((callback) => callback(), 500),
+
+    debounceSearchIfNeed() {
+      this.debouncer(() => {
+        this.searchIfNeed();
+      }, 200);
+    },
+
+    searchIfNeed() {
+      let selection = this.getMarkdownEditorSelection();
+
+      if (selection.anchorNode && selection.anchorNode.nodeName === "#text") {
+        let currentRowText = selection.anchorNode.data;
+
+        if (
+          currentRowText &&
+          currentRowText.indexOf(PAGE_CONTAINER_TRIGGER) !== -1
+        ) {
+          let search = currentRowText
+            .replace(PAGE_CONTAINER_TRIGGER, "")
+            .trim();
+
+          if (search !== "") {
+            this.openSearch();
+
+            this.search(search);
+
+            return;
+          }
+        }
+      }
+
+      this.closeSearch();
+    },
+
+    openSearch() {
+      this.showSearchResultWrap = true;
+      this.searchLoading = true;
+      this.searchResults = [];
+    },
+
+    closeSearch() {
+      this.showSearchResultWrap = false;
+      this.searchResults = [];
+      this.searchLoading = false;
+    },
+
+    search(search) {
+      Nova.request()
+        .get(SEARCH_API, {
+          params: { search },
+        })
+        .then((response) => {
+          this.searchResults = response.data;
+          this.searchLoading = false;
+        })
+        .catch((e) => {
+          console.log(e);
+          this.searchLoading = false;
+        });
+    },
+  },
 };
 </script>
 
@@ -481,6 +661,17 @@ export default {
   min-height: 300px;
   padding-bottom: 450px;
   width: 100%;
+}
+
+#search-result-wrap {
+  background-color: white;
+  max-height: 400px;
+  width: 320px;
+  position: fixed;
+  z-index: 10000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 div[data-testid] {
