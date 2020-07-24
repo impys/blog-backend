@@ -134,15 +134,11 @@ export default {
       this.setMarkdownPreviewWidth();
     });
     this.setEditorMaxBoundingClientRect();
-    this.registerListener();
+    this.registerListeners();
   },
 
   destroyed() {
-    window.removeEventListener("scroll", this.handleMarkdownEditorScroll);
-    this.getMarkdownPreview().removeEventListener(
-      "scroll",
-      this.handleMarkdownPreviewScroll
-    );
+    this.removeListeners();
   },
 
   watch: {
@@ -295,12 +291,34 @@ export default {
       this.editorMaxBoundingClientRect = this.getMarkdownEditor().getBoundingClientRect().top;
     },
 
-    registerListener() {
+    registerListeners() {
+      // 为了同步滚动
       window.addEventListener("scroll", this.handleMarkdownEditorScroll);
       this.getMarkdownPreview().addEventListener(
         "scroll",
         this.handleMarkdownPreviewScroll
       );
+
+      // 为了监听光标移动
+      window.addEventListener("keyup", this.handleKeyup);
+    },
+
+    removeListeners() {
+      window.removeEventListener("scroll", this.handleMarkdownEditorScroll);
+
+      this.getMarkdownPreview().removeEventListener(
+        "scroll",
+        this.handleMarkdownPreviewScroll
+      );
+
+      window.removeEventListener("keyup", this.handleKeyup);
+    },
+
+    handleKeyup(e) {
+      const { key, keyCode } = e;
+      if ([37, 38, 39, 40].includes(keyCode)) {
+        this.setLastRange();
+      }
     },
 
     handleMarkdownEditorScroll() {
@@ -408,7 +426,7 @@ export default {
     },
 
     insertStringToEditor(string) {
-      let selection = this.getMarkdownEditorSelection();
+      let selection = this.getCurrentSelection();
 
       // 返回一个包含当前选区内容的区域对象
       // https://developer.mozilla.org/zh-CN/docs/Web/API/Selection/getRangeAt
@@ -423,9 +441,6 @@ export default {
 
       // 更新 value
       this.value = this.getMarkdownEditor().textContent;
-
-      // lastRange 用过一次之后就没有意义了，置为 null
-      this.lastRange = null;
     },
 
     handleOnUploadProgress(e) {
@@ -452,10 +467,17 @@ export default {
      * 当编辑器失去焦点时，把 range 保存下来，因为一会聚焦的时候还要用
      */
     handleMarkdownEditorBlur() {
-      this.lastRange = this.getMarkdownEditorRange();
+      this.setLastRange();
     },
 
-    getMarkdownEditorSelection() {
+    setLastRange() {
+      let range = this.getCurrentRange();
+      if (range.commonAncestorContainer.parentNode.id === "markdown-editor") {
+        this.lastRange = range;
+      }
+    },
+
+    getCurrentSelection() {
       // 返回返回当前 document 对象所关联的 window 对象，如果没有，会返回 null https://developer.mozilla.org/zh-CN/docs/Web/API/Document/defaultView
       let window = this.getMarkdownEditor().ownerDocument.defaultView;
 
@@ -463,12 +485,13 @@ export default {
       return window.getSelection();
     },
 
-    getMarkdownEditorRange() {
-      return this.getMarkdownEditorSelection().getRangeAt(0);
+    getCurrentRange() {
+      return this.getCurrentSelection().getRangeAt(0);
     },
 
     handelClickMarkdownEditor() {
       this.scrollToTopIfNeeded();
+      this.setLastRange();
     },
 
     handleMarkdownEditorFocus() {
@@ -481,7 +504,7 @@ export default {
     handleClickResource(resource) {
       this.closeSearch();
 
-      let selection = this.getMarkdownEditorSelection();
+      let selection = this.getCurrentSelection();
 
       let range = document.createRange();
 
@@ -512,7 +535,7 @@ ${resource.title}
     },
 
     searchIfNeed() {
-      let selection = this.getMarkdownEditorSelection();
+      let selection = this.getCurrentSelection();
 
       if (selection.anchorNode && selection.anchorNode.nodeName === "#text") {
         let currentRowText = selection.anchorNode.data;
