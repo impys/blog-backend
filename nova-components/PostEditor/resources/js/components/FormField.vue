@@ -519,7 +519,7 @@ ${resource.title}
 
         if (
           currentRowText &&
-          currentRowText.indexOf(PAGE_CONTAINER_TRIGGER) !== -1
+          currentRowText.startsWith(PAGE_CONTAINER_TRIGGER)
         ) {
           let search = currentRowText
             .replace(PAGE_CONTAINER_TRIGGER, "")
