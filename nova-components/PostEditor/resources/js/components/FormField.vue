@@ -265,7 +265,11 @@ export default {
         .then((res) => {
           this.$toasted.clear();
           this.$toasted.success("上传成功");
-          this.insertStringToEditor(res.data.data.markdown_dom);
+          let string = `${res.data.data.markdown_dom}
+
+
+`;
+          this.insertStringToEditor(string);
           this.$refs.fileInput.value = "";
         })
         .catch((e) => {
@@ -517,6 +521,7 @@ export default {
       let string = `:::page ${resource.resourceName} ${resource.resourceId}
 ${resource.title}
 :::
+
 
 `;
 

@@ -36,10 +36,10 @@ class File extends Model
     public function getMarkdownDomAttribute(): ?string
     {
         if ($this->type === self::TYPE_AUDIO) {
-            return ":::music $this->url\n:::\n";
+            return ":::music $this->url\n:::";
         }
         if ($this->type === self::TYPE_IMAGE) {
-            return "![]({$this->url})\n";
+            return "![]({$this->url})";
         }
         return null;
     }
