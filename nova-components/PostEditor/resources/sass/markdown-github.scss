@@ -344,6 +344,21 @@
     pointer-events: none;
     white-space: pre-wrap;
 
+    code {
+        ol {
+            list-style: decimal;
+            margin: 0 0 0 8px;
+
+            li {
+                list-style: decimal-leading-zero;
+                border-left: 1px solid white;
+                padding-left: 10px;
+                white-space: pre;
+                color: #657b83;
+            }
+        }
+    }
+
     .hljs-comment {
         font-size: 90%;
     }
