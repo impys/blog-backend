@@ -1,5 +1,12 @@
 * {
     outline: none !important;
+
+    // 隐藏复制按钮
+    .markdown-github pre {
+        .block-code-copy-btn {
+            display: none;
+        }
+    }
 }
 
 @import "./markdown-github.scss";

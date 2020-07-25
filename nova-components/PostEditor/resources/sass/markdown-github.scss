@@ -337,46 +337,89 @@
 }
 
 .markdown-github pre {
-    padding: 16px;
+    padding: 16px 0;
     margin: 16px 0;
     border-radius: 4px;
     position: relative;
-    pointer-events: none;
-    white-space: pre-wrap;
 
-    code {
-        ol {
-            list-style: decimal;
-            margin: 0 0 0 6px;
-
-            li {
-                list-style: decimal-leading-zero;
-                border-left: 1px solid white;
-                padding-left: 10px;
-                white-space: pre;
-                color: #657b83;
-                white-space: pre-wrap;
-            }
-        }
-    }
-
-    .hljs-comment {
-        font-size: 90%;
-    }
-
-    &::after {
-        content: '';
+    &::before {
+        content: attr(data-lang);
+        text-transform: uppercase;
         position: absolute;
         top: 0;
-        right: 0;
+        right: 6px;
+        color: #93a1a1;
+        height: fit-content;
+        width: fit-content;
+        font-size: 12px;
+        opacity: 1;
+    }
+
+    &:hover .block-code-copy-btn {
+        opacity: 1;
+    }
+
+    &:hover::before {
+        opacity: 0;
+    }
+
+    .block-code-copy-btn {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        width: 24px;
+        height: 24px;
+        opacity: 0;
         background-image: url('/statics/copy-outline.svg');
         background-repeat: no-repeat;
         background-position: center center;
-        background-size: 16px 16px;
-        height: 18px;
-        width: 18px;
-        pointer-events: auto;
+        background-size: 22px 22px;
         cursor: pointer;
+        z-index: 1;
+    }
+
+    .block-code-wrap::-webkit-scrollbar {
+        /* Chrome Safari */
+        display: none;
+    }
+
+    .block-code-wrap {
+        overflow-x: auto;
+        overflow-y: hidden;
+        /* firefox */
+        scrollbar-width: none;
+        /* IE 10+ */
+        -ms-overflow-style: none;
+
+        .line-number {
+            position: relative;
+            height: 24px;
+            pointer-events: none;
+
+            &::before {
+                content: attr(data-line-number);
+                position: sticky;
+                top: 0;
+                left: 0;
+                display: inline-block;
+                margin-right: 20px;
+                padding: 0 10px;
+                border-right: 1px solid #93a1a1;
+                color: #93a1a1;
+                height: 100%;
+                width: 44px;
+                text-align: end;
+                background-color: #fdf6e3;
+                // font-size: 13px;
+                cursor: pointer;
+                vertical-align: middle;
+                pointer-events: auto;
+            }
+        }
+
+        .hljs-comment {
+            font-size: 90%;
+        }
     }
 }
 

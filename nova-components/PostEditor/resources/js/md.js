@@ -26,10 +26,10 @@ let md = new MarkdownIt({
         let html = lines
             .split(/\n/)
             .slice(0, -1)
-            .map((item) => `<li>${item}</li>`)
+            .map((item, index) => `<div class="line-number" data-line-number="${index + 1}">${item}</div>`)
             .join('')
 
-        return `<pre class="hljs"><code><ol>${html}</ol></code></pre>`
+        return `<pre class="hljs" data-lang="${lang}"><div class="block-code-copy-btn"></div><div class="block-code-wrap">${html}</div></pre>`
     }
 });
 
