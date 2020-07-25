@@ -347,7 +347,7 @@
     code {
         ol {
             list-style: decimal;
-            margin: 0 0 0 8px;
+            margin: 0 0 0 6px;
 
             li {
                 list-style: decimal-leading-zero;
@@ -355,6 +355,7 @@
                 padding-left: 10px;
                 white-space: pre;
                 color: #657b83;
+                white-space: pre-wrap;
             }
         }
     }
