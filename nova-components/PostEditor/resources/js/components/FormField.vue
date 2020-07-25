@@ -5,7 +5,6 @@
       ref="markdownEditor"
       v-model="value"
       @keydown.tab.native="tabIndent"
-      @keydown.esc.native="closeSearch"
       @paste.native="uploadFileByPaste"
       @click.native="handelClickMarkdownEditor"
       @focus.native="handleMarkdownEditorFocus"
@@ -43,7 +42,7 @@
         />
       </div>
 
-      <div id="previewBtn" class="flex flex-col" @click="handlePreview">
+      <div id="preview-btn" class="flex flex-col" @click="handlePreview">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
           <path
             class="heroicon-ui"
@@ -51,15 +50,42 @@
           />
         </svg>
       </div>
+
+      <div id="search-btn" class="flex flex-col" @click="openSearchWrap">
+        <svg
+          style="margin-top:3px;margin-left:2px;"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="16"
+          height="16"
+        >
+          <path
+            fill-rule="nonzero"
+            d="M14.32 12.906l5.387 5.387a1 1 0 0 1-1.414 1.414l-5.387-5.387a8 8 0 1 1 1.414-1.414zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"
+          />
+        </svg>
+      </div>
     </div>
 
-    <!-- Search result modal -->
+    <!-- Search modal -->
     <div
-      v-on-clickaway="closeSearch"
-      v-if="showSearchResultWrap"
-      id="search-result-wrap"
+      v-on-clickaway="closeSearchWrap"
+      v-if="showSearchWrap"
+      id="search-wrap"
       class="overflow-hidden rounded-lg shadow-lg w-full overflow-y-auto"
     >
+      <div class="relative">
+        <icon type="search" class="absolute search-icon-center ml-3 text-80" />
+
+        <input
+          id="search-input"
+          ref="searchInput"
+          @keydown.esc.stop="closeSearchWrap"
+          v-model="keyword"
+          type="search"
+        />
+      </div>
+
       <!-- Loader -->
       <div v-if="searchLoading" class="bg-white py-4 overflow-hidden shadow-lg w-full">
         <loader class="text-60" width="52" />
@@ -122,9 +148,10 @@ export default {
       initialValue: "🍭",
       isHoverPreview: false,
       editorMaxBoundingClientRect: 0,
-      searchResults: [],
+      keyword: null,
+      searchResults: null,
       searchLoading: false,
-      showSearchResultWrap: false,
+      showSearchWrap: false,
     };
   },
 
@@ -142,8 +169,8 @@ export default {
   },
 
   watch: {
-    value() {
-      this.debounceSearchIfNeed();
+    keyword() {
+      this.searchIfNeed();
     },
   },
 
@@ -161,12 +188,14 @@ export default {
       );
     },
 
-    hasSearchResults() {
+    hasResults() {
       return this.searchResults.length > 0;
     },
 
     shouldShowNoResults() {
-      return !this.hasSearchResults && !this.searchLoading;
+      return (
+        this.searchResults !== null && !this.hasResults && !this.searchLoading
+      );
     },
 
     indexedSearchResults() {
@@ -265,7 +294,8 @@ export default {
         .then((res) => {
           this.$toasted.clear();
           this.$toasted.success("上传成功");
-          let string = `${res.data.data.markdown_dom}
+          let string = `
+${res.data.data.markdown_dom}
 
 
 `;
@@ -506,19 +536,10 @@ export default {
     },
 
     handleClickResource(resource) {
-      this.closeSearch();
+      this.closeSearchWrap();
 
-      let selection = this.getCurrentSelection();
-
-      let range = document.createRange();
-
-      // 将 node 利用 selectNode 放入 range
-      range.selectNode(this.lastRange.startContainer);
-
-      // 利用 range deleteContents 方法删除文本
-      range.deleteContents();
-
-      let string = `:::page ${resource.resourceName} ${resource.resourceId}
+      let string = `
+:::page ${resource.resourceName} ${resource.resourceId}
 ${resource.title}
 :::
 
@@ -533,52 +554,39 @@ ${resource.title}
      */
     debouncer: _.debounce((callback) => callback(), 500),
 
-    debounceSearchIfNeed() {
-      this.debouncer(() => {
-        this.searchIfNeed();
-      }, 200);
+    openSearchWrap() {
+      this.showSearchWrap = true;
+      this.$nextTick(() => this.$refs.searchInput.focus());
     },
 
     searchIfNeed() {
-      let selection = this.getCurrentSelection();
+      console.log(this.keyword);
 
-      if (selection.anchorNode && selection.anchorNode.nodeName === "#text") {
-        let currentRowText = selection.anchorNode.data;
+      this.debouncer(() => {
+        this.search(this.keyword);
+      }, 200);
 
-        if (
-          currentRowText &&
-          currentRowText.startsWith(PAGE_CONTAINER_TRIGGER)
-        ) {
-          let search = currentRowText
-            .replace(PAGE_CONTAINER_TRIGGER, "")
-            .trim();
-
-          if (search !== "") {
-            this.openSearch();
-
-            this.search(search);
-
-            return;
-          }
-        }
-      }
-
-      this.closeSearch();
     },
 
-    openSearch() {
-      this.showSearchResultWrap = true;
-      this.searchLoading = true;
-      this.searchResults = [];
+    closeSearchWrap() {
+      this.showSearchWrap = false;
+      this.keyword = null;
+      this.restSearch();
     },
 
-    closeSearch() {
-      this.showSearchResultWrap = false;
-      this.searchResults = [];
+    restSearch() {
+      this.searchResults = null;
       this.searchLoading = false;
     },
 
     search(search) {
+      if (!search) {
+        return this.restSearch();
+      }
+
+      this.searchLoading = true;
+      this.searchResults = null;
+
       Nova.request()
         .get(SEARCH_API, {
           params: { search },
@@ -611,7 +619,8 @@ ${resource.title}
   }
 
   #uploader,
-  #previewBtn,
+  #preview-btn,
+  #search-btn,
   .markdown-buttons-cancel,
   .markdown-buttons-confirm {
     width: 40px;
@@ -642,10 +651,12 @@ ${resource.title}
   .toolbar {
     top: 238px;
     #uploader,
-    #previewBtn {
+    #preview-btn,
+    #search-btn {
       display: flex;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
 
       label {
         height: 100px;
@@ -658,7 +669,8 @@ ${resource.title}
     }
 
     #uploader,
-    #previewBtn {
+    #preview-btn,
+    #search-btn {
       svg path,
       svg rect {
         fill: var(--white);
@@ -691,15 +703,25 @@ ${resource.title}
   width: 100%;
 }
 
-#search-result-wrap {
+#search-wrap {
   background-color: white;
   max-height: 400px;
   width: 320px;
   position: fixed;
   z-index: 10000;
-  top: 50%;
+  top: 20%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
+  box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.3),
+    0 4px 8px 3px rgba(60, 64, 67, 0.15);
+
+  #search-input {
+    padding-left: 2.75rem;
+    padding-right: 0.75rem;
+    height: 2.25rem;
+    line-height: normal;
+    width: 100%;
+  }
 }
 
 div[data-testid] {
