@@ -68,7 +68,10 @@ class Post extends Resource
 
             BelongsTo::make('Book')->searchable()->nullable(),
 
-            Number::make('chapter')->step(1)->help('默认为最后一个章节'),
+            Number::make('chapter')
+                ->sortable()
+                ->step(1)
+                ->help('默认为最后一个章节'),
 
             PostEditor::make('body')->onlyOnForms(),
 
