@@ -296,7 +296,6 @@ export default {
           this.$toasted.success("上传成功");
           let string = `
 ${res.data.data.markdown_dom}
-
 `;
           this.insertStringToEditor(string);
           this.$refs.fileInput.value = "";
@@ -541,7 +540,6 @@ ${res.data.data.markdown_dom}
 :::page ${resource.resourceName} ${resource.resourceId}
 ${resource.title}
 :::
-
 `;
 
       this.insertStringToEditor(string);
