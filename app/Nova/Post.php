@@ -73,7 +73,7 @@ class Post extends Resource
                 ->step(1)
                 ->help('默认为最后一个章节'),
 
-            PostEditor::make('body')->onlyOnForms(),
+            PostEditor::make('body')->hideFromIndex(),
 
             Text::make('Tags', function () {
                 return $this->tags->pluck('name')->implode('、');
