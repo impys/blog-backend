@@ -556,8 +556,6 @@ ${resource.title}
     },
 
     searchIfNeed() {
-      console.log(this.keyword);
-
       this.debouncer(() => {
         this.search(this.keyword);
       }, 200);
@@ -677,6 +675,7 @@ ${resource.title}
 #markdown-editor,
 #markdown-preview {
   transition: all 0.3s ease;
+  padding: 20px;
 }
 
 #markdown-preview {
@@ -686,7 +685,6 @@ ${resource.title}
   right: 50px;
   z-index: 9999;
   height: 100vh;
-  padding: 2rem;
   background-color: white;
   box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.05),
     0 4px 8px 3px rgba(60, 64, 67, 0.15);
@@ -696,8 +694,6 @@ ${resource.title}
   min-height: 300px;
   padding-bottom: 450px;
   width: 100%;
-  margin: 2rem;
-  border-left: 1px solid #eee;
   word-spacing: 4px;
 }
 
