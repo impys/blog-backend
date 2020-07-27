@@ -73,7 +73,9 @@ class Post extends Resource
                 ->step(1)
                 ->help('默认为最后一个章节'),
 
-            PostEditor::make('body')->hideFromIndex(),
+            PostEditor::make('body')
+                ->appUrl(config('app.url'))
+                ->hideFromIndex(),
 
             Text::make('Tags', function () {
                 return $this->tags->pluck('name')->implode('、');

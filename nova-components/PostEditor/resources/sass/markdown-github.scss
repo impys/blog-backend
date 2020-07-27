@@ -31,7 +31,6 @@
     text-decoration: none;
 }
 
-
 .markdown-github a:active,
 .markdown-github a:hover {
     outline-width: 0;
@@ -39,14 +38,13 @@
 
 .markdown-github a[target="_blank"]:after {
     content: ' ';
-    background-image: url('/statics/external-link-outline.svg');
+    background-image: url('/statics/external-link-outline-blue.svg');
     background-repeat: no-repeat;
     display: inline-block;
     background-size: 10px 10px;
     height: 13px;
     width: 10px;
 }
-
 
 .markdown-github strong {
     font-weight: bolder;
@@ -370,7 +368,7 @@
         width: 24px;
         height: 24px;
         opacity: 0;
-        background-image: url('/statics/copy-outline.svg');
+        background-image: url('/statics/copy-outline-blue.svg');
         background-repeat: no-repeat;
         background-position: center center;
         background-size: 22px 22px;
@@ -395,6 +393,8 @@
             position: relative;
             height: 24px;
             pointer-events: none;
+            white-space: pre;
+            word-wrap: normal;
 
             &::before {
                 content: attr(data-line-number);
@@ -481,46 +481,6 @@
     }
 }
 
-.page {
-    margin-top: 14px;
-    margin-bottom: 14px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    max-width: 500px;
-    background-image: linear-gradient(45deg, #ace0f9, #fff1eb);
-    color: #757575 !important;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.5s;
-    position: relative;
-
-    p {
-        padding-top: 18px;
-        padding-bottom: 28px;
-        margin: 0;
-        height: 80px;
-        font-weight: 600;
-        text-align: center;
-    }
-}
-
-.page::after {
-    content: attr(data-url);
-    padding-left: 16px;
-    line-height: 13px;
-    font-size: 13px;
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-image: url('/statics/link-2-outline.svg');
-    background-repeat: no-repeat;
-    display: block;
-    background-size: 13px 13px;
-    height: 13px;
-}
-
 .music {
     margin-top: 14px;
     margin-bottom: 14px;
@@ -528,7 +488,7 @@
     margin-right: auto;
     background-color: #EA4335;
     border-radius: 50%;
-    background-image: url('/statics/arrow-right-outline.svg');
+    background-image: url('/statics/arrow-right-outline-white.svg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 50px 50px;

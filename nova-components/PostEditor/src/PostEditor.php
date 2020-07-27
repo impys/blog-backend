@@ -13,4 +13,15 @@ class PostEditor extends Field
      * @var string
      */
     public $component = 'post-editor';
+
+    /**
+     * Append app url
+     *
+     * @param string $url
+     * @return $this
+     */
+    public function appUrl(string $appUrl)
+    {
+        return $this->withMeta(['appUrl' => $appUrl]);
+    }
 }

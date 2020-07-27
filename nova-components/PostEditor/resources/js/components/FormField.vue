@@ -130,8 +130,6 @@ const UPLOAD_API = "/nova-vendor/post-editor/upload";
 
 const SEARCH_API = "/nova-vendor/post-editor/search";
 
-const PAGE_CONTAINER_TRIGGER = ":::page";
-
 export default {
   mixins: [FormField, HandlesValidationErrors, clickaway],
 
@@ -186,6 +184,10 @@ export default {
         document.documentElement.clientHeight || 0,
         window.innerHeight || 0
       );
+    },
+
+    appUrl() {
+      return this.field.appUrl;
     },
 
     hasResults() {
@@ -536,11 +538,7 @@ ${res.data.data.markdown_dom}
     handleClickResource(resource) {
       this.closeSearchWrap();
 
-      let string = `
-:::page ${resource.resourceName} ${resource.resourceId}
-${resource.title}
-:::
-`;
+      let string = `[${resource.title}](${this.appUrl}/${resource.resourceName}/${resource.resourceId})`;
 
       this.insertStringToEditor(string);
     },

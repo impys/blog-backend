@@ -56,28 +56,7 @@ md.use(MarkdownItContainer, 'note', {
     }
 });
 
-// 自定义 page 容器，用于内联跳转
-md.use(MarkdownItContainer, 'page', {
-
-    validate: function (param) {
-        return param.trim().match(/^page\s+(.*)$/);
-    },
-
-    render: function (tokens, idx) {
-        let m = tokens[idx].info.trim().match(/^page\s+(.*)$/);
-
-        if (tokens[idx].nesting === 1) {
-            let route = m[1].split(" ").reduce((carry, currentValue) => { return carry + '/' + currentValue }, '');
-
-            return `<div class="page" route=${route} data-url="atom.ac.cn${route}">` + '\n';
-
-        } else {
-            return '</div>\n';
-        }
-    }
-});
-
-// 自定义 music 容器，用于内联跳转
+// 自定义 music 容器
 md.use(MarkdownItContainer, 'music', {
 
     validate: function (param) {
@@ -118,15 +97,15 @@ md.use(function (md) {
     })
 });
 
-// append _blank to a element
-md.use(require('markdown-it-for-inline'), 'url_new_win', 'link_open', function (tokens, idx) {
-    let aIndex = tokens[idx].attrIndex('target');
-    if (aIndex < 0) {
-        tokens[idx].attrPush(['target', '_blank']);
-    } else {
-        tokens[idx].attrs[aIndex][1] = '_blank';
-    }
-});
+// handle a element
+md.use(
+    require('markdown-it-for-inline'),
+    'url_new_win',
+    'link_open',
+    function (tokens, idx) {
+        let href = tokens[idx].attrGet('href');
+        tokens[idx].attrSet('target', '_blank');
+    });
 
 export {
     md
