@@ -31,6 +31,7 @@
     text-decoration: none;
 }
 
+
 .markdown-github a:active,
 .markdown-github a:hover {
     outline-width: 0;
@@ -45,6 +46,7 @@
     height: 13px;
     width: 10px;
 }
+
 
 .markdown-github strong {
     font-weight: bolder;
@@ -353,7 +355,7 @@
         opacity: 1;
     }
 
-    &:hover .block-code-copy-btn {
+    &:hover .code-copy-btn {
         opacity: 1;
     }
 
@@ -361,7 +363,7 @@
         opacity: 0;
     }
 
-    .block-code-copy-btn {
+    .code-copy-btn {
         position: absolute;
         top: 2px;
         right: 2px;
@@ -376,12 +378,12 @@
         z-index: 1;
     }
 
-    .block-code-wrap::-webkit-scrollbar {
+    .code-wrap::-webkit-scrollbar {
         /* Chrome Safari */
         display: none;
     }
 
-    .block-code-wrap {
+    .code-wrap {
         overflow-x: auto;
         overflow-y: hidden;
         /* firefox */
@@ -392,7 +394,6 @@
         .line-number {
             position: relative;
             height: 24px;
-            pointer-events: none;
             white-space: pre;
             word-wrap: normal;
 
@@ -406,19 +407,19 @@
                 padding: 0 10px;
                 border-right: 1px solid #93a1a1;
                 color: #93a1a1;
-                height: 100%;
+                height: 24px;
+                line-height: 24px;
                 width: 44px;
                 text-align: end;
                 background-color: #fdf6e3;
-                // font-size: 13px;
-                cursor: pointer;
+                font-size: 13px;
+                pointer-events: none;
                 vertical-align: middle;
-                pointer-events: auto;
             }
         }
 
         .hljs-comment {
-            font-size: 90%;
+            color: #657b83;
         }
     }
 }
