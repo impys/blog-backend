@@ -19,7 +19,8 @@
     color: #027BE3;
     text-decoration: none;
     background-color: transparent;
-    word-break: break-all;
+    word-wrap: break-word;
+    word-break: keep-all;
 }
 
 .markdown-github a:hover {
@@ -341,6 +342,7 @@
     margin: 16px 0;
     border-radius: 4px;
     position: relative;
+    font-family: "Source Code Pro";
 
     &::before {
         content: attr(data-lang);
@@ -427,13 +429,16 @@
 .markdown-github :not(pre)>code {
     background-color: #fdf6e3;
     color: #4c4e4d;
-    padding: 0 3px;
+    padding: 1px 3px;
     margin: 0 3px;
     border-radius: 4px;
-    white-space: pre-wrap;
     vertical-align: 1px;
-    font-size: 88%;
-    word-break: break-all;
+    font-size: .75rem;
+    line-height: 1.9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: keep-all;
+    font-family: "Source Code Pro";
 }
 
 .note-base {
