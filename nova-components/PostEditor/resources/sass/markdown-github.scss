@@ -327,6 +327,7 @@
     border-radius: 4px;
     margin: 10px auto;
     display: block;
+    cursor: pointer;
 }
 
 .markdown-github img[align=right] {
@@ -344,9 +345,8 @@
     position: relative;
     font-family: "Source Code Pro";
 
+    .code-copy-btn,
     &::before {
-        content: attr(data-lang);
-        text-transform: uppercase;
         position: absolute;
         top: 0;
         right: 6px;
@@ -354,6 +354,18 @@
         height: fit-content;
         width: fit-content;
         font-size: 12px;
+        transition: all .25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .code-copy-btn {
+        opacity: 0;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    &::before {
+        content: attr(data-lang);
+        text-transform: uppercase;
         opacity: 1;
     }
 
@@ -363,21 +375,6 @@
 
     &:hover::before {
         opacity: 0;
-    }
-
-    .code-copy-btn {
-        position: absolute;
-        top: 2px;
-        right: 2px;
-        width: 24px;
-        height: 24px;
-        opacity: 0;
-        background-image: url('/statics/copy-outline-blue.svg');
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: 22px 22px;
-        cursor: pointer;
-        z-index: 1;
     }
 
     .code-wrap::-webkit-scrollbar {
