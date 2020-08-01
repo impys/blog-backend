@@ -16,7 +16,7 @@ RUN mkdir /root/.ssh/ \
     && composer config -g github-oauth.github.com ${TOKEN_FOR_COMPOSER} \
     && composer install --ignore-platform-reqs --no-dev
 
-FROM php:7.4.4-apache
+FROM php:7.4.7-apache
 
 WORKDIR /srv
 
