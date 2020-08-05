@@ -17,8 +17,10 @@ class Search extends Controller
     public function __invoke(Request $request)
     {
         $keyword = $request->input('keyword', null);
+        $size = $request->input('size', 15);
+        $page = $request->input('page', 1);
 
-        $paginator = PostSearchService::boolSearch($keyword);
+        $paginator = PostSearchService::boolSearch($keyword, $size, $page);
 
         return PostSearchList::collection($paginator);
     }

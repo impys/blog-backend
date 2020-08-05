@@ -10,7 +10,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class PostSearchService
 {
     // TODO:拆分为小函数
-    public static function boolSearch(string $keyword, int $perPage = 10, int $page = 1)
+    public static function boolSearch(string $keyword, int $size, int $page)
     {
         $searchResult = Post::boolSearch()
             ->should(
@@ -20,8 +20,8 @@ class PostSearchService
                     'fields' => ['title^2', 'body'],
                 ]
             )
-            ->from($perPage * ($page - 1))
-            ->size($perPage)
+            ->from($size * ($page - 1))
+            ->size($size)
             ->highlightRaw(
                 [
                     'fields' => [
@@ -60,6 +60,6 @@ class PostSearchService
 
         $models->load(['tags', 'files']);
 
-        return new LengthAwarePaginator($models, $total, $perPage, $page);
+        return new LengthAwarePaginator($models, $total, $size, $page);
     }
 }
