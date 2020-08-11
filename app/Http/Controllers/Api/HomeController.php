@@ -15,8 +15,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $books = Book::query()
-            ->latest()
-            ->limit(4)
+            ->whereIn('id', [2, 4, 1, 5])
             ->get();
 
         $posts = Post::query()
