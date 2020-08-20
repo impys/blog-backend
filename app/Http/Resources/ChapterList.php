@@ -16,6 +16,8 @@ class ChapterList extends JsonResource
     {
         $data["id"] = $this->id;
         $data["title"] = $this->title;
+        $data["created_at"] = $this->created_at;
+        $data["updated_at"] = $this->updated_at;
         $data['chapter'] = $this->chapter;
         $data['chapter_index'] = $this->chapter_index;
 
