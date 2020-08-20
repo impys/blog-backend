@@ -142,8 +142,8 @@ return [
     | Example(attributeForDistinct): 'slug'
     */
 
-    'distinct' => null,
-    'attributeForDistinct' => null,
+    'distinct' => true,
+    'attributeForDistinct' => 'title',
 
     /*
     |--------------------------------------------------------------------------
