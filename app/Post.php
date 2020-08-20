@@ -306,8 +306,8 @@ class Post extends Model
 
         $this->chapter = $lastChapter + 1;
 
-        // 不触发 saved 事件，避免递归
-        $this->withoutTimestamps()->saveQuietly();
+        $this->withoutTimestamps()  // 不更新时间
+            ->saveQuietly();  // 不触发 saved 事件，避免递归
     }
 
     public function reorderChapters($chapters)
@@ -324,8 +324,8 @@ class Post extends Model
 
             $post->chapter = $chapter;
 
-            // 不触发 saved 事件，避免递归
-            $post->withoutTimestamps()->saveQuietly();
+            $post->withoutTimestamps()  // 不更新时间
+                ->saveQuietly();  // 不触发 saved 事件，避免递归
 
             $chapter++;
         }
