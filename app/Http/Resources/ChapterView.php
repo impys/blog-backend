@@ -17,7 +17,6 @@ class ChapterView extends JsonResource
         $data["id"] = $this->id;
         $data["title"] = $this->title;
         $data['chapter'] = $this->chapter;
-        $data["updated_at_human"] = $this->updated_at_human;
 
         return $data;
     }

@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
-use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Collection;
 
 class Post extends Model
@@ -22,7 +21,6 @@ class Post extends Model
     use HasEnabled;
     use SyncFiles;
     use Searchable;
-    use CustomSearch;
     use ModelExtend;
 
     protected $fillable = [
@@ -36,8 +34,6 @@ class Post extends Model
     ];
 
     protected $appends = [
-        'created_at_human',
-        'updated_at_human',
         'length',
         'audio_count',
         'summary',
@@ -67,33 +63,37 @@ class Post extends Model
 
     public function toSearchableArray()
     {
-        $array['id'] = $this->id;
+        $data["id"] = $this->id;
+        $data["title"] = $this->title;
+        $data['body'] = $this->body;
+        $data["is_top"] = $this->is_top;
+        $data['visited_count'] = $this->visited_count;
+        $data["updated_at"] = $this->updated_at;
+        $data["created_at"] = $this->created_at;
+        $data["cover_media"] = $this->getCoverMedia();
+        $data["tags"] = $this->tags;
+        $data["tag_names"] = $this->tags->map(fn ($tag) => $tag->name);
+        $data["book"] = $this->book;
+        $data["book_name"] = optional($this->book)->name;
 
-        $array['title'] = $this->title;
-
-        $array['body'] = $this->getPlainBodyText();
-
-        $array['tags'] = $this->buildTagsForSearch();
-
-        $array['visited_count'] = $this->visited_count;
-
-        $array['is_top'] = $this->is_top;
-
-        $array['created_at'] = $this->created_at;
-
-        $array['updated_at'] = $this->updated_at;
-
-        return $array;
+        return $data;
     }
 
-    public function getPlainBodyText(): string
+    public function splitBody()
+    {
+        return array_filter(explode('<split>', $this->getPlainBody()));
+    }
+
+    public function getPlainBody(): string
     {
         return collect(explode(PHP_EOL, Markdown::parse($this->body)->toHtml()))
-            ->map(function ($stringWithHtml) {
-                return strip_tags($stringWithHtml);
-            })->reduce(function ($carry, $pureString) {
-                return $carry . $pureString;
-            });
+            ->map(
+                fn ($html) => Str::startsWith($html, '<h2>')
+                    ? '<split>' . strip_tags($html)
+                    : strip_tags($html)
+            )->reduce(
+                fn ($carry, $item) => $carry . $item
+            );
     }
 
     public function book()
@@ -166,16 +166,6 @@ class Post extends Model
         } else {
             return $this->title;
         }
-    }
-
-    public function getCreatedAtHumanAttribute()
-    {
-        return $this->created_at->diffForHumans();
-    }
-
-    public function getUpdatedAtHumanAttribute()
-    {
-        return $this->updated_at->diffForHumans();
     }
 
     public function getLengthAttribute(): int
@@ -262,23 +252,6 @@ class Post extends Model
     {
         $this->tags()->sync($tags->pluck('id')->toArray());
         return $this;
-    }
-
-    /**
-     * get tags id and name for elasticsearch
-     *
-     * @return array
-     */
-    public function buildTagsForSearch(): array
-    {
-        return $this->tags
-            ->map(function ($tag) {
-                return [
-                    'id' => $tag->id,
-                    'name' => $tag->name,
-                ];
-            })
-            ->toArray();
     }
 
     public function beVisited()
