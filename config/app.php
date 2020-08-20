@@ -180,7 +180,7 @@ return [
          * My Service Providers...
          */
 
-        App\Providers\BaiduTransServiceProvider::class,
+        App\Providers\TransServiceProvider::class,
 
     ],
 

@@ -11,7 +11,6 @@ use Laravel\Scout\Searchable;
 use Illuminate\Mail\Markdown;
 use App\Exceptions\PostException;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
@@ -263,10 +262,6 @@ class Post extends Model
 
     public function syncSlug()
     {
-        if (!App::environment('production')) {
-            return;
-        }
-
         try {
             $slug = Trans::trans($this->full_title_with_dash);
         } catch (\Throwable $th) {
