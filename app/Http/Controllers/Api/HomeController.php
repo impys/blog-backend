@@ -26,13 +26,13 @@ class HomeController extends Controller
         $postsWithAudio = (clone $postQuery)
             ->whereHas('files', fn ($query) => $query->ofType(File::TYPE_AUDIO))
             ->inRandomOrder()
-            ->limit(2)
+            ->limit(3)
             ->get();
 
         $posts = (clone $postQuery)
             ->mostVisit()
             ->whereNotIn('id', $postsWithAudio->pluck('id')->toArray())
-            ->limit(2)
+            ->limit(6 - $$postsWithAudio->count())
             ->get();
 
         $posts = $posts->concat($postsWithAudio)->sort();
