@@ -32,7 +32,7 @@ class HomeController extends Controller
         $posts = (clone $postQuery)
             ->mostVisit()
             ->whereNotIn('id', $postsWithAudio->pluck('id')->toArray())
-            ->limit(6 - $$postsWithAudio->count())
+            ->limit(6 - $postsWithAudio->count())
             ->get();
 
         $posts = $posts->concat($postsWithAudio)->sort();
