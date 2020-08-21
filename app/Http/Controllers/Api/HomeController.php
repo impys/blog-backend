@@ -23,13 +23,13 @@ class HomeController extends Controller
             ->enabled()
             ->with(['tags', 'files']);
 
-        $postsWithAudio = $postQuery
+        $postsWithAudio = (clone $postQuery)
             ->whereHas('files', fn ($query) => $query->ofType(File::TYPE_AUDIO))
             ->inRandomOrder()
             ->limit(2)
             ->get();
 
-        $posts = $postQuery
+        $posts = (clone $postQuery)
             ->mostVisit()
             ->whereNotIn('id', $postsWithAudio->pluck('id')->toArray())
             ->limit(2)
