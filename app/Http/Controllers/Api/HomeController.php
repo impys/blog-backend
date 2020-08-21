@@ -29,7 +29,7 @@ class HomeController extends Controller
             ->limit(2)
             ->get();
 
-        $posts = $postQuery
+        $posts = clone $postQuery
             ->mostVisit()
             ->whereNotIn('id', $postsWithAudio->pluck('id')->toArray())
             ->limit(2)
