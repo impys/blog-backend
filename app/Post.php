@@ -376,4 +376,10 @@ class Post extends Model
 
         return null;
     }
+
+    public function upvote()
+    {
+        $this->upvote_count++;
+        $this->withoutTimestamps()->saveQuietly();
+    }
 }

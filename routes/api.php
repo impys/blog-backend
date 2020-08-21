@@ -18,6 +18,7 @@ Route::group(['middleware' => ['api', 'throttle']], function () {
     Route::get('/books-in-random-order', 'HomeController@booksInRandomOrder');
     Route::get('/posts-in-random-order', 'HomeController@postsInRandomOrder');
     Route::get('/posts', 'GetPosts');
+    Route::put('/posts/{post}/upvote', 'UpvotePost');
     Route::get('/posts/{post}', 'GetPost');
     Route::get('/tags', 'GetTags');
     Route::get('/books', 'GetBooks');
