@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Book;
+use App\File;
 use App\Post;
 use App\Http\Resources\BookList;
 use Illuminate\Http\Request;
@@ -18,14 +19,27 @@ class HomeController extends Controller
             ->whereIn('id', [2, 4, 1, 5])
             ->get();
 
-        $posts = Post::query()
+        $postQuery = Post::query()
             ->enabled()
-            ->with(['tags', 'files'])
-            ->limit(4)
+            ->with(['tags', 'files']);
+
+        $postsWithAudio = $postQuery
+            ->whereHas('files', fn ($query) => $query->ofType(File::TYPE_AUDIO))
+            ->inRandomOrder()
+            ->limit(2)
             ->get();
+
+        $posts = $postQuery
+            ->mostVisit()
+            ->whereNotIn('id', $postsWithAudio->pluck('id')->toArray())
+            ->limit(2)
+            ->get();
+
+        $posts = $posts->concat($postsWithAudio)->sort();
 
         return new HomeView(
             [
+                'books' => $books,
                 'posts' => $posts,
             ]
         );
