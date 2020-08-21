@@ -11,5 +11,7 @@ class BookObserver
         if ($book->isDirty('cover')) {
             $book->syncFiles();
         }
+
+        $book->posts()->searchable();
     }
 }
