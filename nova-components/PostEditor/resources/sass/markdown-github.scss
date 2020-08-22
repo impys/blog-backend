@@ -16,7 +16,7 @@
 }
 
 .markdown-github a {
-    color: #027BE3;
+    color: #4285F4;
     text-decoration: none;
     background-color: transparent;
     word-wrap: break-word;
@@ -232,10 +232,12 @@
 
 .markdown-github h1,
 .markdown-github h2 {
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 700;
     margin-top: 50px;
     margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eaecef;
 }
 
 .markdown-github h3 {
@@ -361,6 +363,10 @@
         opacity: 0;
         cursor: pointer;
         z-index: 1;
+
+        &::before {
+            content: '复制';
+        }
     }
 
     &::before {
