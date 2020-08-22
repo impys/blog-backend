@@ -143,7 +143,7 @@ export default {
     return {
       isShowPreview: false,
       lastRange: null,
-      initialValue: "🍭",
+      initialValue: "✍", // 为了解决输入第一个字符，光标字符前而设置的值
       isHoverPreview: false,
       editorMaxBoundingClientRect: 0,
       keyword: null,
@@ -460,21 +460,47 @@ ${res.data.data.markdown_dom}
     },
 
     insertStringToEditor(string) {
+      let range = this.lastRange;
+
+      let removeAllRanges = true;
+
+      // 没有 range ，表示是第一次插入
+      if (!range) {
+        range = this.getDefaultRange();
+        removeAllRanges = false;
+        this.clearInitialValueIfNeeded();
+      }
+
+      // 构造一个 textNode
+      let textNode = document.createTextNode(string);
+
+      // 把 textNode 放入 range
+      range.insertNode(textNode);
+
+      // 把拖蓝的起点放在 textNode 之后
+      range.setStartAfter(textNode);
+
+      // 获取 selection 对象
       let selection = this.getCurrentSelection();
 
-      // 返回一个包含当前选区内容的区域对象
-      // https://developer.mozilla.org/zh-CN/docs/Web/API/Selection/getRangeAt
-      let range = this.lastRange || selection.getRangeAt(0);
+      if (removeAllRanges) {
+        // see https://stackoverflow.com/questions/43260617/selection-addrange-is-deprecated-and-will-be-removed-from-chrome
+        selection.removeAllRanges();
+      }
 
-      let textNode = document.createTextNode(string);
-      range.insertNode(textNode);
-      range.setStartAfter(textNode);
-      range.setEndAfter(textNode);
-      selection.removeAllRanges();
       selection.addRange(range);
 
       // 更新 value
       this.value = this.getMarkdownEditor().textContent;
+    },
+
+    /**
+     * 获取以 MarkdownEditor 为基础的 range
+     */
+    getDefaultRange() {
+      let range = new Range();
+      range.setStart(this.getMarkdownEditor(), 0);
+      return range;
     },
 
     handleOnUploadProgress(e) {
@@ -505,10 +531,7 @@ ${res.data.data.markdown_dom}
     },
 
     setLastRange() {
-      let range = this.getCurrentRange();
-      if (range.commonAncestorContainer.parentNode.id === "markdown-editor") {
-        this.lastRange = range;
-      }
+      this.lastRange = this.getCurrentSelection().getRangeAt(0);
     },
 
     getCurrentSelection() {
@@ -519,16 +542,16 @@ ${res.data.data.markdown_dom}
       return window.getSelection();
     },
 
-    getCurrentRange() {
-      return this.getCurrentSelection().getRangeAt(0);
-    },
-
     handelClickMarkdownEditor() {
       this.scrollToTopIfNeeded();
       this.setLastRange();
     },
 
     handleMarkdownEditorFocus() {
+      this.clearInitialValueIfNeeded();
+    },
+
+    clearInitialValueIfNeeded() {
       if (this.value === this.initialValue) {
         this.getMarkdownEditor().innerHTML = null;
         this.value = null;
