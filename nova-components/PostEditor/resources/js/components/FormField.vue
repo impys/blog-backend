@@ -715,6 +715,7 @@ ${res.data.data.markdown_dom}
   min-height: 300px;
   padding-bottom: 450px;
   width: 100%;
+  tab-size: 4;
   font-family: "Source Code Pro";
 }
 

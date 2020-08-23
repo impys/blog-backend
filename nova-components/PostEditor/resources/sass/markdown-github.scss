@@ -125,13 +125,6 @@
     color: #4c4e4d;
 }
 
-.markdown-github :first-child:last-child[class="music"] {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-}
-
 .markdown-github blockquote {
     margin: 0;
 }
@@ -504,4 +497,9 @@
     height: 90px;
     width: 90px;
     cursor: pointer;
+}
+
+.markdown-github :first-child:last-child[class="music"] {
+    margin-top: 130px;
+    margin-bottom: 130px;
 }
