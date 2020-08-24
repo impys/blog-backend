@@ -217,9 +217,9 @@ class Post extends Model
     {
         $prefix = preg_replace("/\//", "\\\/", Storage::url('/'));
 
-        // 匹配以 https://cdn.atom.ac.cn/ 开头，中间是任意字符，然后以 \n 或者 ) 结尾的字符串
-        // https://cdn.atom.ac.cn/33BfxLQFsUUEcXWFYvHvf8IRkiJ7as31NoVQiSMC.mpga\n
-        // https://cdn.atom.ac.cn/toC9A5RxKkQI43voYcznhPgIkROshplyhFVOvciz.png)
+        // 匹配以 https://xxx.com/ 开头，中间是任意字符，然后以 \n 或者 ) 结尾的字符串
+        // https://xxx.com/33BfxLQFsUUEcXWFYvHvf8IRkiJ7as31NoVQiSMC.mpga\n
+        // https://xxx.com/toC9A5RxKkQI43voYcznhPgIkROshplyhFVOvciz.png)
         $pattern = "/$prefix(.*)(\)|\\n)/U";
 
         preg_match_all($pattern, $this->body, $results);
