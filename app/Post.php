@@ -283,11 +283,7 @@ class Post extends Model
             $this->setDefaultChapter();
         }
 
-        $chapters = $this->book->posts()->get();
-
-        if ($chapters->max('chapter') !== $chapters->count()) {
-            $this->reorderChapters($chapters);
-        }
+        $this->reorderChapters();
     }
 
     /**
@@ -305,30 +301,28 @@ class Post extends Model
             ->saveQuietly();  // 不触发 saved 事件，避免递归
     }
 
-    public function reorderChapters($chapters)
+    public function reorderChapters()
     {
-        $otherChapters = $chapters->except($this->id)->sortBy('chapter');
+        $index = 1;
 
-        $chapter = 1;
+        $this->book
+            ->posts()
+            ->where('id', '!=', $this->id)
+            ->orderBy('chapter')
+            ->each(function ($post) use (&$index) {
+                if ($index === $this->chapter) {
+                    $index++;
+                }
 
-        // 如果数据量大，应该用批量更新
-        foreach ($otherChapters as $post) {
-            if ($chapter === $this->chapter) {
-                $chapter++;
-            }
+                $post->chapter = $index;
 
-            $post->chapter = $chapter;
+                if ($post->isDirty('chapter')) {
+                    $post->withoutTimestamps()  // 不更新时间
+                        ->saveQuietly();  // 不触发 saved 事件，避免递归
+                }
 
-            $post->withoutTimestamps()  // 不更新时间
-                ->saveQuietly();  // 不触发 saved 事件，避免递归
-
-            $chapter++;
-        }
-
-        if ($this->chapter - $otherChapters->count() > 1) {
-            $this->chapter = $otherChapters->count() + 1;
-            $this->withoutTimestamps()->saveQuietly();
-        }
+                $index++;
+            });
     }
 
     public function getPrevChapter(): ?self
