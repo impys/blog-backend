@@ -2,7 +2,6 @@
 
 namespace App\Nova;
 
-use App\Tag;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -11,7 +10,6 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Qingfengbaili\PostEditor\PostEditor;
-use Qingfengbaili\TagAutocomplete\TagAutocomplete;
 
 class Post extends Resource
 {
@@ -86,16 +84,6 @@ class Post extends Resource
             Text::make('Audio Count')->exceptOnForms(),
 
             BelongsTo::make('User')->hideWhenCreating()->hideWhenUpdating(),
-
-            TagAutocomplete::make()->withMeta([
-                'tags' => $this
-                    ->tags
-                    ->pluck('name')
-                    ->toArray(),
-                'allTags' => Tag::all()
-                    ->pluck('name')
-                    ->toArray()
-            ]),
 
             HasMany::make('Files'),
         ];
