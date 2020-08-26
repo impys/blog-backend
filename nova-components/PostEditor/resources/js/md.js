@@ -40,39 +40,39 @@ md.use(require('markdown-it-sup'));
 md.use(require('markdown-it-footnote'));
 
 // 自定义 note 容器，用于创建提醒消息
-md.use(MarkdownItContainer, 'note', {
+// md.use(MarkdownItContainer, 'note', {
 
-    validate: function (param) {
-        return ['tip', 'warning', 'danger'].some(item => item === param.trim());
-    },
+//   validate: function (param) {
+//     return ['tip', 'warning', 'danger'].some(item => item === param.trim());
+//   },
 
-    render: function (tokens, idx) {
-        if (tokens[idx].nesting === 1) {// 标签头
-            return `<div class="note-base note-${tokens[idx].info.trim()}">\n`;
+//   render: function (tokens, idx) {
+//     if (tokens[idx].nesting === 1) {// 标签头
+//       return `<div class="note-base note-${tokens[idx].info.trim()}">\n`;
 
-        } else {// 标签尾
-            return '</div>\n';
-        }
-    }
-});
+//     } else {// 标签尾
+//       return '</div>\n';
+//     }
+//   }
+// });
 
 // 自定义 music 容器
-md.use(MarkdownItContainer, 'music', {
+// md.use(MarkdownItContainer, 'music', {
 
-    validate: function (param) {
-        return param.trim().match(/^music\s+(.*)$/);
-    },
+//   validate: function (param) {
+//     return param.trim().match(/^music\s+(.*)$/);
+//   },
 
-    render: function (tokens, idx) {
-        let m = tokens[idx].info.trim().match(/^music\s+(.*)$/);
+//   render: function (tokens, idx) {
+//     let m = tokens[idx].info.trim().match(/^music\s+(.*)$/);
 
-        if (tokens[idx].nesting === 1) {
-            return `<div class="music" status="stop" src=${m[1]}>` + '\n';
-        } else {
-            return '</div>\n';
-        }
-    }
-});
+//     if (tokens[idx].nesting === 1) {
+//       return `<div class="music" status="stop" src=${m[1]}>` + '\n';
+//     } else {
+//       return '</div>\n';
+//     }
+//   }
+// });
 
 // 解析 h2 h3 标签，用于创建目录
 md.use(function (md) {
@@ -100,13 +100,24 @@ md.use(function (md) {
 // handle a element
 md.use(
     require('markdown-it-for-inline'),
-    'url_new_win',
+    'url_target',
     'link_open',
     function (tokens, idx) {
         let href = tokens[idx].attrGet('href');
-        tokens[idx].attrSet('target', '_blank');
+        if (href.startsWith(process.env.FRONTEND_DOMAIN)) {
+            tokens[idx].attrPush(['class', 'inner-link']);
+
+            let path = href.replace(process.env.FRONTEND_DOMAIN, "");
+
+            tokens[idx].attrPush(['path', path]);
+        } else if (href.endsWith('mp3') || href.endsWith('mpeg')) {
+            tokens[idx].attrPush(['class', 'music']);
+        } else {
+            tokens[idx].attrSet('target', '_blank');
+        }
     });
 
 export {
     md
 }
+
