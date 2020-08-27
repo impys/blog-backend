@@ -110,7 +110,7 @@ md.use(
             let path = href.replace(process.env.FRONTEND_DOMAIN, "");
 
             tokens[idx].attrPush(['path', path]);
-        } else if (href.endsWith('mp3') || href.endsWith('mpeg')) {
+        } else if (href.endsWith('mp3') || href.endsWith('mpga')) {
             tokens[idx].attrPush(['class', 'music']);
         } else {
             tokens[idx].attrSet('target', '_blank');
