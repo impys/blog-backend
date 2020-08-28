@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         \App\Post::observe(\App\Observers\PostObserver::class);
         \App\Book::observe(\App\Observers\BookObserver::class);
+        \App\File::observe(\App\Observers\FileObserver::class);
 
         if ($this->app->isProduction()) {
             \Illuminate\Support\Facades\URL::forceScheme('https');

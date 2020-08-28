@@ -12,7 +12,7 @@ class StorageService
     public static function store(UploadedFile $uploadedFile): File
     {
         return DB::transaction(function () use ($uploadedFile) {
-            $name = Storage::putFile('/', $uploadedFile);
+            $name = Storage::disk('local')->putFile('/', $uploadedFile);
 
             $file = File::newInstanceForUploadFile($uploadedFile, $name);
 

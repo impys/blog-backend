@@ -80,4 +80,31 @@ class File extends Model
 
         return $file;
     }
+
+    /**
+     * Put this file to tencent cloud storage and clear local file
+     *
+     * @return void
+     */
+    public function putFileToCloud()
+    {
+        $succeed = Storage::put(
+            $this->name,
+            Storage::disk('local')->get($this->name)
+        );
+
+        if ($succeed) {
+            $this->deleteLocalFile();
+        }
+    }
+
+    /**
+     * Delete this file from local storage
+     *
+     * @return void
+     */
+    public function deleteLocalFile()
+    {
+        Storage::disk('local')->delete($this->name);
+    }
 }
