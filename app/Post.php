@@ -75,6 +75,12 @@ class Post extends Model
         $data["book"] = $this->book;
         $data["book_name"] = optional($this->book)->name;
 
+        $data['body'] = $this->body;
+
+        if ($data['body'] === "") {
+            $data['body'] = $this->title;
+        }
+
         return $data;
     }
 
