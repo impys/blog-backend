@@ -80,13 +80,7 @@ class Post extends Model
 
     public function splitBody()
     {
-        $plainBody = $this->getPlainBody();
-
-        if ($plainBody === "") {
-            $plainBody = $this->title;
-        }
-
-        return array_filter(explode('<split>', $plainBody));
+        return array_filter(explode('<split>', $this->getPlainBody()));
     }
 
     public function getPlainBody(): string
