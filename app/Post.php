@@ -174,6 +174,36 @@ class Post extends Model
 
     public function getSummaryAttribute(): ?string
     {
+        $summary = $this->getFirstCodeBlock();
+
+        if (!$summary) {
+            $summary = $this->getParagraph();
+        }
+
+        return $summary;
+    }
+
+    public function getAudioCountAttribute(): int
+    {
+        return $this->files->where('type', File::TYPE_AUDIO)->count();
+    }
+
+    public function getFirstCodeBlock()
+    {
+        // 匹配以 <pre> 开头，中间是任意字符(包括 \n )，然后以 </pre> 结尾的字符串
+        $pattern = "/<pre>([\s\S]*)(<\/pre>)/U";
+
+        preg_match($pattern, Markdown::parse($this->body)->toHtml(), $results);
+
+        if ($results) {
+            return collect(explode(PHP_EOL, $results[0]))->filter()->implode("\n");
+        }
+
+        return null;
+    }
+
+    public function getParagraph(): ?string
+    {
         return collect(
             explode(PHP_EOL, Markdown::parse($this->body)->toHtml())
         )->filter(
@@ -184,11 +214,6 @@ class Post extends Model
         )->sortByDesc(
             fn ($html) => strlen($html)
         )->first();
-    }
-
-    public function getAudioCountAttribute(): int
-    {
-        return $this->files->where('type', File::TYPE_AUDIO)->count();
     }
 
     public function getCoverMedia(): ?file
