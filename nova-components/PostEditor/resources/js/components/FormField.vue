@@ -443,13 +443,13 @@ ${res.data.data.markdown_dom}
       cancel.innerHTML = "✘";
       cancel.className = "markdown-buttons-cancel";
 
-      let second = buttons.children[1];
+      let updateEditing = buttons.children[1];
+      updateEditing.innerHTML = "🅤";
+      updateEditing.className = "markdown-buttons-update-editing";
 
       let confirm = buttons.children[2];
       confirm.children[0].innerHTML = "✔︎";
       confirm.className = "markdown-buttons-confirm";
-
-      buttons.removeChild(second);
     },
 
     tabIndent(event) {
@@ -636,6 +636,7 @@ ${res.data.data.markdown_dom}
   #preview-btn,
   #search-btn,
   .markdown-buttons-cancel,
+  .markdown-buttons-update-editing,
   .markdown-buttons-confirm {
     width: 40px;
     height: 40px;
@@ -648,6 +649,7 @@ ${res.data.data.markdown_dom}
   }
 
   .markdown-buttons-cancel,
+  .markdown-buttons-update-editing,
   .markdown-buttons-confirm {
     display: block;
     line-height: 40px;
@@ -663,7 +665,7 @@ ${res.data.data.markdown_dom}
   }
 
   .toolbar {
-    top: 238px;
+    top: 283px;
     #uploader,
     #preview-btn,
     #search-btn {
