@@ -143,7 +143,7 @@ export default {
     return {
       isShowPreview: false,
       lastRange: null,
-      initialValue: "✍", // 为了解决输入第一个字符，光标字符前而设置的值
+      initialValue: "✍", // 为了解决输入第一个字符时，光标在字符前而设置的值
       isHoverPreview: false,
       editorMaxBoundingClientRect: 0,
       keyword: null,
@@ -154,6 +154,7 @@ export default {
   },
 
   mounted() {
+    this.removeViewDivPadding();
     this.setFormStyle();
     this.$nextTick(function () {
       this.setMarkdownPreviewWidth();
@@ -163,6 +164,7 @@ export default {
   },
 
   destroyed() {
+    this.recoverViewDivPadding();
     this.removeListeners();
   },
 
@@ -340,10 +342,11 @@ ${res.data.data.markdown_dom}
     removeListeners() {
       window.removeEventListener("scroll", this.handleMarkdownEditorScroll);
 
-      this.getMarkdownPreview().removeEventListener(
-        "scroll",
-        this.handleMarkdownPreviewScroll
-      );
+      this.getMarkdownPreview() &&
+        this.getMarkdownPreview().removeEventListener(
+          "scroll",
+          this.handleMarkdownPreviewScroll
+        );
 
       window.removeEventListener("keyup", this.handleKeyup);
     },
@@ -429,6 +432,14 @@ ${res.data.data.markdown_dom}
       this.getMarkdownPreview().style.width = wrap.offsetWidth / 2 + "px";
     },
 
+    removeViewDivPadding() {
+      document.querySelector("div[data-testid]").classList.add("pb-0");
+    },
+
+    recoverViewDivPadding() {
+      document.querySelector("div[data-testid]").classList.remove("pb-0");
+    },
+
     setFormStyle() {
       let form = document.querySelector("form");
       form.className = "markdown-form";
@@ -444,7 +455,7 @@ ${res.data.data.markdown_dom}
       cancel.className = "markdown-buttons-cancel";
 
       let updateEditing = buttons.children[1];
-      updateEditing.innerHTML = "🅤";
+      updateEditing.children[0].innerHTML = "🅤&🅔";
       updateEditing.className = "markdown-buttons-update-editing";
 
       let confirm = buttons.children[2];
@@ -479,6 +490,9 @@ ${res.data.data.markdown_dom}
 
       // 把拖蓝的起点放在 textNode 之后
       range.setStartAfter(textNode);
+
+      // 把拖蓝的终点点放在 textNode 之后
+      range.setEndAfter(textNode);
 
       // 获取 selection 对象
       let selection = this.getCurrentSelection();
@@ -740,9 +754,5 @@ ${res.data.data.markdown_dom}
     line-height: normal;
     width: 100%;
   }
-}
-
-div[data-testid] {
-  padding-bottom: 0;
 }
 </style>
