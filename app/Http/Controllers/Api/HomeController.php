@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $books = Book::query()
-            ->whereIn('id', [2, 4, 1, 5])
+            ->whereIn('id', [1, 2, 8, 7])
             ->get();
 
         $postQuery = Post::query()
