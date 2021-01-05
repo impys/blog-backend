@@ -14,7 +14,7 @@
         "build-tag-autocomplete-prod": "cd nova-components/TagAutocomplete && npm run prod"
     },
     "devDependencies": {
-        "axios": "^0.19",
+        "axios": "^0.21",
         "cross-env": "^7.0",
         "laravel-mix": "^4.0.7",
         "lodash": "^4.17.19",
